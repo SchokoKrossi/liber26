@@ -386,25 +386,64 @@
 }
 .contact-item-text strong { display: block; font-weight: 700; margin-bottom: 0.2rem; }
 .contact-item-text span   { color: rgba(255,255,255,0.6); font-size: 0.9rem; }
-.social-row { display: flex; gap: 0.8rem; margin-top: 2rem; flex-wrap: wrap; }
-.social-btn {
-  width: 44px; height: 44px; border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.3rem; background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.12); cursor: pointer;
-  text-decoration: none; transition: all var(--transition);
+/* ── Prominent social hero (Contact page top) ─────────────── */
+.social-hero {
+  margin: 1.8rem 0 2.2rem;
+  padding: 1.2rem 1.4rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,217,61,0.15);
+  border-radius: var(--radius);
 }
-.social-btn:hover { background: var(--yellow); transform: translateY(-3px); }
-/* Buttons containing an SVG/PNG logo (Facebook, Instagram) — let the
-   logo's own colors show through and size the image inside the button. */
-.social-btn-img {
-  background: #fff;                /* white plate keeps brand colors readable */
-  padding: 4px;
+.social-hero h4 {
+  font-family: var(--font-display);
+  font-size: 1.05rem; letter-spacing: 1px;
+  color: var(--liber-yellow);
+  margin-bottom: 0.9rem;
 }
-.social-btn-img img {
-  width: 100%; height: 100%; object-fit: contain; display: block; border-radius: 8px;
+.social-hero-row { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+.social-chip {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  padding: 0.65rem 1.1rem 0.65rem 0.6rem;
+  border-radius: 999px;
+  background: #fff; color: var(--liber-blue-deep);
+  font-weight: 800; font-size: 0.95rem;
+  text-decoration: none;
+  transition: transform var(--transition), box-shadow var(--transition);
+  border: 2px solid transparent;
 }
-.social-btn-img:hover { background: var(--liber-yellow); transform: translateY(-3px); }
+.social-chip img {
+  width: 32px; height: 32px; border-radius: 50%; display: block;
+}
+.social-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+.social-chip-fb:hover { border-color: #1877F2; }
+.social-chip-ig:hover { border-color: #E1306C; }
+@media (max-width: 480px) {
+  .social-hero-row { flex-direction: column; }
+  .social-chip { justify-content: center; }
+}
+
+/* ── Footer social icons (visible on every page) ──────────── */
+.footer-social {
+  display: flex; justify-content: center; gap: 0.8rem;
+  margin: 0.5rem 0 1.5rem;
+}
+.footer-social a {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #fff; padding: 4px;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.footer-social a img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; display: block; }
+.footer-social a:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+.footer-social-email {
+  background: rgba(255,217,61,0.18) !important;
+  color: var(--liber-yellow); text-decoration: none;
+  font-size: 1.2rem;
+}
+.footer-social-email:hover { background: var(--liber-yellow) !important; color: var(--liber-blue-deep); }
 
 .contact-form {
   background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
