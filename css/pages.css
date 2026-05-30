@@ -540,6 +540,11 @@
 
 @media (max-width: 900px) {
   .about-intro    { grid-template-columns: 1fr; gap: 2rem; }
+  /* Courses page also needs to stack on mobile — the desktop-only
+     override (#coursesPage .about-intro) has higher specificity than the
+     generic rule above, so we re-assert single-column here explicitly. */
+  #coursesPage .about-intro   { grid-template-columns: 1fr; gap: 2rem; }
+  #coursesPage .about-img-box { aspect-ratio: 4 / 3; max-width: 600px; margin: 0 auto; }
   .contact-layout { grid-template-columns: 1fr; gap: 2rem; }
   .admin-layout   { grid-template-columns: 1fr; }
   .admin-sidebar  { position: static; height: auto; display: flex; flex-wrap: wrap; gap: 0.3rem; padding: 1rem; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
