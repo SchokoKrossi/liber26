@@ -389,40 +389,23 @@
         </div>
       </div>
 
-      <!-- Right: contact form -->
+      <!-- Right: direct email CTA (form removed — was not wired up) -->
       <div class="contact-form reveal">
         <h3 data-i18n="form_title">Écrivez-nous</h3>
-        <div id="formSuccess" class="form-success">
-          <div style="font-size:3rem;margin-bottom:1rem">🎉</div>
-          <p data-i18n="form_success">Message envoyé!</p>
-        </div>
-        <div id="contactFormInner">
-          <div class="form-row">
-            <div class="form-group">
-              <label data-i18n="form_name">Nom</label>
-              <input type="text" id="cName" placeholder="Votre nom" />
-            </div>
-            <div class="form-group">
-              <label data-i18n="form_email_field">Email</label>
-              <input type="email" id="cEmail" placeholder="vous@email.com" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label data-i18n="form_subject">Sujet</label>
-            <select id="cSubject">
-              <option data-i18n="form_subj1">Rejoindre LIBER</option>
-              <option data-i18n="form_subj2">Informations sur les cours</option>
-              <option data-i18n="form_subj3">Réserver un spectacle</option>
-              <option data-i18n="form_subj4">Autre</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label data-i18n="form_message">Message</label>
-            <textarea id="cMessage" placeholder="Votre message..."></textarea>
-          </div>
-          <button class="btn btn-primary" onclick="submitContactForm()"
-            data-i18n="form_send">Envoyer 🚀</button>
-        </div>
+        <p style="color:rgba(255,255,255,.75);line-height:1.6;margin-bottom:1.5rem"
+           data-i18n="contact_write_intro">
+          Pour toute question, suggestion ou collaboration, écrivez-nous directement :
+        </p>
+        <a class="btn btn-primary" href="mailto:liber.impro@gmail.com"
+           style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none">
+          ✉️ liber.impro@gmail.com
+        </a>
+        <p style="color:rgba(255,255,255,.55);font-size:.85rem;margin-top:2rem;margin-bottom:.4rem"
+           data-i18n="contact_press_intro">Pour la presse :</p>
+        <a href="mailto:polecommunication.liber.impro@gmail.com"
+           style="color:var(--liber-yellow);font-size:.9rem;text-decoration:none;word-break:break-all">
+          polecommunication.liber.impro@gmail.com
+        </a>
       </div>
 
     </div>
@@ -592,9 +575,25 @@
         <div id="adminMediaContent"></div>
       </div>
 
-      <!-- ── CONTACT — info + page texts ── -->
+      <!-- ── CONTACT — info + page texts + newsletter subscribers ── -->
       <div class="admin-section" id="adminSec_contact">
         <h2>✉️ Contact</h2>
+
+        <!-- Newsletter subscribers (read-only, with CSV export) -->
+        <div class="admin-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem">
+            <h4 style="margin:0">📬 Abonnés à la newsletter <span id="subscribersCount" style="font-weight:400;color:rgba(255,255,255,.45);font-size:.85rem"></span></h4>
+            <div style="display:flex;gap:.5rem">
+              <button class="admin-save-btn" onclick="renderAdminSubscribers()" style="padding:.3rem .8rem;font-size:.78rem">🔄 Rafraîchir</button>
+              <button class="admin-save-btn" onclick="exportSubscribersCSV()" style="padding:.3rem .8rem;font-size:.78rem">⬇️ Exporter CSV</button>
+            </div>
+          </div>
+          <div id="adminSubscribersList" style="margin-top:1rem;max-height:320px;overflow-y:auto"></div>
+        </div>
+
+        <h3 style="margin:2.5rem 0 1rem;font-family:var(--font-display);font-size:1.4rem;color:rgba(255,255,255,.85)">
+          📝 Textes de la page Contact
+        </h3>
         <div id="adminTextFields_contact"></div>
       </div>
 

@@ -178,7 +178,7 @@ const _SECTION_MAP = {
   shows:   { data: renderAdminShows,    content: 'shows',   container: 'adminTextFields_shows'   },
   courses: { data: renderAdminCourses,  content: 'courses', container: 'adminTextFields_courses' },
   media:   { data: renderAdminMedia,    content: null,      container: null                      },
-  contact: { data: null,                content: 'contact', container: 'adminTextFields_contact' },
+  contact: { data: renderAdminSubscribers, content: 'contact', container: 'adminTextFields_contact' },
 };
 
 function adminSection(id, btn) {
@@ -936,8 +936,92 @@ async function _deleteCourse(id){
 }
 
 // ═══════════════════════════════════════════════════════════
+// NEWSLETTER SUBSCRIBERS — view + CSV export (admin only)
+// ═══════════════════════════════════════════════════════════
+let _adminSubscribers = [];
+
+async function renderAdminSubscribers() {
+  const listEl  = document.getElementById('adminSubscribersList');
+  const countEl = document.getElementById('subscribersCount');
+  if (!listEl) return;
+  listEl.innerHTML = '<p style="color:rgba(255,255,255,.4);padding:.5rem 0">⏳ Chargement…</p>';
+
+  const { data, error } = await sb
+    .from('newsletter_subscribers')
+    .select('id, email, lang, subscribed_at, unsubscribed_at')
+    .order('subscribed_at', { ascending: false });
+
+  if (error) {
+    listEl.innerHTML = `<p style="color:#ff8a8a;padding:.5rem 0">❌ ${_esc(error.message)}</p>`;
+    if (countEl) countEl.textContent = '';
+    return;
+  }
+
+  _adminSubscribers = data || [];
+  if (countEl) countEl.textContent = `(${_adminSubscribers.length})`;
+
+  if (!_adminSubscribers.length) {
+    listEl.innerHTML = '<p style="color:rgba(255,255,255,.4);padding:.5rem 0">Aucun abonné pour l\'instant.</p>';
+    return;
+  }
+
+  // Compact table rendering
+  listEl.innerHTML = `
+    <table style="width:100%;border-collapse:collapse;font-size:.85rem">
+      <thead>
+        <tr style="color:rgba(255,255,255,.5);text-align:left;border-bottom:1px solid rgba(255,255,255,.1)">
+          <th style="padding:.5rem .4rem">Email</th>
+          <th style="padding:.5rem .4rem;width:60px">Langue</th>
+          <th style="padding:.5rem .4rem;width:140px">Inscrit le</th>
+          <th style="padding:.5rem .4rem;width:80px"></th>
+        </tr>
+      </thead>
+      <tbody>
+        ${_adminSubscribers.map(s => `
+          <tr style="border-bottom:1px solid rgba(255,255,255,.05);${s.unsubscribed_at?'opacity:.4':''}">
+            <td style="padding:.5rem .4rem">${_esc(s.email)}${s.unsubscribed_at?' <span style="font-size:.7rem">(désabonné·e)</span>':''}</td>
+            <td style="padding:.5rem .4rem">${_esc((s.lang||'').toUpperCase())}</td>
+            <td style="padding:.5rem .4rem;color:rgba(255,255,255,.6)">${new Date(s.subscribed_at).toLocaleDateString('fr-FR')}</td>
+            <td style="padding:.5rem .4rem"><button class="admin-delete-btn" onclick="_deleteSubscriber(${s.id})">✕</button></td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>`;
+}
+
+async function _deleteSubscriber(id) {
+  const sub = _adminSubscribers.find(x => x.id === id);
+  if (!sub || !confirm(`Supprimer l'abonné·e « ${sub.email} » ?`)) return;
+  const { error } = await sb.from('newsletter_subscribers').delete().eq('id', id);
+  if (error) { showToast('❌ ' + error.message, 'error'); return; }
+  showToast('🗑️ Abonné·e supprimé·e', 'success');
+  renderAdminSubscribers();
+}
+
+/** Download the current subscribers list as a CSV file. */
+function exportSubscribersCSV() {
+  if (!_adminSubscribers.length) { showToast('❌ Aucun abonné à exporter', 'error'); return; }
+  const rows = [['email','lang','subscribed_at','unsubscribed_at']];
+  for (const s of _adminSubscribers) {
+    rows.push([s.email, s.lang || '', s.subscribed_at, s.unsubscribed_at || '']);
+  }
+  const csv = rows.map(r => r.map(v => {
+    const str = String(v).replace(/"/g, '""');
+    return /[",\n]/.test(str) ? `"${str}"` : str;
+  }).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `liber-newsletter-${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+  showToast(`⬇️ ${_adminSubscribers.length} abonné·es exporté·es`, 'success');
+}
+
+// ═══════════════════════════════════════════════════════════
 // HELPERS
 // ═══════════════════════════════════════════════════════════
 function _esc(s)    { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function _escAttr(s){ return (s||'').replace(/"/g,'&quot;'); }
-function saveText() { showToast('💡 Utilisez Textes & Images pour éditer.','success'); }

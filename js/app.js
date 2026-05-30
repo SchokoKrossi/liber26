@@ -264,26 +264,35 @@ function _renderGallery() {
   }).join('');
 }
 
-// ── CONTACT form ──────────────────────────────────────────────
-function submitContactForm() {
-  const name  = document.getElementById('cName')?.value.trim();
-  const email = document.getElementById('cEmail')?.value.trim();
-  const msg   = document.getElementById('cMessage')?.value.trim();
-  if (!name||!email||!msg){ showToast('❌ Remplissez tous les champs','error'); return; }
-  document.getElementById('contactFormInner').style.display='none';
-  document.getElementById('formSuccess').classList.add('show');
-  showToast('🎉 Message envoyé!','success');
-}
-
 // ── NEWSLETTER ────────────────────────────────────────────────
-function submitNewsletter() {
+// Subscribes the email into the public.newsletter_subscribers table.
+// Admins can view + export the full list from the Contact admin section.
+async function submitNewsletter() {
   const input = document.getElementById('newsletterEmail');
-  const email = input?.value.trim();
+  const email = input?.value.trim().toLowerCase();
   const re    = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!email || !re.test(email)) {
-    showToast(I18N[currentLang].newsletter_error || '❌ Email invalide', 'error'); return;
+    showToast(I18N[currentLang].newsletter_error || '❌ Email invalide', 'error');
+    return;
   }
-  // In production: POST /api/newsletter  { email }
+
+  try {
+    const { error } = await sb.from('newsletter_subscribers')
+      .insert({ email, lang: currentLang });
+
+    // 23505 = unique_violation — already subscribed. Treat as success
+    // to avoid revealing who's on the list.
+    if (error && error.code !== '23505') {
+      console.error('[newsletter] insert failed:', error);
+      showToast('❌ ' + (error.message || 'Erreur'), 'error');
+      return;
+    }
+  } catch (err) {
+    console.error('[newsletter] unexpected error:', err);
+    showToast('❌ Erreur réseau', 'error');
+    return;
+  }
+
   showToast(I18N[currentLang].newsletter_success, 'success');
   if (input) input.value = '';
 }
