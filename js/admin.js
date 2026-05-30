@@ -561,15 +561,22 @@ async function adminSyncYesTicket() {
 // ═══════════════════════════════════════════════════════════
 // REGISTRATION TOGGLE
 // ═══════════════════════════════════════════════════════════
+/** Sync the admin toggle's visual state + the public reg banner to the
+ *  current `registrationsOpen` value. Safe to call any time (handles
+ *  missing DOM nodes — e.g. before the admin page is rendered). */
+function refreshRegistrationsUI() {
+  document.getElementById('adminRegToggle')?.classList.toggle('on', registrationsOpen);
+  const lbl = document.getElementById('adminRegLabel');
+  if (lbl) lbl.textContent = registrationsOpen ? '🟢 Inscriptions ouvertes' : '🔴 Inscriptions fermées';
+  document.getElementById('regOpenBanner')?.classList.toggle('hidden', !registrationsOpen);
+}
+
 async function toggleRegistrations() {
-  registrationsOpen=!registrationsOpen;
-  document.getElementById('adminRegToggle')?.classList.toggle('on',registrationsOpen);
-  const lbl=document.getElementById('adminRegLabel');
-  if(lbl) lbl.textContent=registrationsOpen?'🟢 Inscriptions ouvertes':'🔴 Inscriptions fermées';
-  document.getElementById('regOpenBanner')?.classList.toggle('hidden',!registrationsOpen);
+  registrationsOpen = !registrationsOpen;
+  refreshRegistrationsUI();
   renderCourses();
   await saveContentKey(KEY_REG_OPEN, registrationsOpen ? 'true' : 'false', null);
-  showToast(`✅ Inscriptions ${registrationsOpen?'ouvertes':'fermées'}`,'success');
+  showToast(`✅ Inscriptions ${registrationsOpen ? 'ouvertes' : 'fermées'}`, 'success');
 }
 
 // ═══════════════════════════════════════════════════════════

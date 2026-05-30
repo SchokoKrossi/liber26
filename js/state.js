@@ -141,6 +141,11 @@ function applyContentSingletons() {
   const findRow = k => _siteContentRows.find(r => r.key === k);
   const setText = (id, val) => { const el = document.getElementById(id); if (el && val) el.textContent = val; };
 
+  // Sync admin reg toggle + public reg banner to the loaded `registrationsOpen`
+  // value. The HTML hardcodes the toggle as "on", so without this the dashboard
+  // always shows "open" after a refresh, even when we saved "false".
+  if (typeof refreshRegistrationsUI === 'function') refreshRegistrationsUI();
+
   // Contact info
   const addr  = findRow(KEY_CONTACT_ADDRESS); if (addr)  setText('contactAddressVal', addr.value_fr);
   const mail  = findRow(KEY_CONTACT_EMAIL);   if (mail)  setText('contactEmailVal',   mail.value_fr);
