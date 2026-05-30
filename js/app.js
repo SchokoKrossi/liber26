@@ -114,6 +114,14 @@ async function toggleMemberVisibility(id, isAdmin=false) {
 function renderCourses() {
   const grid = document.getElementById('coursesGrid');
   if (!grid) return;
+  const escHtml = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  // Split a description on blank lines into multiple <p> tags.
+  const descToHtml = txt => (txt||'')
+    .split(/\n{2,}/)
+    .map(p => p.trim()).filter(Boolean)
+    .map(p => `<p class="course-desc">${escHtml(p)}</p>`)
+    .join('');
+
   grid.innerHTML = courses.map(c => `
     <div class="course-card card">
       <div class="course-header" style="border-bottom:3px solid ${c.color}">
@@ -124,7 +132,7 @@ function renderCourses() {
         </div>
       </div>
       <div class="course-body">
-        <p class="course-desc">${currentLang==='fr' ? c.desc_fr : c.desc_de}</p>
+        ${descToHtml(currentLang==='fr' ? c.desc_fr : c.desc_de)}
         <div class="course-meta">${(currentLang==='fr' ? (c.tagsFR||[]) : (c.tagsDE||[])).map(t=>`<span class="course-tag">${t}</span>`).join('')}</div>
       </div>
     </div>`).join('');

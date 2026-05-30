@@ -739,8 +739,14 @@ function renderAdminCourses() {
       <div class="bilingual-row">
         <div class="lang-field"><label>Titre FR</label><input type="text" id="cTFR_${c.id}" value="${_escAttr(c.titleFR)}" /></div>
         <div class="lang-field"><label>Titel DE</label><input type="text" id="cTDE_${c.id}" value="${_escAttr(c.titleDE)}" /></div>
-        <div class="lang-field"><label>Desc FR</label><textarea id="cDFR_${c.id}">${_esc(c.desc_fr)}</textarea></div>
-        <div class="lang-field"><label>Beschr. DE</label><textarea id="cDDE_${c.id}">${_esc(c.desc_de)}</textarea></div>
+        <div class="lang-field" style="grid-column:span 2">
+          <label>Description FR <span style="font-weight:400;color:rgba(255,255,255,.4);font-size:.72rem">— ligne vide = nouveau paragraphe</span></label>
+          <textarea id="cDFR_${c.id}" rows="10">${_esc(c.desc_fr)}</textarea>
+        </div>
+        <div class="lang-field" style="grid-column:span 2">
+          <label>Beschreibung DE <span style="font-weight:400;color:rgba(255,255,255,.4);font-size:.72rem">— Leerzeile = neuer Absatz</span></label>
+          <textarea id="cDDE_${c.id}" rows="10">${_esc(c.desc_de)}</textarea>
+        </div>
         <div class="lang-field"><label>Niveau FR</label><input type="text" id="cLvlFR_${c.id}" value="${_escAttr(c.levelFR)}" placeholder="Débutant" /></div>
         <div class="lang-field"><label>Niveau DE</label><input type="text" id="cLvlDE_${c.id}" value="${_escAttr(c.levelDE)}" placeholder="Anfänger" /></div>
         <div class="lang-field"><label>Tags FR (virgules)</label><input type="text" id="cTagsFR_${c.id}" value="${_escAttr(c.tagsFR.join(', '))}" placeholder="10 séances, CHF 160" /></div>
@@ -757,8 +763,14 @@ function renderAdminCourses() {
     <div class="bilingual-row">
       <div class="lang-field"><label>Titre FR</label><input type="text" id="newCTFR" placeholder="Cours Débutant·e" /></div>
       <div class="lang-field"><label>Titel DE</label><input type="text" id="newCTDE" placeholder="Anfängerkurs" /></div>
-      <div class="lang-field"><label>Desc FR</label><textarea id="newCDFR" placeholder="Description…"></textarea></div>
-      <div class="lang-field"><label>Beschr. DE</label><textarea id="newCDDE" placeholder="Beschreibung…"></textarea></div>
+      <div class="lang-field" style="grid-column:span 2">
+        <label>Description FR <span style="font-weight:400;color:rgba(255,255,255,.4);font-size:.72rem">— ligne vide = nouveau paragraphe</span></label>
+        <textarea id="newCDFR" rows="10" placeholder="Décrivez le cours…&#10;&#10;Laissez une ligne vide pour créer un nouveau paragraphe."></textarea>
+      </div>
+      <div class="lang-field" style="grid-column:span 2">
+        <label>Beschreibung DE <span style="font-weight:400;color:rgba(255,255,255,.4);font-size:.72rem">— Leerzeile = neuer Absatz</span></label>
+        <textarea id="newCDDE" rows="10" placeholder="Beschreiben Sie den Kurs…&#10;&#10;Lassen Sie eine Leerzeile für einen neuen Absatz."></textarea>
+      </div>
       <div class="lang-field"><label>Niveau FR</label><input type="text" id="newCLvlFR" placeholder="Débutant" /></div>
       <div class="lang-field"><label>Niveau DE</label><input type="text" id="newCLvlDE" placeholder="Anfänger" /></div>
       <div class="lang-field"><label>Tags FR (virgules)</label><input type="text" id="newCTagsFR" placeholder="10 séances, CHF 160" /></div>
@@ -774,8 +786,10 @@ async function _saveCourse(id) {
   const parseTags = v => (v||'').split(',').map(t=>t.trim()).filter(Boolean);
   c.titleFR = document.getElementById(`cTFR_${id}`)?.value.trim()    || c.titleFR;
   c.titleDE = document.getElementById(`cTDE_${id}`)?.value.trim()    || c.titleDE;
-  c.desc_fr = document.getElementById(`cDFR_${id}`)?.value.trim()    || c.desc_fr;
-  c.desc_de = document.getElementById(`cDDE_${id}`)?.value.trim()    || c.desc_de;
+  // Read raw value (preserve newlines for paragraph splitting); only trim the
+  // leading/trailing whitespace, not the internal blank lines.
+  c.desc_fr = (document.getElementById(`cDFR_${id}`)?.value ?? c.desc_fr).replace(/^\s+|\s+$/g, '');
+  c.desc_de = (document.getElementById(`cDDE_${id}`)?.value ?? c.desc_de).replace(/^\s+|\s+$/g, '');
   c.levelFR = document.getElementById(`cLvlFR_${id}`)?.value.trim()  ?? c.levelFR;
   c.levelDE = document.getElementById(`cLvlDE_${id}`)?.value.trim()  ?? c.levelDE;
   c.tagsFR  = parseTags(document.getElementById(`cTagsFR_${id}`)?.value);
@@ -811,8 +825,8 @@ async function _addCourse() {
   const c = {
     icon:    document.getElementById('newCIcon')?.value.trim()||'⭐',
     titleFR, titleDE,
-    desc_fr: document.getElementById('newCDFR')?.value.trim()||'',
-    desc_de: document.getElementById('newCDDE')?.value.trim()||'',
+    desc_fr: (document.getElementById('newCDFR')?.value || '').replace(/^\s+|\s+$/g, ''),
+    desc_de: (document.getElementById('newCDDE')?.value || '').replace(/^\s+|\s+$/g, ''),
     levelFR, levelDE,
     tagsFR,  tagsDE: tagsDE.length ? tagsDE : tagsFR,
     color:   COURSE_COLORS[Math.floor(Math.random()*COURSE_COLORS.length)],
