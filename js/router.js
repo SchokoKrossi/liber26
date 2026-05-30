@@ -8,6 +8,13 @@ const _ROUTE_PAGES = ['home','about','courses','shows','contact','imprint','priv
 
 /** Switch the visible page, update the URL hash, and re-render dynamic content. */
 function showPage(id, opts = {}) {
+  // If invoked from an inline onclick on an <a href="#…">, the browser's
+  // default link navigation runs AFTER onclick and overwrites the hash we
+  // set below. Cancel it. (window.event is the firing event in inline handlers.)
+  try {
+    const ev = (typeof event !== 'undefined') ? event : null;
+    if (ev && ev.preventDefault) ev.preventDefault();
+  } catch (_) {}
   closeMobile();
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const el = document.getElementById(id + 'Page');

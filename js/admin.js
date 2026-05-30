@@ -39,7 +39,8 @@ const ADMIN_PAGES = {
           if (url) {
             // Apply to the box so overflow:hidden clips it correctly
             box.style.backgroundImage    = `url(${url})`;
-            box.style.backgroundSize     = 'cover';
+            box.style.backgroundSize     = 'contain';
+            box.style.backgroundRepeat   = 'no-repeat';
             box.style.backgroundPosition = 'center';
             // Hide the inner gradient div and emoji
             if (bg) bg.style.display = 'none';
@@ -79,7 +80,8 @@ const ADMIN_PAGES = {
           if (!box) return;
           if (url) {
             box.style.backgroundImage    = `url(${url})`;
-            box.style.backgroundSize     = 'cover';
+            box.style.backgroundSize     = 'contain';
+            box.style.backgroundRepeat   = 'no-repeat';
             box.style.backgroundPosition = 'center';
             if (bg) bg.style.display = 'none';
             if (em) em.style.display = 'none';
@@ -112,7 +114,8 @@ const ADMIN_PAGES = {
           if (!box) return;
           if (url) {
             box.style.backgroundImage    = `url(${url})`;
-            box.style.backgroundSize     = 'cover';
+            box.style.backgroundSize     = 'contain';
+            box.style.backgroundRepeat   = 'no-repeat';
             box.style.backgroundPosition = 'center';
             if (bg) bg.style.display = 'none';
             if (em) em.style.display = 'none';
@@ -351,7 +354,7 @@ async function _fileToUrl(key,input) {
 function _applyImageTarget(sel,url) {
   document.querySelectorAll(sel).forEach(el=>{
     el.style.backgroundImage=url?`url(${url})`:'';
-    if(url){el.style.backgroundSize='cover';el.style.backgroundPosition='center';}
+    if(url){el.style.backgroundSize='contain';el.style.backgroundRepeat='no-repeat';el.style.backgroundPosition='center';}
   });
 }
 
@@ -413,7 +416,7 @@ function renderAdminMedia() {
     </div>`).join('');
 
   el.innerHTML=`
-    <h3 style="font-family:'Righteous',cursive;font-size:1.4rem;margin-bottom:1.2rem">🎬 Vidéos</h3>
+    <h3 style="font-family:var(--font-display);font-size:1.4rem;margin-bottom:1.2rem">🎬 Vidéos</h3>
     ${videoRows}
     <div class="admin-card" style="border:2px dashed rgba(255,255,255,.15);margin-bottom:2rem">
       <h4>➕ Ajouter une vidéo</h4>
@@ -425,7 +428,7 @@ function renderAdminMedia() {
       </div>
       <button class="admin-save-btn" onclick="_addVideo()" style="margin-top:.6rem">➕ Ajouter</button>
     </div>
-    <h3 style="font-family:'Righteous',cursive;font-size:1.4rem;margin-bottom:1.2rem">🖼️ Galerie photos</h3>
+    <h3 style="font-family:var(--font-display);font-size:1.4rem;margin-bottom:1.2rem">🖼️ Galerie photos</h3>
     ${photoRows}
     <div class="admin-card" style="border:2px dashed rgba(255,255,255,.15)">
       <h4>➕ Ajouter une photo</h4>
@@ -623,7 +626,7 @@ function renderAdminMembers() {
   el.innerHTML=members.map(m=>`
     <div class="admin-card" style="margin-bottom:1rem">
       <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem">
-        <div style="width:52px;height:52px;border-radius:50%;${m.photo?`background:url(${m.photo}) center/cover`:(`background:${m.bg}`)};display:flex;align-items:center;justify-content:center;font-family:'Righteous',cursive;font-size:1.1rem;color:rgba(255,255,255,.9);flex-shrink:0">
+        <div style="width:52px;height:52px;border-radius:50%;${m.photo?`background:url(${m.photo}) center/cover`:(`background:${m.bg}`)};display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.1rem;color:rgba(255,255,255,.9);flex-shrink:0">
           ${m.photo?'':(m.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase())}</div>
         <div style="flex:1"><strong>${_esc(m.name)}</strong><div style="font-size:.78rem;color:rgba(255,255,255,.4)">${_esc(m.role)}</div></div>
         <span style="font-size:.75rem;font-weight:700;color:${m.visible?'var(--teal)':'rgba(255,255,255,.3)'}">${m.visible?'👁':'🙈'}</span>

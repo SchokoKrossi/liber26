@@ -151,7 +151,8 @@ function applyContentSingletons() {
     const em  = document.getElementById(emojiId);
     if (!box || !url) return;
     box.style.backgroundImage    = `url(${url})`;
-    box.style.backgroundSize     = 'cover';
+    box.style.backgroundSize     = 'contain';
+    box.style.backgroundRepeat   = 'no-repeat';
     box.style.backgroundPosition = 'center';
     if (bg) bg.style.display = 'none';
     if (em) em.style.display = 'none';
