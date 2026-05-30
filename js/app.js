@@ -122,7 +122,9 @@ function renderCourses() {
     .map(p => `<p class="course-desc">${escHtml(p)}</p>`)
     .join('');
 
-  grid.innerHTML = courses.map(c => `
+  // Public visitors see only visible courses; admins see all.
+  const list = currentUser ? courses : courses.filter(c => c.visible !== false);
+  grid.innerHTML = list.map(c => `
     <div class="course-card card">
       <div class="course-header" style="border-bottom:3px solid ${c.color}">
         <div class="course-icon">${c.icon}</div>

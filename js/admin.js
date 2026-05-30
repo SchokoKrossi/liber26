@@ -737,6 +737,10 @@ function renderAdminCourses() {
       <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:1rem;padding-bottom:.8rem;border-bottom:3px solid ${c.color}">
         <span style="font-size:2rem;cursor:pointer" onclick="_promptCourseIcon(${c.id})">${c.icon}</span>
         <div style="flex:1"><strong>${_esc(c.titleFR)}</strong><div style="font-size:.78rem;color:rgba(255,255,255,.4)">${_esc(c.levelFR)}</div></div>
+        <span title="${c.visible?'Visible sur le site':'Masqué sur le site'}"
+          style="font-size:.75rem;font-weight:700;color:${c.visible?'var(--liber-yellow)':'rgba(255,255,255,.3)'}">${c.visible?'👁':'🙈'}</span>
+        <div class="toggle-switch ${c.visible?'on':''}" title="Afficher / masquer ce cours sur le site"
+          onclick="toggleCourseVisibility(${c.id})"></div>
         <button class="admin-delete-btn" onclick="_deleteCourse(${c.id})">✕</button>
       </div>
       <div class="bilingual-row">
@@ -808,6 +812,20 @@ async function _setCourseColor(id,color){
   if (error) { showToast('❌ '+error.message,'error'); return; }
   renderAdminCourses(); renderCourses();
 }
+
+/** Toggle whether a course is shown on the public site. */
+async function toggleCourseVisibility(id) {
+  const c = courses.find(x => x.id === id); if (!c) return;
+  c.visible = !c.visible;
+  const { error } = await sb.from('courses').update({ visible: c.visible }).eq('id', id);
+  if (error) {
+    c.visible = !c.visible;        // revert on failure
+    showToast('❌ ' + error.message, 'error');
+    return;
+  }
+  renderAdminCourses(); renderCourses();
+  showToast(c.visible ? '👁 Cours affiché sur le site' : '🙈 Cours masqué du site', 'success');
+}
 async function _promptCourseIcon(id){
   const c=courses.find(x=>x.id===id); if(!c) return;
   const ic=prompt('Nouvel icône :',c.icon);
@@ -833,6 +851,7 @@ async function _addCourse() {
     levelFR, levelDE,
     tagsFR,  tagsDE: tagsDE.length ? tagsDE : tagsFR,
     color:   COURSE_COLORS[Math.floor(Math.random()*COURSE_COLORS.length)],
+    visible: true,
   };
   const { data, error } = await sb.from('courses').insert(_courseToDB(c)).select().single();
   if (error) { showToast('❌ '+error.message,'error'); return; }

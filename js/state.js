@@ -46,6 +46,7 @@ const _courseFromDB = r => ({
   tagsFR:  Array.isArray(r.tags_fr) ? r.tags_fr : (Array.isArray(r.tags) ? r.tags : []),
   tagsDE:  Array.isArray(r.tags_de) ? r.tags_de : (Array.isArray(r.tags) ? r.tags : []),
   color:   r.color || 'var(--liber-yellow)',
+  visible: r.visible !== false,   // default true if column missing
 });
 const _courseToDB = j => ({
   icon: j.icon, title_fr: j.titleFR, title_de: j.titleDE,
@@ -55,6 +56,7 @@ const _courseToDB = j => ({
   // Keep the legacy `level`/`tags` columns in sync so any old reader still works:
   level: j.levelFR, tags: j.tagsFR,
   color: j.color,
+  visible: j.visible !== false,
 });
 
 const _videoFromDB = r => ({ id:r.id, url:r.url||'', thumbnail:r.thumbnail||'', titleFR:r.title_fr, titleDE:r.title_de||'', bg:r.bg||'linear-gradient(135deg,#FF3CAC,#784BA0)' });
