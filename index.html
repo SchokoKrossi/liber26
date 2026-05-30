@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="LIBER – Ligue d'Improvisation de Berlin. Spectacles et ateliers d'improvisation franco-allemands au théâtre ACUD." />
+  <title>LIBER – Ligue d'Improvisation de Berlin</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+</head>
+<body>
+
+<!-- ── Background blobs ──────────────────────────────────────── -->
+<div class="bg-blobs">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+</div>
+
+<!-- ════════ NAVIGATION ════════ -->
+<nav id="mainNav">
+  <a class="nav-logo" onclick="showPage('home')">
+    <img src="images/logo.jpg" alt="LIBER logo"
+         style="height:46px;width:46px;object-fit:contain;border-radius:10px;margin-right:.55rem" />
+    <span class="logo-text">LIBER</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#" onclick="showPage('home')"    data-i18n="nav_home">Accueil</a></li>
+    <li><a href="#" onclick="showPage('about')"   data-i18n="nav_about">À propos</a></li>
+    <li><a href="#" onclick="showPage('courses')" data-i18n="nav_courses">Cours</a></li>
+    <li><a href="#" onclick="showPage('shows')"   data-i18n="nav_shows">Spectacles</a></li>
+    <li><a href="#" onclick="showPage('contact')" data-i18n="nav_contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="applyI18N('fr')">FR</button>
+      <button class="lang-btn"        onclick="applyI18N('de')">DE</button>
+    </div>
+    <span id="userGreeting" class="hidden"
+      style="font-size:.82rem;font-weight:700;color:rgba(255,255,255,.7)"></span>
+    <!-- Login button hidden by default — admin opens the modal via
+         Ctrl+Shift+L or the URL hash #login. The button is still in
+         the DOM so we can show it once an admin session is restored. -->
+    <button class="btn-login hidden" id="loginBtn"
+      onclick="openModal('loginModal')" data-i18n="nav_login">Connexion</button>
+    <button class="btn-login hidden" id="adminBtn" onclick="showPage('admin')"
+      style="background:linear-gradient(135deg,#FF3CAC,#784BA0)">Admin ⚙️</button>
+    <!-- Hidden logout button shown when an admin is logged in -->
+    <button class="btn-login hidden" id="logoutBtn" onclick="logoutUser()"
+      style="background:rgba(255,130,130,.18)">🚪</button>
+    <button class="hamburger" id="hamburger" onclick="toggleMobile()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#" onclick="showPage('home');closeMobile()"    data-i18n="nav_home">Accueil</a>
+  <a href="#" onclick="showPage('about');closeMobile()"   data-i18n="nav_about">À propos</a>
+  <a href="#" onclick="showPage('courses');closeMobile()" data-i18n="nav_courses">Cours</a>
+  <a href="#" onclick="showPage('shows');closeMobile()"   data-i18n="nav_shows">Spectacles</a>
+  <a href="#" onclick="showPage('contact');closeMobile()" data-i18n="nav_contact">Contact</a>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: HOME
+     ════════════════════════════════════════════════════════════ -->
+<div class="page active" id="homePage">
+  <div class="section-wrap">
+
+    <!-- Two-column layout: text left, image right (same as About Us) -->
+    <div class="about-intro" style="margin-bottom:3rem">
+
+      <!-- Left: text content -->
+      <div class="about-text">
+        <div class="hero-eyebrow reveal">
+          <div class="dot"></div>
+          <span data-i18n="hero_eyebrow">Une ligue d'improvisation franco-allemande</span>
+        </div>
+        <h1 class="hero-title reveal">
+          <span class="word1" data-i18n="hero_word1">Bienvenue</span>
+          <span class="word2" data-i18n="hero_word2">chez LIBER !</span>
+        </h1>
+        <p class="hero-desc reveal" data-i18n="hero_desc">
+          Joueurs, arbitres et maîtres de cérémonie collaborent pour offrir des spectacles d'improvisation en français, en allemand, en gromelot et bien plus encore.
+        </p>
+        <div class="hero-ctas reveal">
+          <button class="btn btn-primary"   onclick="showPage('shows')"
+            data-i18n="hero_btn_shows">🎟️ Voir les spectacles</button>
+          <button class="btn btn-secondary" onclick="showPage('courses')"
+            data-i18n="hero_btn_courses">📚 Cours d'impro</button>
+        </div>
+      </div>
+
+      <!-- Right: image box (identical pattern to About Us) -->
+      <div class="about-img-wrap reveal">
+        <div class="about-img-box" id="homeImgBox">
+          <div id="homeImgBg"
+            style="background:linear-gradient(135deg,#FF3CAC,#784BA0,#2B86C5);
+                   position:absolute;inset:0;border-radius:var(--radius);
+                   background-size:cover;background-position:center"></div>
+          <span id="homeImgInitials"
+            style="position:relative;z-index:1;font-size:7rem">🎭</span>
+        </div>
+        <div class="about-img-decor"></div>
+      </div>
+    </div>
+
+    <!-- Next-show banner (auto-populated from shows data) -->
+    <div class="next-show-banner reveal">
+      <div class="show-meta">
+        <span class="label" data-i18n="next_show_label">Prochain spectacle</span>
+        <span class="value" id="nextShowName">—</span>
+        <span class="sub">
+          📅 <span id="nextShowDate">—</span> ·
+          📍 <span id="nextShowVenue">—</span>
+        </span>
+      </div>
+      <a class="btn btn-primary" id="nextShowLink" href="#" onclick="showPage('shows')">
+        🎟️ <span data-i18n="tickets_btn">Billetterie</span>
+      </a>
+    </div>
+
+    <!-- Registration open banner -->
+    <div id="regOpenBanner" class="next-show-banner reveal"
+         style="border-color:var(--teal);background:rgba(0,201,167,.07);margin-top:1rem">
+      <div class="show-meta">
+        <span class="label" style="color:var(--teal)"
+          data-i18n="reg_open_label">Inscriptions ouvertes!</span>
+        <span class="value" data-i18n="reg_open_title">Ateliers d'improvisation — Saison en cours</span>
+        <span class="sub"   data-i18n="reg_open_sub">Cours en français, allemand et gromelot · Tous niveaux</span>
+      </div>
+      <button class="btn btn-teal" onclick="showPage('courses')"
+        data-i18n="reg_btn">S'inscrire</button>
+    </div>
+
+    <!-- Three extra text lines below the banners -->
+    <div class="home-extras reveal">
+      <p id="home_extra1" class="home-extra-line"
+        data-i18n="home_extra1">🎭 Retrouvez-nous au théâtre ACUD chaque 3ᵉ dimanche du mois !</p>
+      <p id="home_extra2" class="home-extra-line"
+        data-i18n="home_extra2">🎬 LIBER a fait l'objet d'un reportage sur ARTE.</p>
+      <p id="home_extra3" class="home-extra-line"
+        data-i18n="home_extra3">🌍 Échanges réguliers avec des troupes en France, en Suisse, au Québec et au-delà.</p>
+    </div>
+
+    <!-- Stats row (all numbers editable) -->
+    <div class="stats-row">
+      <div class="stat-card reveal">
+        <div class="stat-num" id="statNumYears"
+          data-i18n="stat_num_years">15+</div>
+        <div class="stat-label" data-i18n="stat_years">Années d'existence</div>
+      </div>
+      <div class="stat-card reveal" style="transition-delay:.1s">
+        <div class="stat-num" id="statNumShows"
+          data-i18n="stat_num_shows">200+</div>
+        <div class="stat-label" data-i18n="stat_shows">Spectacles joués</div>
+      </div>
+      <div class="stat-card reveal" style="transition-delay:.2s">
+        <div class="stat-num" id="statNumMembers"
+          data-i18n="stat_num_members">50+</div>
+        <div class="stat-label" data-i18n="stat_members">Membres actifs</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: ABOUT
+     ════════════════════════════════════════════════════════════ -->
+<div class="page" id="aboutPage">
+  <div class="section-wrap">
+    <div class="pill" data-i18n="about_pill">Notre association</div>
+
+    <div class="about-intro">
+      <!-- Text -->
+      <div class="about-text">
+        <h2 class="section-title reveal" data-i18n="about_title">Qui sommes‑nous ?</h2>
+        <!-- Body rendered from the single i18n key "about_body" — paragraphs split on blank lines -->
+        <div id="aboutBody" class="about-body"></div>
+        <button class="btn btn-primary reveal" onclick="showPage('contact')"
+          data-i18n="about_cta">Nous rejoindre 🤸</button>
+      </div>
+      <!-- Image box -->
+      <div class="about-img-wrap reveal">
+        <div class="about-img-box" id="aboutImgBox">
+          <div id="aboutImgBg"
+            style="background:linear-gradient(135deg,#FF3CAC,#784BA0,#2B86C5);
+                   position:absolute;inset:0;border-radius:var(--radius);
+                   background-size:cover;background-position:center"></div>
+          <span id="aboutImgEmoji"
+            style="position:relative;z-index:1;font-size:7rem">🎭</span>
+        </div>
+        <div class="about-img-decor"></div>
+      </div>
+    </div>
+
+    <!-- Members — title is plain text, NO gradient "équipe" word -->
+    <div class="members-section">
+      <h3 class="reveal" data-i18n="members_title">Notre équipe</h3>
+      <p class="section-subtitle reveal"
+        data-i18n="members_subtitle">Des improvisateur·rices passionné·es de tous horizons.</p>
+      <!-- Populated by renderMembers() -->
+      <div class="members-grid" id="membersGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: COURSES
+     ════════════════════════════════════════════════════════════ -->
+<div class="page" id="coursesPage">
+  <div class="section-wrap">
+    <div class="pill" data-i18n="courses_pill">Formation</div>
+
+    <!-- Two-column layout: text left, image right (same pattern as About Us) -->
+    <div class="about-intro" style="margin-bottom:3rem">
+      <div class="about-text">
+        <h2 class="section-title reveal" data-i18n="courses_title">
+          Cours <span class="accent">d'impro</span>
+        </h2>
+        <p class="section-subtitle reveal" style="margin-bottom:0"
+          data-i18n="courses_subtitle">Un espace safe pour explorer, rire et grandir.</p>
+      </div>
+      <div class="about-img-wrap reveal">
+        <div class="about-img-box" id="coursesImgBox">
+          <div id="coursesImgBg"
+            style="background:linear-gradient(135deg,#FFD93D,#FF6B35);
+                   position:absolute;inset:0;border-radius:var(--radius);
+                   background-size:cover;background-position:center"></div>
+          <span id="coursesImgEmoji"
+            style="position:relative;z-index:1;font-size:7rem">📚</span>
+        </div>
+        <div class="about-img-decor"
+          style="background:var(--pink)"></div>
+      </div>
+    </div>
+
+    <!-- Course cards -->
+    <div class="courses-grid" id="coursesGrid"></div>
+
+    <!-- Registration section -->
+    <div class="registration-section reveal">
+      <div id="regOpen">
+        <h3 data-i18n="reg_section_title">📋 Inscriptions ouvertes!</h3>
+        <p data-i18n="reg_section_desc">Remplissez le formulaire pour réserver votre place.</p>
+        <!-- Google Form area — populated by renderCourses() -->
+        <div id="googleFormArea"></div>
+      </div>
+      <div id="regClosed" class="hidden">
+        <div style="font-size:4rem;margin-bottom:1rem">🔒</div>
+        <h3 data-i18n="reg_closed_title">Inscriptions fermées</h3>
+        <p data-i18n="reg_closed_desc">Les inscriptions ouvriront bientôt.</p>
+        <button class="btn btn-secondary mt-2" onclick="showPage('contact')"
+          data-i18n="reg_notify_btn">M'alerter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: SHOWS
+     ════════════════════════════════════════════════════════════ -->
+<div class="page" id="showsPage">
+  <div class="section-wrap wide">
+    <div class="pill" data-i18n="shows_pill">Scène</div>
+    <h2 class="section-title reveal" data-i18n="shows_title">
+      Nos <span class="accent">spectacles</span>
+    </h2>
+    <p class="section-subtitle reveal" data-i18n="shows_subtitle">
+      Des soirées inoubliables où tout peut arriver.
+    </p>
+
+    <!-- Featured show hero (auto-populated from next show data) -->
+    <div class="next-show-banner reveal" style="margin-bottom:2rem">
+      <div class="show-meta">
+        <span class="label" data-i18n="featured_show_title">Spectacle en vedette</span>
+        <span class="value" id="showsFeaturedDesc">—</span>
+      </div>
+      <a class="btn btn-primary" id="showsFeaturedLink" href="#" target="_blank" rel="noopener">
+        🎟️ <span data-i18n="tickets_btn">Billetterie</span>
+      </a>
+    </div>
+
+    <!-- Upcoming shows — first -->
+    <h3 class="reveal"
+      style="font-family:'Righteous',cursive;font-size:2rem;margin-bottom:1.5rem"
+      data-i18n="upcoming_title">À venir</h3>
+    <div class="upcoming-shows" id="showsList"></div>
+
+    <!-- Calendar — second, size-capped on wide screens -->
+    <div class="calendar-section reveal">
+      <div class="calendar-header">
+        <h3 data-i18n="calendar_title">Calendrier</h3>
+        <div class="cal-nav">
+          <button class="cal-btn" onclick="prevMonth()">◀</button>
+          <button class="cal-btn" onclick="nextMonth()">▶</button>
+        </div>
+      </div>
+      <div id="calMonthLabel"
+        style="font-family:'Righteous',cursive;font-size:1.1rem;margin-bottom:1rem;color:rgba(255,255,255,.6)">
+      </div>
+      <div class="calendar-grid-wrap">
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </div>
+    </div>
+
+    <!-- Videos -->
+    <div class="video-section reveal">
+      <h3 data-i18n="videos_title">Revivez nos moments</h3>
+      <div class="video-grid" id="videoGrid"></div>
+    </div>
+
+    <!-- Gallery -->
+    <div class="gallery-section reveal">
+      <h3 data-i18n="gallery_title">Galerie photos</h3>
+      <div class="photo-grid" id="photoGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: CONTACT
+     ════════════════════════════════════════════════════════════ -->
+<div class="page" id="contactPage">
+  <div class="section-wrap">
+    <div class="contact-layout">
+
+      <!-- Left: info -->
+      <div class="contact-info reveal">
+        <div class="pill" data-i18n="contact_pill">Contact</div>
+        <h2 class="section-title" data-i18n="contact_title">
+          Parlons <span class="accent">impro!</span>
+        </h2>
+        <p data-i18n="contact_desc">Une question, une envie de rejoindre l'équipe?</p>
+
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-item-icon" style="background:rgba(255,217,61,.15)">📍</div>
+            <div class="contact-item-text">
+              <strong data-i18n="contact_address">Adresse</strong>
+              <span id="contactAddressVal">Théâtre ACUD, Veteranenstraße 21, 10119 Berlin</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon" style="background:rgba(255,255,255,.15)">✉️</div>
+            <div class="contact-item-text">
+              <strong data-i18n="contact_email">Email</strong>
+              <span id="contactEmailVal">liber.impro@gmail.com</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon" style="background:rgba(255,217,61,.20)">📞</div>
+            <div class="contact-item-text">
+              <strong data-i18n="contact_phone">Presse</strong>
+              <span id="contactPhoneVal">polecommunication.liber.impro@gmail.com</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social links -->
+        <div class="social-row">
+          <a class="social-btn social-btn-img" href="https://www.facebook.com/LIBER.IMPRO/" target="_blank" rel="noopener" aria-label="Facebook">
+            <img src="images/facebook_logo.svg" alt="Facebook" />
+          </a>
+          <a class="social-btn social-btn-img" href="https://www.instagram.com/liber.impro/" target="_blank" rel="noopener" aria-label="Instagram">
+            <img src="images/instagram_logo.svg" alt="Instagram" />
+          </a>
+          <a class="social-btn" href="mailto:liber.impro@gmail.com" aria-label="Email">✉️</a>
+        </div>
+
+        <!-- Newsletter subscription -->
+        <div class="newsletter-box">
+          <h4 data-i18n="newsletter_title">Newsletter</h4>
+          <p data-i18n="newsletter_desc">
+            Recevez nos actualités et dates de spectacles directement dans votre boîte mail.
+          </p>
+          <div class="newsletter-form">
+            <input type="email" id="newsletterEmail"
+              data-i18n-placeholder="newsletter_placeholder"
+              placeholder="votre@email.com" />
+            <button class="btn btn-teal" onclick="submitNewsletter()"
+              data-i18n="newsletter_btn">S'abonner</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: contact form -->
+      <div class="contact-form reveal">
+        <h3 data-i18n="form_title">Écrivez-nous</h3>
+        <div id="formSuccess" class="form-success">
+          <div style="font-size:3rem;margin-bottom:1rem">🎉</div>
+          <p data-i18n="form_success">Message envoyé!</p>
+        </div>
+        <div id="contactFormInner">
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="form_name">Nom</label>
+              <input type="text" id="cName" placeholder="Votre nom" />
+            </div>
+            <div class="form-group">
+              <label data-i18n="form_email_field">Email</label>
+              <input type="email" id="cEmail" placeholder="vous@email.com" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label data-i18n="form_subject">Sujet</label>
+            <select id="cSubject">
+              <option data-i18n="form_subj1">Rejoindre l'association</option>
+              <option data-i18n="form_subj2">Informations sur les cours</option>
+              <option data-i18n="form_subj3">Réserver un spectacle</option>
+              <option data-i18n="form_subj4">Autre</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label data-i18n="form_message">Message</label>
+            <textarea id="cMessage" placeholder="Votre message..."></textarea>
+          </div>
+          <button class="btn btn-primary" onclick="submitContactForm()"
+            data-i18n="form_send">Envoyer 🚀</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: IMPRINT (Mentions légales)
+     ════════════════════════════════════════════════════════════ -->
+<div class="page" id="imprintPage">
+  <div class="section-wrap" style="max-width:760px">
+    <div class="legal-page-content">
+      <h1 id="imprintTitle" class="section-title"
+        data-i18n="imprint_title">Mentions légales</h1>
+      <div id="imprintBody" class="legal-body"></div>
+      <button class="btn btn-secondary" style="margin-top:2rem"
+        onclick="history.back()">← Retour</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: PRIVACY (Politique de confidentialité)
+     ════════════════════════════════════════════════════════════ -->
+<div class="page" id="privacyPage">
+  <div class="section-wrap" style="max-width:760px">
+    <div class="legal-page-content">
+      <h1 id="privacyTitle" class="section-title"
+        data-i18n="privacy_title">Politique de confidentialité</h1>
+      <div id="privacyBody" class="legal-body"></div>
+      <button class="btn btn-secondary" style="margin-top:2rem"
+        onclick="history.back()">← Retour</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     PAGE: ADMIN
+     ════════════════════════════════════════════════════════════ -->
+<div class="page" id="adminPage">
+  <div class="admin-layout">
+
+    <!-- Sidebar -->
+    <div class="admin-sidebar">
+      <h4>Dashboard</h4>
+      <div class="admin-nav-item active" onclick="adminSection('texts', this)">
+        📝 <span data-i18n="admin_texts">Textes & Images</span>
+      </div>
+      <div class="admin-nav-item" onclick="adminSection('shows', this)">
+        🎭 <span data-i18n="admin_shows_menu">Spectacles</span>
+      </div>
+      <div class="admin-nav-item" onclick="adminSection('members', this)">
+        👥 <span data-i18n="admin_members_menu">Membres</span>
+      </div>
+      <div class="admin-nav-item" onclick="adminSection('courses', this)">
+        📚 <span data-i18n="admin_courses_menu">Ateliers</span>
+      </div>
+      <div class="admin-nav-item" onclick="adminSection('media', this)">
+        🎬 Médias
+      </div>
+      <br>
+      <div class="admin-nav-item" onclick="logoutUser()"
+        style="color:rgba(255,130,130,.8)">
+        🚪 <span data-i18n="admin_logout">Déconnexion</span>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="admin-content">
+
+      <!-- ── TEXTS & IMAGES (default active section) ── -->
+      <div class="admin-section active" id="adminSec_texts">
+        <h2>📝 Textes &amp; Images</h2>
+        <div class="admin-page-tabs" id="adminPageTabs">
+          <button class="admin-page-tab active"
+            onclick="adminContentTab('home',this)">🏠 Accueil</button>
+          <button class="admin-page-tab"
+            onclick="adminContentTab('about',this)">👥 À propos</button>
+          <button class="admin-page-tab"
+            onclick="adminContentTab('courses',this)">📚 Cours</button>
+          <button class="admin-page-tab"
+            onclick="adminContentTab('shows',this)">🎭 Spectacles</button>
+          <button class="admin-page-tab"
+            onclick="adminContentTab('contact',this)">✉️ Contact</button>
+        </div>
+        <div id="adminContentFields"></div>
+      </div>
+
+      <!-- ── SHOWS ── -->
+      <div class="admin-section" id="adminSec_shows">
+        <h2 data-i18n="admin_shows_h">Gestion des spectacles</h2>
+        <div class="admin-card" id="adminShowsList"></div>
+        <div class="admin-card">
+          <h4>➕ Ajouter un spectacle</h4>
+          <div class="bilingual-row">
+            <div class="lang-field">
+              <label>Titre (FR)</label>
+              <input type="text" id="newShowTitleFR" placeholder="Titre français" />
+            </div>
+            <div class="lang-field">
+              <label>Titel (DE)</label>
+              <input type="text" id="newShowTitleDE" placeholder="Deutschen Titel" />
+            </div>
+            <div class="lang-field">
+              <label>Date</label>
+              <input type="date" id="newShowDate" />
+            </div>
+            <div class="lang-field">
+              <label>Heure</label>
+              <input type="time" id="newShowTime" />
+            </div>
+            <div class="lang-field">
+              <label>Lieu</label>
+              <input type="text" id="newShowVenue" placeholder="Théâtre…" />
+            </div>
+            <div class="lang-field">
+              <label>URL Billets</label>
+              <input type="url" id="newShowTickets" placeholder="https://…" />
+            </div>
+          </div>
+          <br>
+          <button class="admin-save-btn" onclick="addShow()">➕ Ajouter</button>
+        </div>
+      </div>
+
+      <!-- ── MEMBERS ── -->
+      <div class="admin-section" id="adminSec_members">
+        <h2 data-i18n="admin_members_h">Gestion des membres</h2>
+        <div id="adminMembersListAdmin"></div>
+      </div>
+
+      <!-- ── COURSES / ATELIERS ── -->
+      <div class="admin-section" id="adminSec_courses">
+        <h2 data-i18n="admin_courses_h">Gestion des ateliers</h2>
+
+        <!-- Registration toggle (moved from old Général tab) -->
+        <div class="admin-card">
+          <h4 data-i18n="admin_reg_status">Statut des inscriptions</h4>
+          <div class="reg-toggle-row">
+            <div class="toggle-switch on" id="adminRegToggle"
+              onclick="toggleRegistrations()"></div>
+            <span id="adminRegLabel"
+              style="font-weight:700;font-size:.9rem">🟢 Inscriptions ouvertes</span>
+          </div>
+          <p style="color:rgba(255,255,255,.45);font-size:.78rem;margin-top:.6rem;margin-bottom:0">
+            Activez ou désactivez le bloc d'inscription affiché sur la page Ateliers.
+          </p>
+        </div>
+
+        <div id="adminCoursesListAdmin"></div>
+      </div>
+
+      <!-- ── MEDIA ── -->
+      <div class="admin-section" id="adminSec_media">
+        <h2>🎬 Médias — Vidéos &amp; Galerie</h2>
+        <div id="adminMediaContent"></div>
+      </div>
+
+    </div><!-- /admin-content -->
+  </div><!-- /admin-layout -->
+</div>
+
+<!-- ════════ FOOTER ════════ -->
+<footer>
+  <div class="footer-logo">
+    <img src="images/logo.jpg" alt="LIBER logo"
+         style="height:64px;width:64px;object-fit:contain;border-radius:10px;margin-right:.55rem" />
+    <span class="logo-text">LIBER</span>
+  </div>
+  <div class="footer-tagline" data-i18n="footer_tagline">
+    L'imagination, l'échange et le plaisir au pouvoir.
+  </div>
+
+  <!-- Main nav links -->
+  <div class="footer-links">
+    <a href="#" onclick="showPage('home')"    data-i18n="nav_home">Accueil</a>
+    <a href="#" onclick="showPage('about')"   data-i18n="nav_about">À propos</a>
+    <a href="#" onclick="showPage('courses')" data-i18n="nav_courses">Cours</a>
+    <a href="#" onclick="showPage('shows')"   data-i18n="nav_shows">Spectacles</a>
+    <a href="#" onclick="showPage('contact')" data-i18n="nav_contact">Contact</a>
+  </div>
+
+  <!-- Legal links — footer only, not in main nav -->
+  <div class="footer-legal-links">
+    <a href="#" onclick="showPage('imprint')"
+      data-i18n="footer_imprint">Mentions légales</a>
+    <span style="color:rgba(255,255,255,.2)">·</span>
+    <a href="#" onclick="showPage('privacy')"
+      data-i18n="footer_privacy">Politique de confidentialité</a>
+  </div>
+
+  <div class="footer-copy">© 2026 LIBER — Ligue d'Improvisation de Berlin</div>
+</footer>
+
+<!-- ════════ ADMIN LOGIN MODAL ════════
+     Hidden by default. Opened via:
+     • URL hash #login (e.g. https://liber-impro.com/#login)
+     • Keyboard shortcut Ctrl+Shift+L anywhere on the site -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal-box" style="max-width:420px">
+    <div class="modal-header">
+      <h3 data-i18n="login_title">Connexion administrateur</h3>
+      <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    </div>
+    <div id="loginForm">
+      <div class="form-group">
+        <label data-i18n="login_email">Email</label>
+        <input type="email" id="loginEmail" placeholder="vous@email.com" />
+      </div>
+      <div class="form-group">
+        <label data-i18n="login_password">Mot de passe</label>
+        <input type="password" id="loginPassword" placeholder="••••••••" />
+      </div>
+      <button class="btn btn-primary"
+        style="width:100%;justify-content:center;margin-top:.5rem"
+        onclick="doLogin()" data-i18n="login_btn">Se connecter</button>
+      <p style="text-align:center;color:rgba(255,255,255,.35);font-size:.78rem;margin-top:1rem"
+        data-i18n="demo_hint">Réservé à l'équipe d'administration LIBER.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <span id="toastIcon">✅</span>
+  <span id="toastMsg"></span>
+</div>
+
+<!-- ════════ SCRIPTS ════════ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/state.js"></script>
+<script src="js/router.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
