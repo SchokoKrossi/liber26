@@ -243,9 +243,7 @@ function _buildCard(f) {
 
 function _populateField(f) {
   if (f.type==='image') {
-    // Try to read url from first target's backgroundImage
-    if (f.key==='logo_img') { const inp=document.getElementById('imgUrl_'+f.key); if(inp) inp.value=siteLogo.img||''; _prevImg(f.key,siteLogo.img||''); return; }
-    if (f.key==='logo_text'){ const inp=document.getElementById('fieldFR_'+f.key); if(inp) inp.value=siteLogo.text||''; return; }
+    // Special-case single-lang fields stored outside the i18n bundle
     if (f.key==='google_form_url'){ const inp=document.getElementById('fieldFR_'+f.key); if(inp) inp.value=googleFormUrl||''; return; }
     const inp=document.getElementById('imgUrl_'+f.key); if(!inp) return;
     if (f.targets?.[0]) {
@@ -274,8 +272,7 @@ async function _saveField(key) {
     f.onApply?.(url);
     if (!f.onApply && f.targets) f.targets.forEach(t=>_applyImageTarget(t.sel,url));
     // Persist under a __-prefixed key matching the field name.
-    const storageKey = (key === 'logo_img') ? KEY_LOGO_IMG : '__' + key;
-    const ok = await saveContentKey(storageKey, url, null);
+    const ok = await saveContentKey('__' + key, url, null);
     if (ok) showToast('✅ Image appliquée!','success');
     return;
   }
@@ -287,11 +284,6 @@ async function _saveField(key) {
   const deVal=deEl?.value.trim()||frVal;
 
   // Special non-i18n single-lang fields
-  if (key==='logo_text') {
-    siteLogo.text=frVal; if(!siteLogo.img) renderLogo();
-    if (await saveContentKey(KEY_LOGO_TEXT, frVal, null)) showToast('✅ Logo mis à jour!','success');
-    return;
-  }
   if (key==='google_form_url') {
     googleFormUrl=frVal; renderCourses();
     if (await saveContentKey(KEY_GOOGLE_FORM_URL, frVal, null)) showToast('✅ URL Google Form mise à jour!','success');

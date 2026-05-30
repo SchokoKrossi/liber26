@@ -42,9 +42,9 @@ const I18N = {
     /* Shows */
     shows_pill:'Scène', shows_title:'Nos spectacles',
     shows_subtitle:"Matchs d'improvisation franco-allemands au théâtre ACUD, chaque 3ᵉ dimanche du mois. Et plus encore en tournée !",
-    buy_tickets:"Plus d'infos",
     calendar_title:'Calendrier des spectacles',
     upcoming_title:'À venir', videos_title:'Revivez nos moments', gallery_title:'Galerie photos',
+    no_shows:'Aucun spectacle à venir.',
     /* Contact */
     contact_pill:'Contact', contact_title:'Parlons impro !',
     contact_desc:"Une question, l'envie de jouer avec nous ou simplement envie de discuter ? On adore entendre de nouvelles voix !",
@@ -65,19 +65,16 @@ const I18N = {
     /* Footer */
     footer_tagline:"L'imagination, l'échange et le plaisir au pouvoir.",
     footer_imprint:'Mentions légales', footer_privacy:'Politique de confidentialité',
-    /* Auth */
-    login_title:'Connexion administrateur', login_tab:'Connexion', register_tab:"S'inscrire",
+    /* Auth (admin only) */
+    login_title:'Connexion administrateur',
     login_email:'Email', login_password:'Mot de passe', login_btn:'Se connecter',
     demo_hint:"Réservé à l'équipe d'administration LIBER.",
-    reg_name:'Nom complet', register_btn:'Créer un compte',
-    /* Admin */
-    admin_general:'Général', admin_texts:'Textes & Images', admin_shows_menu:'Spectacles',
+    /* Admin sidebar */
+    admin_shows_menu:'Spectacles',
     admin_members_menu:'Membres', admin_courses_menu:'Ateliers', admin_logout:'Déconnexion',
-    admin_general_h:'Paramètres généraux',
     admin_shows_h:'Gestion des spectacles', admin_members_h:'Gestion des membres',
     admin_courses_h:'Gestion des ateliers',
-    admin_reg_status:'Statut des inscriptions', reg_open_status:'Inscriptions ouvertes',
-    admin_next_show:"Prochain spectacle (bannière d'accueil)",
+    admin_reg_status:'Statut des inscriptions',
     /* ─────────────────────────────────────────────────────────
        Legal pages — drafted to meet § 5 TMG (Impressum) and the
        GDPR / DSGVO (Datenschutzerklärung) for an entity based
@@ -204,9 +201,9 @@ Friedrichstr. 219, 10969 Berlin — <a href="https://www.datenschutz-berlin.de" 
     /* Shows */
     shows_pill:'Bühne', shows_title:'Unsere Aufführungen',
     shows_subtitle:'Deutsch-französische Impro-Matches im ACUD Theater — jeden 3. Sonntag im Monat. Und vieles mehr auf Tournee!',
-    buy_tickets:'Mehr Infos',
     calendar_title:'Aufführungskalender',
     upcoming_title:'Demnächst', videos_title:'Unsere Momente erleben', gallery_title:'Fotogalerie',
+    no_shows:'Keine bevorstehenden Aufführungen.',
     /* Contact */
     contact_pill:'Kontakt', contact_title:'Lass uns reden!',
     contact_desc:'Eine Frage, Lust mitzuspielen oder einfach plaudern? Wir freuen uns immer über neue Stimmen!',
@@ -227,19 +224,16 @@ Friedrichstr. 219, 10969 Berlin — <a href="https://www.datenschutz-berlin.de" 
     /* Footer */
     footer_tagline:'Vorstellungskraft, Austausch und Vergnügen an der Macht.',
     footer_imprint:'Impressum', footer_privacy:'Datenschutzerklärung',
-    /* Auth */
-    login_title:'Administrator-Anmeldung', login_tab:'Anmelden', register_tab:'Registrieren',
+    /* Auth (admin only) */
+    login_title:'Administrator-Anmeldung',
     login_email:'E-Mail', login_password:'Passwort', login_btn:'Einloggen',
     demo_hint:'Nur für das LIBER-Verwaltungsteam.',
-    reg_name:'Vollständiger Name', register_btn:'Konto erstellen',
-    /* Admin */
-    admin_general:'Allgemein', admin_texts:'Texte & Bilder', admin_shows_menu:'Aufführungen',
+    /* Admin sidebar */
+    admin_shows_menu:'Aufführungen',
     admin_members_menu:'Mitglieder', admin_courses_menu:'Workshops', admin_logout:'Abmelden',
-    admin_general_h:'Allgemeine Einstellungen',
     admin_shows_h:'Aufführungsverwaltung', admin_members_h:'Mitgliederverwaltung',
     admin_courses_h:'Workshop-Verwaltung',
-    admin_reg_status:'Anmeldestatus', reg_open_status:'Anmeldungen offen',
-    admin_next_show:'Nächste Aufführung (Startseite)',
+    admin_reg_status:'Anmeldestatus',
     /* ─────────────────────────────────────────────────────────
        Rechtliche Seiten — § 5 TMG (Impressum) und DSGVO.
        Platzhalter in [ ] über das Admin-Dashboard ausfüllen.

@@ -1,5 +1,5 @@
 /* ============================================================
-   pages.css — page-specific styles for ImproVivo
+   pages.css — page-specific styles for LIBER
    Complements main.css (shared variables, nav, forms, footer)
    ============================================================ */
 
@@ -528,30 +528,8 @@
 .admin-row-info span   { font-size: 0.8rem; color: rgba(255,255,255,0.4); }
 .admin-row-actions     { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
 
-/* Show edit panel (inline expand below admin-row) */
-.admin-show-edit { padding: 0.5rem 0 1rem; }
-
-/* Edit inline text */
-.admin-inline-edit {
-  background: none; border: none; border-bottom: 1px dashed rgba(255,255,255,0.3);
-  color: #fff; font-family: 'Nunito', sans-serif; font-size: 0.95rem;
-  padding: 0.2rem 0.3rem; outline: none; width: 100%;
-  transition: border-color var(--transition);
-}
-.admin-inline-edit:focus { border-bottom-color: var(--pink); }
-
-/* Section tabs inside admin (for pages) */
-.admin-page-tabs {
-  display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem;
-}
-.admin-page-tab {
-  padding: 0.5rem 1.2rem; border-radius: 30px;
-  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.6); font-weight: 700; font-size: 0.85rem;
-  cursor: pointer; transition: all var(--transition);
-}
-.admin-page-tab:hover  { background: rgba(255,255,255,0.15); color: #fff; }
-.admin-page-tab.active { background: var(--grad1); color: #fff; border-color: transparent; }
+/* (Removed dead CSS: .admin-show-edit, .admin-inline-edit, .admin-page-tab[s] —
+    no longer referenced after the admin dashboard refactor.) */
 
 /* ═══════════════════════════════════════════════════════════
    RESPONSIVE
@@ -585,8 +563,6 @@
   .shows-hero::before { display: none; }
   .courses-grid    { grid-template-columns: 1fr; }
   .members-grid    { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
-  .admin-page-tabs { gap: 0.3rem; }
-  .admin-page-tab  { font-size: 0.78rem; padding: 0.4rem 0.8rem; }
 }
 
 /* ═══════════════════════════════════════════════════════════

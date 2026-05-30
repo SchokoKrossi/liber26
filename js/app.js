@@ -180,7 +180,7 @@ function renderShows() {
       </div>
       <a class="btn btn-primary" href="${s.tickets}" target="_blank" rel="noopener">🎟️</a>
     </div>`;
-  }).join('') || `<p style="color:rgba(255,255,255,0.4);text-align:center;padding:2rem;">Aucun spectacle à venir.</p>`;
+  }).join('') || `<p style="color:rgba(255,255,255,0.4);text-align:center;padding:2rem;">${I18N[currentLang].no_shows || 'Aucun spectacle à venir.'}</p>`;
 }
 
 // ── CALENDAR ──────────────────────────────────────────────────
