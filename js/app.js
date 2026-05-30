@@ -309,7 +309,13 @@ function renderLegalPage(type) {
 window.addEventListener('load', async () => {
   await loadFromSupabase();   // fetch all content from the database first
   await restoreSession();     // restore login state if any
-  applyI18N('fr');
+  // Restore the user's last chosen language (defaults to French)
+  let savedLang = 'fr';
+  try {
+    const v = localStorage.getItem('liber_lang');
+    if (v === 'fr' || v === 'de') savedLang = v;
+  } catch (_) {}
+  applyI18N(savedLang);
   // Restore the page from the URL hash (e.g. #courses) so refreshing
   // a deep page doesn't bounce the user back to Home. Falls back to Home.
   const initialPage = getPageFromHash() || 'home';

@@ -78,6 +78,8 @@ function renderAboutBody() {
 /** Apply i18n strings to every [data-i18n] element. */
 function applyI18N(lang) {
   currentLang = lang;
+  // Persist so the next page load remembers the user's choice
+  try { localStorage.setItem('liber_lang', lang); } catch (_) {}
 
   // Update lang toggle buttons
   document.querySelectorAll('.lang-btn').forEach(b => {
