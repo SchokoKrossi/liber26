@@ -55,19 +55,22 @@ const ADMIN_PAGES = {
       // Logo image / text fields are intentionally NOT exposed here —
       // the LIBER logo + text are baked into images/logo.jpg and renderLogo().
 
-      // ─── 48hLIBERfilm challenge banner ────────────────────────────
-      { key:'challenge_title', label:'48hLIBERfilm — Titre',  type:'text',
+      // ─── Bannière (générique, page d'accueil) ─────────────────────
+      { key:'challenge_label', label:'Bannière — Étiquette (petite ligne au-dessus du titre)',  type:'text',
+        i18nFR:'challenge_label', i18nDE:'challenge_label',
+        targets:[{sel:'[data-i18n="challenge_label"]', prop:'textContent'}] },
+      { key:'challenge_title', label:'Bannière — Titre',  type:'text',
         i18nFR:'challenge_title', i18nDE:'challenge_title',
         targets:[{sel:'[data-i18n="challenge_title"]', prop:'textContent'}] },
-      { key:'challenge_text',  label:'48hLIBERfilm — Texte (plusieurs paragraphes — séparez par une ligne vide)',
+      { key:'challenge_text',  label:'Bannière — Texte (plusieurs paragraphes — séparez par une ligne vide)',
         type:'textarea', rows:6,
         i18nFR:'challenge_text', i18nDE:'challenge_text',
         targets:[{sel:'[data-i18n="challenge_text"]', prop:'textContent'}] },
-      { key:'challenge_btn',   label:'48hLIBERfilm — Texte du bouton', type:'text',
+      { key:'challenge_btn',   label:'Bannière — Texte du bouton', type:'text',
         i18nFR:'challenge_btn', i18nDE:'challenge_btn',
         targets:[{sel:'[data-i18n="challenge_btn"]', prop:'textContent'}] },
-      { key:'challenge_url',   label:'48hLIBERfilm — URL du formulaire', type:'text', singleLang:true,
-        hint:"Collez l'URL du Google Form (ou tout autre lien) ouvert par le bouton.",
+      { key:'challenge_url',   label:'Bannière — URL du bouton', type:'text', singleLang:true,
+        hint:"Collez l'URL ouverte par le bouton (Google Form, page externe, etc.).",
         onApply(url) { challengeUrl = url; refreshChallengeUI(); } },
     ]
   },
@@ -596,10 +599,18 @@ function refreshChallengeUI() {
 }
 
 async function toggleChallenge() {
+  console.log('[LIBER] toggleChallenge — before:', { challengeOpen });
   challengeOpen = !challengeOpen;
   refreshChallengeUI();
-  await saveContentKey(KEY_CHALLENGE_OPEN, challengeOpen ? 'true' : 'false', null);
-  showToast(`✅ Bannière 48hLIBERfilm ${challengeOpen ? 'affichée' : 'masquée'}`, 'success');
+  const ok = await saveContentKey(KEY_CHALLENGE_OPEN, challengeOpen ? 'true' : 'false', null);
+  console.log('[LIBER] toggleChallenge — after:', { challengeOpen, savedToDb: ok });
+  if (!ok) {
+    // Revert visual state if the DB write failed
+    challengeOpen = !challengeOpen;
+    refreshChallengeUI();
+    return;
+  }
+  showToast(`✅ Bannière ${challengeOpen ? 'affichée' : 'masquée'}`, 'success');
 }
 
 /** Sync the admin toggle's visual state + the public reg banner to the
