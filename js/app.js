@@ -23,17 +23,6 @@ function renderNextShowBanner() {
   if (venueEl) venueEl.textContent = next.venue;
   if (linkEl)  linkEl.href         = next.tickets || '#';
 
-  // Same banner on the shows page featured hero
-  const showsFeatDesc = document.getElementById('showsFeaturedDesc');
-  if (showsFeatDesc) {
-    showsFeatDesc.textContent =
-      (currentLang === 'fr' ? next.titleFR : next.titleDE) +
-      ' · ' + d.toLocaleDateString(locale, { day:'numeric', month:'long', year:'numeric' }) +
-      ' · ' + next.time;
-  }
-  const showsFeatLink = document.getElementById('showsFeaturedLink');
-  if (showsFeatLink) showsFeatLink.href = next.tickets || '#';
-
   document.getElementById('regOpenBanner')?.classList.toggle('hidden', !registrationsOpen);
 }
 

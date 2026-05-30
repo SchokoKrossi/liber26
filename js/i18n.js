@@ -42,8 +42,6 @@ const I18N = {
     /* Shows */
     shows_pill:'Scène', shows_title:'Nos spectacles',
     shows_subtitle:"Matchs d'improvisation franco-allemands au théâtre ACUD, chaque 3ᵉ dimanche du mois. Et plus encore en tournée !",
-    featured_show_title:'Prochain spectacle en vedette',
-    featured_show_desc:"Match d'improvisation franco-allemand",
     buy_tickets:"Plus d'infos",
     calendar_title:'Calendrier des spectacles',
     upcoming_title:'À venir', videos_title:'Revivez nos moments', gallery_title:'Galerie photos',
@@ -206,8 +204,6 @@ Friedrichstr. 219, 10969 Berlin — <a href="https://www.datenschutz-berlin.de" 
     /* Shows */
     shows_pill:'Bühne', shows_title:'Unsere Aufführungen',
     shows_subtitle:'Deutsch-französische Impro-Matches im ACUD Theater — jeden 3. Sonntag im Monat. Und vieles mehr auf Tournee!',
-    featured_show_title:'Nächste Hauptaufführung',
-    featured_show_desc:'Deutsch-französisches Impro-Match',
     buy_tickets:'Mehr Infos',
     calendar_title:'Aufführungskalender',
     upcoming_title:'Demnächst', videos_title:'Unsere Momente erleben', gallery_title:'Fotogalerie',

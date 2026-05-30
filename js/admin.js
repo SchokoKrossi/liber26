@@ -128,7 +128,6 @@ const ADMIN_PAGES = {
     fields:[
       { key:'shows_title',        label:'Titre de la page',                type:'text',     i18nFR:'shows_title',         i18nDE:'shows_title',         targets:[{sel:'[data-i18n="shows_title"]',        prop:'textContent'}] },
       { key:'shows_subtitle',     label:'Sous-titre',                      type:'textarea', i18nFR:'shows_subtitle',      i18nDE:'shows_subtitle',      targets:[{sel:'[data-i18n="shows_subtitle"]',     prop:'textContent'}] },
-      { key:'shows_featured_title',label:'Titre "spectacle en vedette"',   type:'text',     i18nFR:'featured_show_title', i18nDE:'featured_show_title', targets:[{sel:'[data-i18n="featured_show_title"]',prop:'textContent'}] },
       { key:'shows_upcoming',     label:'Titre "À venir"',                 type:'text',     i18nFR:'upcoming_title',      i18nDE:'upcoming_title',      targets:[{sel:'[data-i18n="upcoming_title"]',     prop:'textContent'}] },
       { key:'shows_videos_title', label:'Titre section vidéos',            type:'text',     i18nFR:'videos_title',        i18nDE:'videos_title',        targets:[{sel:'[data-i18n="videos_title"]',       prop:'textContent'}] },
       { key:'shows_gallery_title',label:'Titre galerie photos',            type:'text',     i18nFR:'gallery_title',       i18nDE:'gallery_title',       targets:[{sel:'[data-i18n="gallery_title"]',      prop:'textContent'}] },
