@@ -52,13 +52,8 @@ const ADMIN_PAGES = {
           }
         }
       },
-      { key:'logo_img', label:'Logo (image — remplace le texte)', type:'image',
-        hint:'Laissez vide pour utiliser le texte "🎭 ImproVivo". Recommandé: PNG transparent, ~150px de haut.',
-        onApply(url) { siteLogo.img = url; renderLogo(); }
-      },
-      { key:'logo_text', label:'Logo (texte si pas d\'image)', type:'text',
-        onApply(val) { siteLogo.text = val; if (!siteLogo.img) renderLogo(); }
-      },
+      // Logo image / text fields are intentionally NOT exposed here —
+      // the LIBER logo + text are baked into images/logo.jpg and renderLogo().
     ]
   },
   about: {
@@ -438,15 +433,40 @@ function renderAdminMedia() {
       <div class="bilingual-row">
         <div class="lang-field"><label>Légende FR</label><input type="text" id="newPCFR" placeholder="Scène ouverte" /></div>
         <div class="lang-field"><label>Bildunterschrift DE</label><input type="text" id="newPCDE" placeholder="Offene Bühne" /></div>
-        <div class="lang-field"><label>URL Photo</label><input type="url" id="newPUrl" placeholder="https://…" /></div>
         <div class="lang-field"><label>Mise en page</label>
           <select id="newPCls" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:#fff;padding:.25rem .5rem;font-family:inherit;font-size:.8rem;outline:none">
             <option value="">Normal</option><option value="tall">Haut (tall)</option><option value="wide">Large (wide)</option>
           </select>
         </div>
       </div>
-      <button class="admin-save-btn" onclick="_addPhoto()" style="margin-top:.6rem">➕ Ajouter</button>
+      <!-- Photo: URL + file upload + live preview -->
+      <div style="margin-top:.8rem">
+        <div class="admin-img-preview" id="newPImgPrev" style="height:100px;aspect-ratio:auto;max-width:200px">
+          <div class="admin-img-overlay" style="font-size:.72rem">📷 Aperçu</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr auto;gap:.5rem;align-items:end;margin-top:.4rem;max-width:480px">
+          <div class="lang-field"><label>URL Photo</label>
+            <input type="url" id="newPUrl" placeholder="https://…"
+              oninput="_prevImg('newPImgPrev',this.value)" /></div>
+          <label style="cursor:pointer">
+            <span class="admin-save-btn" style="display:block;font-size:.78rem;padding:.3rem .8rem;text-align:center">📁 Parcourir</span>
+            <input type="file" accept="image/*" style="display:none" onchange="_newPhotoFile(this)" />
+          </label>
+        </div>
+      </div>
+      <button class="admin-save-btn" onclick="_addPhoto()" style="margin-top:.8rem">➕ Ajouter</button>
     </div>`;
+}
+
+/** Upload a file selected in the Add-photo form and stash its public URL in #newPUrl. */
+async function _newPhotoFile(input) {
+  const file = input.files[0]; if (!file) return;
+  try {
+    const url = await uploadMediaFile(file, 'gallery');
+    const inp = document.getElementById('newPUrl'); if (inp) inp.value = url;
+    _prevImg('newPImgPrev', url);
+    showToast('📁 Photo chargée — cliquez Ajouter','success');
+  } catch (err) { showToast('❌ Upload échoué: '+err.message,'error'); }
 }
 
 // Video CRUD
