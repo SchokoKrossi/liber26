@@ -54,6 +54,21 @@ const ADMIN_PAGES = {
       },
       // Logo image / text fields are intentionally NOT exposed here —
       // the LIBER logo + text are baked into images/logo.jpg and renderLogo().
+
+      // ─── 48hLIBERfilm challenge banner ────────────────────────────
+      { key:'challenge_title', label:'48hLIBERfilm — Titre',  type:'text',
+        i18nFR:'challenge_title', i18nDE:'challenge_title',
+        targets:[{sel:'[data-i18n="challenge_title"]', prop:'textContent'}] },
+      { key:'challenge_text',  label:'48hLIBERfilm — Texte (plusieurs paragraphes — séparez par une ligne vide)',
+        type:'textarea', rows:6,
+        i18nFR:'challenge_text', i18nDE:'challenge_text',
+        targets:[{sel:'[data-i18n="challenge_text"]', prop:'textContent'}] },
+      { key:'challenge_btn',   label:'48hLIBERfilm — Texte du bouton', type:'text',
+        i18nFR:'challenge_btn', i18nDE:'challenge_btn',
+        targets:[{sel:'[data-i18n="challenge_btn"]', prop:'textContent'}] },
+      { key:'challenge_url',   label:'48hLIBERfilm — URL du formulaire', type:'text', singleLang:true,
+        hint:"Collez l'URL du Google Form (ou tout autre lien) ouvert par le bouton.",
+        onApply(url) { challengeUrl = url; refreshChallengeUI(); } },
     ]
   },
   about: {
@@ -245,6 +260,7 @@ function _populateField(f) {
   if (f.type==='image') {
     // Special-case single-lang fields stored outside the i18n bundle
     if (f.key==='google_form_url'){ const inp=document.getElementById('fieldFR_'+f.key); if(inp) inp.value=googleFormUrl||''; return; }
+    if (f.key==='challenge_url'){   const inp=document.getElementById('fieldFR_'+f.key); if(inp) inp.value=challengeUrl||'';  return; }
     const inp=document.getElementById('imgUrl_'+f.key); if(!inp) return;
     if (f.targets?.[0]) {
       const el=document.querySelector(f.targets[0].sel);
@@ -287,6 +303,12 @@ async function _saveField(key) {
   if (key==='google_form_url') {
     googleFormUrl=frVal; renderCourses();
     if (await saveContentKey(KEY_GOOGLE_FORM_URL, frVal, null)) showToast('✅ URL Google Form mise à jour!','success');
+    return;
+  }
+  if (key==='challenge_url') {
+    challengeUrl = frVal;
+    refreshChallengeUI();
+    if (await saveContentKey(KEY_CHALLENGE_URL, frVal, null)) showToast('✅ URL du challenge mise à jour!','success');
     return;
   }
 
@@ -561,6 +583,25 @@ async function adminSyncYesTicket() {
 // ═══════════════════════════════════════════════════════════
 // REGISTRATION TOGGLE
 // ═══════════════════════════════════════════════════════════
+/** Sync the 48hLIBERfilm challenge banner UI (admin toggle + public banner
+ *  visibility + link button href) to the current `challengeOpen` / `challengeUrl`
+ *  state. Safe to call any time. */
+function refreshChallengeUI() {
+  document.getElementById('adminChallengeToggle')?.classList.toggle('on', challengeOpen);
+  const lbl = document.getElementById('adminChallengeLabel');
+  if (lbl) lbl.textContent = challengeOpen ? '🟢 Bannière visible' : '🔴 Bannière masquée';
+  document.getElementById('challengeBanner')?.classList.toggle('hidden', !challengeOpen);
+  const btn = document.getElementById('challengeBtn');
+  if (btn) btn.href = challengeUrl || '#';
+}
+
+async function toggleChallenge() {
+  challengeOpen = !challengeOpen;
+  refreshChallengeUI();
+  await saveContentKey(KEY_CHALLENGE_OPEN, challengeOpen ? 'true' : 'false', null);
+  showToast(`✅ Bannière 48hLIBERfilm ${challengeOpen ? 'affichée' : 'masquée'}`, 'success');
+}
+
 /** Sync the admin toggle's visual state + the public reg banner to the
  *  current `registrationsOpen` value. Safe to call any time (handles
  *  missing DOM nodes — e.g. before the admin page is rendered). */

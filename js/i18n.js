@@ -17,6 +17,10 @@ const I18N = {
     reg_open_title:"Ateliers d'improvisation — Saison en cours",
     reg_open_sub:'Cours en français, allemand et gromelot · Tous niveaux',
     reg_btn:"S'inscrire maintenant",
+    /* 48hLIBERfilm challenge banner */
+    challenge_title:'Rejoins nous dans notre challenge de 48hLIBERfilm',
+    challenge_text:"Réalisez un film en 48 heures ! Écrivez, tournez, montez et soumettez-le ! Formez votre équipe et inscrivez-vous dès maintenant ! La participation est ouverte à tous. Inscription jusqu'au 19 juillet 2026.",
+    challenge_btn:"S'inscrire",
     /* Stats */
     stat_num_years:'15+', stat_num_shows:'150+', stat_num_members:'100+',
     stat_years:"Années d'existence", stat_shows:'Matchs joués', stat_members:'Joueur·euses formé·es',
@@ -176,6 +180,10 @@ Friedrichstr. 219, 10969 Berlin — <a href="https://www.datenschutz-berlin.de" 
     reg_open_title:'Improvisations-Workshops — laufende Saison',
     reg_open_sub:'Kurse auf Französisch, Deutsch und Grommelo · Alle Niveaus',
     reg_btn:'Jetzt anmelden',
+    /* 48hLIBERfilm Wettbewerbs-Banner */
+    challenge_title:'Sei dabei bei unserem 48hLIBERfilm-Wettbewerb',
+    challenge_text:'Mache einen Film in 48 Stunden! Schreibe, drehe, schneide und reiche ihn ein! Stelle dein Team zusammen und registriere dich jetzt! Die Teilnahme ist für alle offen. Anmeldung bis zum 19. Juli 2026.',
+    challenge_btn:'Jetzt anmelden',
     /* Stats */
     stat_num_years:'15+', stat_num_shows:'150+', stat_num_members:'100+',
     stat_years:'Jahre auf der Bühne', stat_shows:'Aufführungen', stat_members:'ausgebildete Spieler·innen',
