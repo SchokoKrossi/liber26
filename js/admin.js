@@ -518,6 +518,33 @@ async function _photoFileToUrl(id,input) {
 }
 
 // ═══════════════════════════════════════════════════════════
+// YESTICKET SYNC — pull events from the public iCal feed
+// ═══════════════════════════════════════════════════════════
+async function adminSyncYesTicket() {
+  const btn    = document.getElementById('btnYesTicketSync');
+  const status = document.getElementById('ytSyncStatus');
+  if (btn) { btn.disabled = true; btn.style.opacity = '.5'; }
+  if (status) status.textContent = '⏳ Synchronisation en cours…';
+  try {
+    const result = await syncShowsFromYesTicket();
+    // Reload shows from the DB so the dashboard + public pages reflect the sync
+    const { data, error } = await sb.from('shows').select('*').order('date', { ascending: true });
+    if (error) throw error;
+    shows = data.map(_showFromDB);
+    renderAdminShows(); renderShows(); renderCalendar(); renderNextShowBanner();
+    const msg = `✅ Sync OK · ${result.upserted} évén. importés, ${result.removed} supprimés.`;
+    if (status) status.textContent = msg;
+    showToast(msg, 'success');
+  } catch (err) {
+    console.error('[YesTicket] sync failed', err);
+    if (status) status.textContent = '❌ ' + err.message;
+    showToast('❌ Synchronisation YesTicket échouée : ' + err.message, 'error');
+  } finally {
+    if (btn) { btn.disabled = false; btn.style.opacity = ''; }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
 // REGISTRATION TOGGLE
 // ═══════════════════════════════════════════════════════════
 async function toggleRegistrations() {
@@ -544,76 +571,24 @@ function saveNextShow() {
 // ═══════════════════════════════════════════════════════════
 // SHOWS CRUD
 // ═══════════════════════════════════════════════════════════
+// Yesticket-only mode: the admin can only VIEW the synced shows.
+// Editing/adding/deleting is done via yesticket.org, then synced.
 function renderAdminShows() {
-  const el=document.getElementById('adminShowsList'); if(!el) return;
-  el.innerHTML=!shows.length
-    ?'<p style="color:rgba(255,255,255,.4);padding:1rem 0">Aucun spectacle enregistré.</p>'
-    :[...shows].sort((a,b)=>new Date(a.date)-new Date(b.date)).map(s=>`
-      <div class="admin-row">
-        <div class="admin-row-info">
-          <strong>${_esc(s.titleFR)}</strong>
-          <span>${s.date} · ${s.time} · ${_esc(s.venue)}</span>
-        </div>
-        <div class="admin-row-actions">
-          <button class="admin-save-btn" style="padding:.28rem .8rem;font-size:.78rem"
-            onclick="_toggleShowEdit(${s.id})">✏️</button>
-          <button class="admin-delete-btn" onclick="deleteShow(${s.id})">✕</button>
-        </div>
+  const el = document.getElementById('adminShowsList'); if (!el) return;
+  if (!shows.length) {
+    el.innerHTML = '<p style="color:rgba(255,255,255,.4);padding:1rem 0">Aucun spectacle. Cliquez sur 🔄 Synchroniser maintenant.</p>';
+    return;
+  }
+  const sorted = [...shows].sort((a, b) => new Date(a.date) - new Date(b.date));
+  el.innerHTML = sorted.map(s => `
+    <div class="admin-row">
+      <div class="admin-row-info">
+        <strong>${_esc(s.titleFR)}</strong>
+        <span>${s.date} · ${s.time} · ${_esc(s.venue)}</span>
       </div>
-      <div class="admin-show-edit hidden" id="showEdit_${s.id}">
-        <div class="bilingual-row" style="margin-top:.8rem">
-          <div class="lang-field"><label>Titre FR</label><input type="text" id="sTFR_${s.id}" value="${_escAttr(s.titleFR)}" /></div>
-          <div class="lang-field"><label>Titel DE</label><input type="text" id="sTDE_${s.id}" value="${_escAttr(s.titleDE)}" /></div>
-          <div class="lang-field"><label>Date</label><input type="date" id="sDate_${s.id}" value="${s.date}" /></div>
-          <div class="lang-field"><label>Heure</label><input type="time" id="sTime_${s.id}" value="${s.time}" /></div>
-          <div class="lang-field"><label>Lieu</label><input type="text" id="sVenue_${s.id}" value="${_escAttr(s.venue)}" /></div>
-          <div class="lang-field"><label>URL Billets</label><input type="url" id="sTickets_${s.id}" value="${_escAttr(s.tickets)}" /></div>
-        </div>
-        <button class="admin-save-btn" style="margin-top:.6rem" onclick="saveShowEdit(${s.id})">💾 Enregistrer</button>
-        <button onclick="_toggleShowEdit(${s.id})" style="background:none;border:none;color:rgba(255,255,255,.35);cursor:pointer;margin-left:1rem;font-size:.82rem">Annuler</button>
-      </div>`).join('');
-}
-
-function _toggleShowEdit(id){ document.getElementById('showEdit_'+id)?.classList.toggle('hidden'); }
-
-async function saveShowEdit(id) {
-  const s=shows.find(x=>x.id===id); if(!s) return;
-  s.titleFR =document.getElementById(`sTFR_${id}`)?.value.trim()||s.titleFR;
-  s.titleDE =document.getElementById(`sTDE_${id}`)?.value.trim()||s.titleDE;
-  s.date    =document.getElementById(`sDate_${id}`)?.value||s.date;
-  s.time    =document.getElementById(`sTime_${id}`)?.value||s.time;
-  s.venue   =document.getElementById(`sVenue_${id}`)?.value.trim()||s.venue;
-  s.tickets =document.getElementById(`sTickets_${id}`)?.value.trim()||s.tickets;
-  const { error } = await sb.from('shows').update(_showToDB(s)).eq('id', id);
-  if (error) { showToast('❌ '+error.message,'error'); return; }
-  renderAdminShows(); renderShows(); renderCalendar(); renderNextShowBanner();
-  showToast('✅ Spectacle modifié!','success');
-}
-
-async function addShow() {
-  const titleFR=document.getElementById('newShowTitleFR')?.value.trim();
-  const titleDE=document.getElementById('newShowTitleDE')?.value.trim();
-  const date   =document.getElementById('newShowDate')?.value;
-  const venue  =document.getElementById('newShowVenue')?.value.trim();
-  const time   =document.getElementById('newShowTime')?.value||'20:00';
-  const tickets=document.getElementById('newShowTickets')?.value.trim()||'#';
-  if(!titleFR||!date||!venue){showToast('❌ Titre FR, date et lieu sont obligatoires','error');return;}
-  const newShow = { titleFR, titleDE: titleDE||titleFR, date, venue, time, tickets };
-  const { data, error } = await sb.from('shows').insert(_showToDB(newShow)).select().single();
-  if (error) { showToast('❌ '+error.message,'error'); return; }
-  shows.push(_showFromDB(data));
-  ['newShowTitleFR','newShowTitleDE','newShowDate','newShowVenue','newShowTime','newShowTickets'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  renderAdminShows(); renderShows(); renderCalendar(); renderNextShowBanner();
-  showToast('✅ Spectacle ajouté!','success');
-}
-
-async function deleteShow(id) {
-  if(!confirm('Supprimer ce spectacle ?')) return;
-  const { error } = await sb.from('shows').delete().eq('id', id);
-  if (error) { showToast('❌ '+error.message,'error'); return; }
-  shows=shows.filter(s=>s.id!==id);
-  renderAdminShows(); renderShows(); renderCalendar(); renderNextShowBanner();
-  showToast('🗑️ Spectacle supprimé','success');
+      ${s.tickets ? `<a class="admin-save-btn" href="${_escAttr(s.tickets)}" target="_blank" rel="noopener"
+                       style="padding:.28rem .8rem;font-size:.78rem;text-decoration:none">🎟️ Voir</a>` : ''}
+    </div>`).join('');
 }
 
 // ═══════════════════════════════════════════════════════════

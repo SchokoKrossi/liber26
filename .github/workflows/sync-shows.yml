@@ -1,0 +1,24 @@
+name: Sync shows from YesTicket
+
+on:
+  schedule:
+    # Daily at 06:00 UTC (~07:00–08:00 Berlin depending on DST).
+    - cron: '0 6 * * *'
+  workflow_dispatch:        # also runnable manually from the Actions tab
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run iCal → Supabase sync
+        env:
+          SUPABASE_URL:         ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: node scripts/sync-yesticket.mjs

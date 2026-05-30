@@ -512,38 +512,29 @@
       <!-- ── SHOWS ── -->
       <div class="admin-section" id="adminSec_shows">
         <h2 data-i18n="admin_shows_h">Gestion des spectacles</h2>
-        <div class="admin-card" id="adminShowsList"></div>
+
+        <!-- YesTicket sync — pulls events from the LIBER YesTicket iCal feed -->
         <div class="admin-card">
-          <h4>➕ Ajouter un spectacle</h4>
-          <div class="bilingual-row">
-            <div class="lang-field">
-              <label>Titre (FR)</label>
-              <input type="text" id="newShowTitleFR" placeholder="Titre français" />
-            </div>
-            <div class="lang-field">
-              <label>Titel (DE)</label>
-              <input type="text" id="newShowTitleDE" placeholder="Deutschen Titel" />
-            </div>
-            <div class="lang-field">
-              <label>Date</label>
-              <input type="date" id="newShowDate" />
-            </div>
-            <div class="lang-field">
-              <label>Heure</label>
-              <input type="time" id="newShowTime" />
-            </div>
-            <div class="lang-field">
-              <label>Lieu</label>
-              <input type="text" id="newShowVenue" placeholder="Théâtre…" />
-            </div>
-            <div class="lang-field">
-              <label>URL Billets</label>
-              <input type="url" id="newShowTickets" placeholder="https://…" />
-            </div>
-          </div>
-          <br>
-          <button class="admin-save-btn" onclick="addShow()">➕ Ajouter</button>
+          <h4>🔄 Synchronisation YesTicket</h4>
+          <p style="color:rgba(255,255,255,.55);font-size:.82rem;margin-bottom:.8rem">
+            Importe les événements depuis
+            <a href="https://www.yesticket.org/events/fr/liber-ligue-dimpro-de-berlin" target="_blank" rel="noopener"
+               style="color:var(--liber-yellow)">yesticket.org/&hellip;/liber-ligue-dimpro-de-berlin</a>.
+            Les spectacles ajoutés manuellement ne sont jamais effacés. Une synchronisation automatique
+            tourne chaque jour à 06:00 UTC ; cliquez ci-dessous pour la déclencher immédiatement.
+          </p>
+          <button class="admin-save-btn" id="btnYesTicketSync" onclick="adminSyncYesTicket()">🔄 Synchroniser maintenant</button>
+          <span id="ytSyncStatus" style="margin-left:1rem;font-size:.82rem;color:rgba(255,255,255,.55)"></span>
         </div>
+
+        <div class="admin-card" id="adminShowsList"></div>
+        <p style="color:rgba(255,255,255,.45);font-size:.8rem;margin-top:.6rem">
+          Les spectacles sont gérés exclusivement via YesTicket. Pour ajouter
+          ou modifier un événement, utilisez votre compte
+          <a href="https://www.yesticket.org" target="_blank" rel="noopener"
+             style="color:var(--liber-yellow)">yesticket.org</a>,
+          puis cliquez sur <strong>🔄 Synchroniser maintenant</strong> ci-dessus.
+        </p>
       </div>
 
       <!-- ── MEMBERS ── -->
@@ -656,6 +647,7 @@
 <script src="js/state.js"></script>
 <script src="js/router.js"></script>
 <script src="js/auth.js"></script>
+<script src="js/lib-yesticket.js"></script>
 <script src="js/admin.js"></script>
 <script src="js/app.js"></script>
 
