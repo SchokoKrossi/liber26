@@ -88,62 +88,83 @@ const I18N = {
     imprint_body:`<h2>Mentions légales selon § 5 TMG</h2>
 
 <h3>Éditeur du site</h3>
-<p><strong>LIBER — Ligue d'Improvisation de Berlin</strong><br>
-[Forme juridique : à compléter, p.ex. e.V.]<br>
+<p><strong>LIBER — Ligue d'Improvisation de Berlin e.V.</strong><br>
 ACUD Theater<br>
 Veteranenstraße 21<br>
 10119 Berlin, Allemagne</p>
 
-<h3>Représentation</h3>
-<p>Cofondateur·rices : Marjorie Nadal, Denis Aubert</p>
+<h3>Représenté par le Vorstand</h3>
+<p>[À compléter : noms et fonctions des membres du Vorstand — p. ex. « Marjorie Nadal (Vorsitzende), Denis Aubert (Stellvertreter·rice) »]</p>
 
 <h3>Contact</h3>
-<p>Email : <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a><br>
+<p>Email général : <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a><br>
 Presse : <a href="mailto:polecommunication.liber.impro@gmail.com">polecommunication.liber.impro@gmail.com</a></p>
 
-<h3>Registre</h3>
-<p>Vereinsregister : [Numéro et tribunal d'enregistrement à compléter]<br>
-Numéro d'identification fiscale (Steuernummer) : [à compléter si applicable]</p>
+<h3>Inscription au registre</h3>
+<p>Vereinsregister : <strong>[VR-Nummer à compléter, p. ex. VR 12345 B]</strong><br>
+Registergericht : <strong>[Amtsgericht à compléter, p. ex. Amtsgericht Charlottenburg]</strong></p>
+
+<h3>Identification fiscale</h3>
+<p>[À compléter une fois la situation fiscale de l'association confirmée — p. ex. :<br>
+• « LIBER e.V. est un organisme à but non lucratif au sens du § 52 AO et n'est pas assujetti à la TVA. », ou<br>
+• « Numéro fiscal (Steuernummer) : XX/XXX/XXXXX », ou<br>
+• « Numéro de TVA (USt-IdNr.) : DE XXX XXX XXX ».]</p>
 
 <h3>Responsable du contenu selon § 18 al. 2 MStV</h3>
-<p>Marjorie Nadal &amp; Denis Aubert, adresse ci-dessus.</p>
+<p>[Nom et adresse complète — adresse postale, pas uniquement l'adresse du Theater. La personne désignée doit pouvoir être citée à comparaître à cette adresse.]</p>
 
 <h3>Résolution des litiges en ligne</h3>
-<p>La Commission européenne met à disposition une plateforme de règlement extrajudiciaire des litiges (ODR) : <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">https://ec.europa.eu/consumers/odr</a>. Nous ne sommes ni obligés ni disposés à participer à une procédure de règlement des litiges devant un organe de conciliation.</p>
+<p>La Commission européenne met à disposition une plateforme de règlement extrajudiciaire des litiges (ODR) : <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">https://ec.europa.eu/consumers/odr</a>. Nous ne sommes ni obligés ni disposés à participer à une procédure de règlement des litiges devant un organe de conciliation des consommateurs.</p>
 
 <h3>Limitation de responsabilité</h3>
-<p><strong>Contenu du site :</strong> Le contenu de ce site a été rédigé avec le plus grand soin. Nous ne pouvons toutefois garantir l'exactitude, l'exhaustivité ou l'actualité de tous les contenus.</p>
-<p><strong>Liens externes :</strong> Notre site contient des liens vers des sites tiers sur le contenu desquels nous n'avons aucune influence. Nous ne pouvons donc assumer aucune responsabilité pour ces contenus externes.</p>
+<p><strong>Contenu du site :</strong> Le contenu de ce site a été rédigé avec le plus grand soin. Nous ne pouvons toutefois garantir l'exactitude, l'exhaustivité ou l'actualité de tous les contenus. En tant que prestataire de services, nous sommes responsables, conformément au § 7 al. 1 TMG, de nos propres contenus sur ces pages selon les lois générales. Selon les §§ 8 à 10 TMG, nous ne sommes toutefois pas tenus de surveiller les informations transmises ou stockées par des tiers, ni de rechercher des circonstances indiquant des activités illégales.</p>
+<p><strong>Liens externes :</strong> Notre site contient des liens vers des sites tiers sur le contenu desquels nous n'avons aucune influence. La responsabilité du contenu de ces liens incombe toujours à leurs éditeurs respectifs. Les sites liés ont été vérifiés pour détecter d'éventuelles infractions au moment de leur intégration ; aucun contenu illicite n'a alors été constaté. Un contrôle permanent du contenu des pages liées n'est cependant pas raisonnablement exigible sans indices concrets d'une infraction.</p>
 <p><strong>Droit d'auteur :</strong> Les contenus et œuvres créés par les opérateurs du site sur ces pages sont soumis au droit d'auteur allemand. Toute reproduction, modification, diffusion ou utilisation hors des limites du droit d'auteur nécessite l'accord écrit préalable des auteur·rices respectif·ves.</p>`,
     privacy_title:'Politique de confidentialité',
     privacy_body:`<h2>Politique de confidentialité (RGPD / DSGVO)</h2>
 
 <h3>1. Responsable du traitement</h3>
-<p><strong>LIBER — Ligue d'Improvisation de Berlin</strong><br>
+<p><strong>LIBER — Ligue d'Improvisation de Berlin e.V.</strong><br>
 ACUD Theater, Veteranenstraße 21, 10119 Berlin, Allemagne<br>
 Email : <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a></p>
+<p>Aucun délégué à la protection des données (DPO) n'a été nommé : LIBER e.V. ne remplit pas les critères de l'art. 37 RGPD ni du § 38 BDSG (moins de 20 personnes traitant des données, pas de traitement à grande échelle de données sensibles).</p>
 
-<h3>2. Données collectées et finalités</h3>
-<p>Nous traitons uniquement les données que vous nous transmettez activement :</p>
+<h3>2. Hébergement du site</h3>
+<p>Le site est hébergé sur <strong>GitHub Pages</strong> (GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis). GitHub stocke automatiquement, à chaque visite, un fichier journal contenant l'adresse IP, la date/heure, l'URL appelée, l'agent utilisateur et la réponse HTTP, à des fins de sécurité et de prévention des abus. Le transfert vers les États-Unis s'appuie sur les Clauses Contractuelles Types de la Commission européenne et sur la certification de GitHub au Data Privacy Framework UE-USA. Politique de GitHub : <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">github.com/site-policy</a>.</p>
+
+<h3>3. Données collectées sur le site et finalités</h3>
+<p>Nous ne collectons que les données que vous nous transmettez activement :</p>
 <ul>
-  <li><strong>Formulaire de contact :</strong> nom, email, sujet, message — utilisés pour répondre à votre demande (base légale : art. 6 §1 f RGPD, intérêt légitime à communiquer).</li>
-  <li><strong>Newsletter :</strong> votre adresse email — utilisée pour vous envoyer nos actualités (base légale : art. 6 §1 a RGPD, consentement, retirable à tout moment via le lien de désinscription).</li>
-  <li><strong>Inscription aux ateliers :</strong> nom, email et informations transmises via notre formulaire d'inscription — utilisés pour gérer votre participation (base légale : art. 6 §1 b RGPD, exécution d'un contrat ou de mesures pré-contractuelles).</li>
+  <li><strong>Newsletter :</strong> votre adresse email et la langue choisie — utilisées pour vous envoyer nos actualités (base légale : art. 6 §1 a RGPD, consentement, retirable à tout moment en nous écrivant).</li>
+  <li><strong>Inscription aux ateliers :</strong> les données saisies dans le formulaire d'inscription Google Forms (voir section 4) — utilisées pour gérer votre participation (base légale : art. 6 §1 b RGPD, mesures pré-contractuelles).</li>
+  <li><strong>Compte administrateur :</strong> email + mot de passe haché — uniquement pour les membres du Vorstand qui gèrent le site (base légale : art. 6 §1 f RGPD, intérêt légitime à sécuriser l'accès au backend).</li>
+</ul>
+<p>Le site ne contient <strong>aucun formulaire de contact</strong> : vous nous écrivez directement à <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a>. Le traitement de cet email est régi par la politique de votre fournisseur de messagerie et par celle de Google (Gmail).</p>
+
+<h3>4. Sous-traitants et destinataires</h3>
+<ul>
+  <li><strong>Supabase</strong> (Supabase Inc., hébergement en UE — Francfort, Allemagne) : base de données, authentification administrateur et stockage des images. Sous-traitant au sens de l'art. 28 RGPD. Politique : <a href="https://supabase.com/privacy" target="_blank" rel="noopener">supabase.com/privacy</a>.</li>
+  <li><strong>YesTicket</strong> (yesticket.org) : nos billets de spectacles sont vendus via YesTicket. En cliquant sur « Plus d'infos » depuis la page Spectacles, vous quittez notre site et la politique de YesTicket s'applique.</li>
+  <li><strong>Google Forms / Google LLC</strong> (États-Unis) : lorsque vous cliquez sur le bouton du bandeau « Bannière » ou « Atelier » et qu'il pointe vers un Google Form, vous quittez notre site et entrez sur les services de Google. Politique : <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.</li>
+  <li><strong>Gmail / Google LLC</strong> : nos adresses email <code>liber.impro@gmail.com</code> et <code>polecommunication.liber.impro@gmail.com</code> sont hébergées chez Google. Tout courriel que vous nous envoyez transite donc par les serveurs de Google.</li>
 </ul>
 
-<h3>3. Sous-traitants et hébergement</h3>
-<p>Notre site et notre base de données sont hébergés par <strong>Supabase</strong> (datacenters européens, Francfort) en tant que sous-traitant au sens de l'art. 28 RGPD. Aucun transfert de données hors UE n'est effectué dans le cadre normal du service.</p>
+<h3>5. Polices d'écriture et CDN externes</h3>
+<p>Les polices d'écriture (Bangers, Fredoka, Nunito) sont <strong>hébergées localement</strong> sur le serveur du site. Aucune requête n'est faite vers Google Fonts et aucune adresse IP n'est transmise à Google pour le chargement des polices.</p>
+<p>La bibliothèque cliente Supabase est chargée depuis le CDN <strong>jsDelivr</strong> (StackPath). Aucune donnée personnelle n'est transmise lors de ce chargement, hormis l'adresse IP technique nécessaire à toute requête HTTP.</p>
 
-<h3>4. Cookies et stockage local</h3>
-<p>Ce site n'utilise pas de cookies de suivi ni d'analyse. Le seul stockage local utilisé est :</p>
+<h3>6. Cookies et stockage local</h3>
+<p>Ce site n'utilise ni cookies de suivi ni outils d'analyse (pas de Google Analytics, Matomo, Plausible, etc.). Le stockage local du navigateur est utilisé uniquement pour :</p>
 <ul>
-  <li>un jeton de session pour les comptes administrateur (strictement nécessaire, art. 6 §1 f RGPD).</li>
+  <li>mémoriser la langue choisie (FR / DE) — strictement nécessaire ;</li>
+  <li>maintenir la session d'un administrateur connecté — strictement nécessaire.</li>
 </ul>
+<p>Aucun consentement n'est requis pour ces usages au titre du § 25 al. 2 TTDSG.</p>
 
-<h3>5. Durée de conservation</h3>
-<p>Les messages reçus via le formulaire de contact sont conservés tant qu'ils sont nécessaires au traitement de votre demande, puis supprimés. Les abonnements à la newsletter sont conservés jusqu'à votre désinscription. Les inscriptions aux ateliers sont conservées pour la durée de la saison concernée.</p>
+<h3>7. Durée de conservation</h3>
+<p>Les abonnements à la newsletter sont conservés jusqu'à votre désinscription. Les inscriptions aux ateliers sont conservées pour la durée de la saison concernée, puis archivées ou supprimées. Les comptes administrateur sont conservés tant que la personne est habilitée par le Vorstand.</p>
 
-<h3>6. Vos droits</h3>
+<h3>8. Vos droits</h3>
 <p>Vous disposez à tout moment des droits suivants sur vos données :</p>
 <ul>
   <li>Droit d'accès (art. 15 RGPD)</li>
@@ -156,10 +177,14 @@ Email : <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a></p>
 </ul>
 <p>Pour exercer ces droits, écrivez-nous à <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a>.</p>
 
-<h3>7. Droit de réclamation</h3>
-<p>Vous avez le droit de déposer une réclamation auprès d'une autorité de contrôle, notamment l'autorité berlinoise pour la protection des données :<br>
+<h3>9. Droit de réclamation auprès d'une autorité de contrôle</h3>
+<p>Vous avez le droit de déposer une réclamation auprès de l'autorité berlinoise compétente :<br>
 <strong>Berliner Beauftragte für Datenschutz und Informationsfreiheit</strong><br>
-Friedrichstr. 219, 10969 Berlin — <a href="https://www.datenschutz-berlin.de" target="_blank" rel="noopener">datenschutz-berlin.de</a></p>`,
+Friedrichstr. 219, 10969 Berlin<br>
+Tél. +49 30 13 889-0 — <a href="https://www.datenschutz-berlin.de" target="_blank" rel="noopener">datenschutz-berlin.de</a></p>
+
+<h3>10. Modifications</h3>
+<p>Nous nous réservons le droit d'adapter cette politique pour qu'elle reste conforme à l'évolution de la réglementation. Dernière mise à jour : ${new Date().toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' })}.</p>`,
     /* Calendar */
     month_names:['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
     day_names:['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'],
@@ -248,62 +273,83 @@ Friedrichstr. 219, 10969 Berlin — <a href="https://www.datenschutz-berlin.de" 
     imprint_body:`<h2>Impressum gemäß § 5 TMG</h2>
 
 <h3>Anbieter</h3>
-<p><strong>LIBER — Ligue d'Improvisation de Berlin</strong><br>
-[Rechtsform: bitte ergänzen, z. B. e.V.]<br>
+<p><strong>LIBER — Ligue d'Improvisation de Berlin e.V.</strong><br>
 ACUD Theater<br>
 Veteranenstraße 21<br>
 10119 Berlin, Deutschland</p>
 
-<h3>Vertreten durch</h3>
-<p>Mitgründer·innen: Marjorie Nadal, Denis Aubert</p>
+<h3>Vertretungsberechtigter Vorstand</h3>
+<p>[Bitte ergänzen: Namen und Funktionen der Vorstandsmitglieder — z. B. „Marjorie Nadal (1. Vorsitzende), Denis Aubert (2. Vorsitzender)"]</p>
 
 <h3>Kontakt</h3>
 <p>E-Mail: <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a><br>
 Presse: <a href="mailto:polecommunication.liber.impro@gmail.com">polecommunication.liber.impro@gmail.com</a></p>
 
 <h3>Registereintrag</h3>
-<p>Vereinsregister: [Nummer und Registergericht ergänzen]<br>
-Umsatzsteuer-ID/Steuernummer: [ggf. ergänzen]</p>
+<p>Vereinsregister: <strong>[VR-Nummer bitte ergänzen, z. B. VR 12345 B]</strong><br>
+Registergericht: <strong>[Amtsgericht bitte ergänzen, z. B. Amtsgericht Charlottenburg]</strong></p>
+
+<h3>Steuerliche Angaben</h3>
+<p>[Bitte nach Klärung der steuerlichen Situation des Vereins ergänzen — z. B.:<br>
+• „LIBER e.V. ist als gemeinnützig im Sinne des § 52 AO anerkannt und gemäß § 19 UStG von der Umsatzsteuer befreit.", oder<br>
+• „Steuernummer: XX/XXX/XXXXX", oder<br>
+• „Umsatzsteuer-Identifikationsnummer (USt-IdNr.): DE XXX XXX XXX".]</p>
 
 <h3>Verantwortlich für den Inhalt gemäß § 18 Abs. 2 MStV</h3>
-<p>Marjorie Nadal &amp; Denis Aubert, Anschrift wie oben.</p>
+<p>[Vollständiger Name und ladungsfähige Anschrift — eine Postadresse, an der die Person tatsächlich erreichbar ist, nicht ausschließlich die Theater-Adresse.]</p>
 
-<h3>Streitschlichtung</h3>
+<h3>Online-Streitbeilegung</h3>
 <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">https://ec.europa.eu/consumers/odr</a>. Wir sind nicht verpflichtet und nicht bereit, an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
 
 <h3>Haftungsausschluss</h3>
-<p><strong>Inhalte:</strong> Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen.</p>
-<p><strong>Externe Links:</strong> Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter verantwortlich.</p>
-<p><strong>Urheberrecht:</strong> Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Vervielfältigung, Bearbeitung, Verbreitung jeder Art bedürfen der schriftlichen Zustimmung der jeweiligen Autor·innen.</p>`,
+<p><strong>Inhalte:</strong> Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.</p>
+<p><strong>Externe Links:</strong> Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft; rechtswidrige Inhalte waren nicht erkennbar. Eine permanente inhaltliche Kontrolle ohne konkrete Anhaltspunkte einer Rechtsverletzung ist nicht zumutbar.</p>
+<p><strong>Urheberrecht:</strong> Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts bedürfen der schriftlichen Zustimmung der jeweiligen Autor·innen.</p>`,
     privacy_title:'Datenschutzerklärung',
     privacy_body:`<h2>Datenschutzerklärung (DSGVO)</h2>
 
 <h3>1. Verantwortlicher</h3>
-<p><strong>LIBER — Ligue d'Improvisation de Berlin</strong><br>
+<p><strong>LIBER — Ligue d'Improvisation de Berlin e.V.</strong><br>
 ACUD Theater, Veteranenstraße 21, 10119 Berlin, Deutschland<br>
 E-Mail: <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a></p>
+<p>Es wurde kein Datenschutzbeauftragter bestellt: LIBER e.V. erfüllt weder die Schwellen des Art. 37 DSGVO noch die des § 38 BDSG (weniger als 20 mit der Datenverarbeitung beschäftigte Personen, keine umfangreiche Verarbeitung besonderer Datenkategorien).</p>
 
-<h3>2. Erhobene Daten und Zwecke</h3>
-<p>Wir verarbeiten ausschließlich Daten, die Sie uns aktiv übermitteln:</p>
+<h3>2. Hosting der Website</h3>
+<p>Die Website wird bei <strong>GitHub Pages</strong> (GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA) gehostet. GitHub speichert bei jedem Aufruf automatisch ein Server-Logfile mit IP-Adresse, Datum/Uhrzeit, aufgerufener URL, User-Agent und HTTP-Status, um Sicherheit zu gewährleisten und Missbrauch zu verhindern. Der Transfer in die USA stützt sich auf die Standardvertragsklauseln der EU-Kommission sowie auf die Zertifizierung von GitHub unter dem EU-USA Data Privacy Framework. Datenschutzhinweise von GitHub: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">github.com/site-policy</a>.</p>
+
+<h3>3. Auf der Website erhobene Daten und Zwecke</h3>
+<p>Wir erheben nur Daten, die Sie uns aktiv übermitteln:</p>
 <ul>
-  <li><strong>Kontaktformular:</strong> Name, E-Mail, Betreff, Nachricht — zur Bearbeitung Ihrer Anfrage (Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO, berechtigtes Interesse an Kommunikation).</li>
-  <li><strong>Newsletter:</strong> Ihre E-Mail-Adresse — zum Versand unserer Neuigkeiten (Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO, Einwilligung, jederzeit widerruflich über den Abmeldelink).</li>
-  <li><strong>Workshop-Anmeldung:</strong> Name, E-Mail und im Formular angegebene Informationen — zur Verwaltung Ihrer Teilnahme (Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO, Erfüllung eines Vertrags oder vorvertraglicher Maßnahmen).</li>
+  <li><strong>Newsletter:</strong> Ihre E-Mail-Adresse und die gewählte Sprache — zum Versand unserer Neuigkeiten (Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO, Einwilligung, jederzeit widerruflich per E-Mail an uns).</li>
+  <li><strong>Workshop-Anmeldung:</strong> Die Daten, die Sie in das Google-Forms-Anmeldeformular eingeben (siehe Abschnitt 4) — zur Verwaltung Ihrer Teilnahme (Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO, vorvertragliche Maßnahmen).</li>
+  <li><strong>Administrator-Konto:</strong> E-Mail-Adresse + gehashtes Passwort — ausschließlich für Vorstandsmitglieder zur Verwaltung der Website (Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO, berechtigtes Interesse an der Sicherung des Backends).</li>
+</ul>
+<p>Die Website enthält <strong>kein Kontaktformular</strong>: Sie schreiben uns direkt an <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a>. Die Verarbeitung dieser E-Mail unterliegt den Bestimmungen Ihres E-Mail-Anbieters sowie denen von Google (Gmail).</p>
+
+<h3>4. Auftragsverarbeiter und Empfänger</h3>
+<ul>
+  <li><strong>Supabase</strong> (Supabase Inc., Hosting in der EU — Frankfurt, Deutschland): Datenbank, Administrator-Authentifizierung und Bildspeicher. Auftragsverarbeiter im Sinne des Art. 28 DSGVO. Datenschutz: <a href="https://supabase.com/privacy" target="_blank" rel="noopener">supabase.com/privacy</a>.</li>
+  <li><strong>YesTicket</strong> (yesticket.org): Unsere Aufführungs-Tickets werden über YesTicket verkauft. Wenn Sie auf der Aufführungs-Seite auf „Mehr Infos" klicken, verlassen Sie unsere Website und es gilt die Datenschutzerklärung von YesTicket.</li>
+  <li><strong>Google Forms / Google LLC</strong> (USA): Wenn Sie auf den Button im Banner oder im Workshop-Anmeldebereich klicken und dieser auf ein Google Form verweist, verlassen Sie unsere Website und nutzen die Dienste von Google. Datenschutz: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.</li>
+  <li><strong>Gmail / Google LLC</strong>: Unsere E-Mail-Adressen <code>liber.impro@gmail.com</code> und <code>polecommunication.liber.impro@gmail.com</code> werden bei Google gehostet. E-Mails, die Sie uns schicken, werden also über Google-Server geleitet.</li>
 </ul>
 
-<h3>3. Auftragsverarbeiter und Hosting</h3>
-<p>Unsere Website und Datenbank werden bei <strong>Supabase</strong> (EU-Rechenzentren, Frankfurt) als Auftragsverarbeiter im Sinne des Art. 28 DSGVO gehostet. Im normalen Betrieb findet keine Datenübermittlung außerhalb der EU statt.</p>
+<h3>5. Schriften und externe CDNs</h3>
+<p>Die Schriftarten (Bangers, Fredoka, Nunito) werden <strong>lokal vom Server</strong> dieser Website ausgeliefert. Es wird keine Anfrage an Google Fonts gestellt und keine IP-Adresse an Google übermittelt, um die Schriftarten zu laden.</p>
+<p>Die Supabase-Client-Bibliothek wird vom CDN <strong>jsDelivr</strong> (StackPath) geladen. Hierbei werden außer der technisch erforderlichen IP-Adresse keine personenbezogenen Daten übertragen.</p>
 
-<h3>4. Cookies und lokaler Speicher</h3>
-<p>Diese Website verwendet keine Tracking- oder Analyse-Cookies. Lediglich folgender lokaler Speicher wird genutzt:</p>
+<h3>6. Cookies und lokaler Speicher</h3>
+<p>Diese Website verwendet weder Tracking-Cookies noch Analyse-Tools (kein Google Analytics, Matomo, Plausible o. ä.). Der lokale Browser-Speicher wird ausschließlich für Folgendes genutzt:</p>
 <ul>
-  <li>ein Sitzungs-Token für Administrator-Konten (zwingend erforderlich, Art. 6 Abs. 1 lit. f DSGVO).</li>
+  <li>Speichern der gewählten Sprache (FR / DE) — zwingend erforderlich;</li>
+  <li>Aufrechterhaltung der Sitzung eines eingeloggten Administrators — zwingend erforderlich.</li>
 </ul>
+<p>Für diese Zwecke ist gemäß § 25 Abs. 2 TTDSG keine Einwilligung erforderlich.</p>
 
-<h3>5. Speicherdauer</h3>
-<p>Über das Kontaktformular eingegangene Nachrichten werden so lange aufbewahrt, wie es zur Bearbeitung erforderlich ist, und anschließend gelöscht. Newsletter-Abonnements bleiben bis zur Abmeldung gespeichert. Workshop-Anmeldungen werden für die Dauer der jeweiligen Saison aufbewahrt.</p>
+<h3>7. Speicherdauer</h3>
+<p>Newsletter-Abonnements bleiben bis zur Abmeldung gespeichert. Workshop-Anmeldungen werden für die Dauer der jeweiligen Saison aufbewahrt und anschließend archiviert oder gelöscht. Administrator-Konten bleiben so lange bestehen, wie die Person vom Vorstand dazu berechtigt ist.</p>
 
-<h3>6. Ihre Rechte</h3>
+<h3>8. Ihre Rechte</h3>
 <p>Sie haben jederzeit folgende Rechte bezüglich Ihrer Daten:</p>
 <ul>
   <li>Auskunftsrecht (Art. 15 DSGVO)</li>
@@ -316,10 +362,14 @@ E-Mail: <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a></p>
 </ul>
 <p>Zur Ausübung dieser Rechte schreiben Sie uns an <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a>.</p>
 
-<h3>7. Beschwerderecht</h3>
-<p>Sie haben das Recht, Beschwerde bei einer Aufsichtsbehörde einzulegen, insbesondere bei der zuständigen Berliner Behörde:<br>
+<h3>9. Beschwerderecht bei einer Aufsichtsbehörde</h3>
+<p>Sie haben das Recht, Beschwerde bei der zuständigen Berliner Aufsichtsbehörde einzulegen:<br>
 <strong>Berliner Beauftragte für Datenschutz und Informationsfreiheit</strong><br>
-Friedrichstr. 219, 10969 Berlin — <a href="https://www.datenschutz-berlin.de" target="_blank" rel="noopener">datenschutz-berlin.de</a></p>`,
+Friedrichstr. 219, 10969 Berlin<br>
+Tel. +49 30 13 889-0 — <a href="https://www.datenschutz-berlin.de" target="_blank" rel="noopener">datenschutz-berlin.de</a></p>
+
+<h3>10. Änderungen</h3>
+<p>Wir behalten uns vor, diese Erklärung an geänderte Rechtslagen oder Änderungen unserer Dienste anzupassen. Letzte Aktualisierung: ${new Date().toLocaleDateString('de-DE', { year: 'numeric', month: 'long' })}.</p>`,
     /* Calendar */
     month_names:['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
     day_names:['Mo','Di','Mi','Do','Fr','Sa','So'],
