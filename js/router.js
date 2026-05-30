@@ -35,7 +35,14 @@ function showPage(id, opts = {}) {
     contact: () => {},
     imprint: () => renderLegalPage('imprint'),
     privacy: () => renderLegalPage('privacy'),
-    admin:   () => { if (currentUser?.role === 'admin') { renderAdminShows(); renderAdminMembers(); renderAdminCourses(); } },
+    admin:   () => {
+      if (currentUser?.role !== 'admin') return;
+      // Pre-render all data CRUD widgets so they're ready when the admin
+      // clicks the sidebar (no waiting for re-render on each click).
+      renderAdminShows(); renderAdminMembers(); renderAdminCourses(); renderAdminMedia();
+      // Default active section = Home. Render its text/image editor.
+      renderAdminContent('home', 'adminTextFields_home');
+    },
   };
   if (renderMap[id]) renderMap[id]();
 

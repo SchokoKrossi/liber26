@@ -463,23 +463,26 @@
 <div class="page" id="adminPage">
   <div class="admin-layout">
 
-    <!-- Sidebar -->
+    <!-- Sidebar — each section also hosts the texts & images for that page -->
     <div class="admin-sidebar">
       <h4>Dashboard</h4>
-      <div class="admin-nav-item active" onclick="adminSection('texts', this)">
-        📝 <span data-i18n="admin_texts">Textes & Images</span>
-      </div>
-      <div class="admin-nav-item" onclick="adminSection('shows', this)">
-        🎭 <span data-i18n="admin_shows_menu">Spectacles</span>
+      <div class="admin-nav-item active" onclick="adminSection('home', this)">
+        🏠 Accueil
       </div>
       <div class="admin-nav-item" onclick="adminSection('members', this)">
         👥 <span data-i18n="admin_members_menu">Membres</span>
+      </div>
+      <div class="admin-nav-item" onclick="adminSection('shows', this)">
+        🎭 <span data-i18n="admin_shows_menu">Spectacles</span>
       </div>
       <div class="admin-nav-item" onclick="adminSection('courses', this)">
         📚 <span data-i18n="admin_courses_menu">Ateliers</span>
       </div>
       <div class="admin-nav-item" onclick="adminSection('media', this)">
         🎬 Médias
+      </div>
+      <div class="admin-nav-item" onclick="adminSection('contact', this)">
+        ✉️ Contact
       </div>
       <br>
       <div class="admin-nav-item" onclick="logoutUser()"
@@ -491,37 +494,36 @@
     <!-- Content -->
     <div class="admin-content">
 
-      <!-- ── TEXTS & IMAGES (default active section) ── -->
-      <div class="admin-section active" id="adminSec_texts">
-        <h2>📝 Textes &amp; Images</h2>
-        <div class="admin-page-tabs" id="adminPageTabs">
-          <button class="admin-page-tab active"
-            onclick="adminContentTab('home',this)">🏠 Accueil</button>
-          <button class="admin-page-tab"
-            onclick="adminContentTab('about',this)">👥 À propos</button>
-          <button class="admin-page-tab"
-            onclick="adminContentTab('courses',this)">📚 Cours</button>
-          <button class="admin-page-tab"
-            onclick="adminContentTab('shows',this)">🎭 Spectacles</button>
-          <button class="admin-page-tab"
-            onclick="adminContentTab('contact',this)">✉️ Contact</button>
-        </div>
-        <div id="adminContentFields"></div>
+      <!-- ── HOME — texts, hero image, logo ── -->
+      <div class="admin-section active" id="adminSec_home">
+        <h2>🏠 Page d'accueil</h2>
+        <div id="adminTextFields_home"></div>
       </div>
 
-      <!-- ── SHOWS ── -->
+      <!-- ── MEMBERS — list CRUD + About page texts & image ── -->
+      <div class="admin-section" id="adminSec_members">
+        <h2 data-i18n="admin_members_h">Gestion des membres</h2>
+        <div id="adminMembersListAdmin"></div>
+
+        <h3 style="margin:2.5rem 0 1rem;font-family:var(--font-display);font-size:1.4rem;color:rgba(255,255,255,.85)">
+          📝 Textes &amp; image de la page « À propos »
+        </h3>
+        <div id="adminTextFields_about"></div>
+      </div>
+
+      <!-- ── SHOWS — yesticket sync + read-only list + Shows page texts ── -->
       <div class="admin-section" id="adminSec_shows">
         <h2 data-i18n="admin_shows_h">Gestion des spectacles</h2>
 
-        <!-- YesTicket sync — pulls events from the LIBER YesTicket iCal feed -->
+        <!-- YesTicket sync -->
         <div class="admin-card">
           <h4>🔄 Synchronisation YesTicket</h4>
           <p style="color:rgba(255,255,255,.55);font-size:.82rem;margin-bottom:.8rem">
             Importe les événements depuis
             <a href="https://www.yesticket.org/events/fr/liber-ligue-dimpro-de-berlin" target="_blank" rel="noopener"
                style="color:var(--liber-yellow)">yesticket.org/&hellip;/liber-ligue-dimpro-de-berlin</a>.
-            Les spectacles ajoutés manuellement ne sont jamais effacés. Une synchronisation automatique
-            tourne chaque jour à 06:00 UTC ; cliquez ci-dessous pour la déclencher immédiatement.
+            La synchronisation automatique tourne chaque jour à 06:00 UTC&nbsp;; cliquez ci-dessous
+            pour la déclencher immédiatement.
           </p>
           <button class="admin-save-btn" id="btnYesTicketSync" onclick="adminSyncYesTicket()">🔄 Synchroniser maintenant</button>
           <span id="ytSyncStatus" style="margin-left:1rem;font-size:.82rem;color:rgba(255,255,255,.55)"></span>
@@ -529,25 +531,22 @@
 
         <div class="admin-card" id="adminShowsList"></div>
         <p style="color:rgba(255,255,255,.45);font-size:.8rem;margin-top:.6rem">
-          Les spectacles sont gérés exclusivement via YesTicket. Pour ajouter
-          ou modifier un événement, utilisez votre compte
+          Les spectacles sont gérés exclusivement via
           <a href="https://www.yesticket.org" target="_blank" rel="noopener"
-             style="color:var(--liber-yellow)">yesticket.org</a>,
-          puis cliquez sur <strong>🔄 Synchroniser maintenant</strong> ci-dessus.
+             style="color:var(--liber-yellow)">yesticket.org</a>.
         </p>
+
+        <h3 style="margin:2.5rem 0 1rem;font-family:var(--font-display);font-size:1.4rem;color:rgba(255,255,255,.85)">
+          📝 Textes de la page « Spectacles »
+        </h3>
+        <div id="adminTextFields_shows"></div>
       </div>
 
-      <!-- ── MEMBERS ── -->
-      <div class="admin-section" id="adminSec_members">
-        <h2 data-i18n="admin_members_h">Gestion des membres</h2>
-        <div id="adminMembersListAdmin"></div>
-      </div>
-
-      <!-- ── COURSES / ATELIERS ── -->
+      <!-- ── COURSES / ATELIERS — reg toggle + CRUD + page texts & image ── -->
       <div class="admin-section" id="adminSec_courses">
         <h2 data-i18n="admin_courses_h">Gestion des ateliers</h2>
 
-        <!-- Registration toggle (moved from old Général tab) -->
+        <!-- Registration toggle -->
         <div class="admin-card">
           <h4 data-i18n="admin_reg_status">Statut des inscriptions</h4>
           <div class="reg-toggle-row">
@@ -562,12 +561,23 @@
         </div>
 
         <div id="adminCoursesListAdmin"></div>
+
+        <h3 style="margin:2.5rem 0 1rem;font-family:var(--font-display);font-size:1.4rem;color:rgba(255,255,255,.85)">
+          📝 Textes &amp; image de la page « Ateliers »
+        </h3>
+        <div id="adminTextFields_courses"></div>
       </div>
 
       <!-- ── MEDIA ── -->
       <div class="admin-section" id="adminSec_media">
         <h2>🎬 Médias — Vidéos &amp; Galerie</h2>
         <div id="adminMediaContent"></div>
+      </div>
+
+      <!-- ── CONTACT — info + page texts ── -->
+      <div class="admin-section" id="adminSec_contact">
+        <h2>✉️ Contact</h2>
+        <div id="adminTextFields_contact"></div>
       </div>
 
     </div><!-- /admin-content -->

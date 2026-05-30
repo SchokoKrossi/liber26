@@ -155,33 +155,36 @@ const ADMIN_PAGES = {
 
 // ═══════════════════════════════════════════════════════════
 // SECTION SWITCHING
+// Each sidebar section can host BOTH a data CRUD widget AND a
+// texts/images editor (rendered into adminTextFields_<page>).
 // ═══════════════════════════════════════════════════════════
+//
+// Mapping: sidebar id  →  { data render, ADMIN_PAGES key for texts }
+const _SECTION_MAP = {
+  home:    { data: null,                content: 'home',    container: 'adminTextFields_home'    },
+  members: { data: renderAdminMembers,  content: 'about',   container: 'adminTextFields_about'   },
+  shows:   { data: renderAdminShows,    content: 'shows',   container: 'adminTextFields_shows'   },
+  courses: { data: renderAdminCourses,  content: 'courses', container: 'adminTextFields_courses' },
+  media:   { data: renderAdminMedia,    content: null,      container: null                      },
+  contact: { data: null,                content: 'contact', container: 'adminTextFields_contact' },
+};
+
 function adminSection(id, btn) {
   document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.admin-nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('adminSec_'+id)?.classList.add('active');
   if (btn) btn.classList.add('active');
-  if (id==='texts')   renderAdminContent('home');
-  if (id==='shows')   renderAdminShows();
-  if (id==='members') renderAdminMembers();
-  if (id==='courses') renderAdminCourses();
-  if (id==='media')   renderAdminMedia();
-}
-
-let _curContentPage = 'home';
-function adminContentTab(page, btn) {
-  _curContentPage = page;
-  document.querySelectorAll('.admin-page-tab').forEach(b=>b.classList.remove('active'));
-  btn?.classList.add('active');
-  renderAdminContent(page);
+  const cfg = _SECTION_MAP[id]; if (!cfg) return;
+  if (typeof cfg.data === 'function') cfg.data();
+  if (cfg.content && cfg.container)   renderAdminContent(cfg.content, cfg.container);
 }
 
 // ═══════════════════════════════════════════════════════════
 // CONTENT EDITOR
 // ═══════════════════════════════════════════════════════════
-function renderAdminContent(page) {
-  _curContentPage = page;
-  const container = document.getElementById('adminContentFields'); if(!container) return;
+function renderAdminContent(page, containerId) {
+  containerId = containerId || 'adminContentFields';   // back-compat fallback
+  const container = document.getElementById(containerId); if(!container) return;
   const pageDef = ADMIN_PAGES[page]; if(!pageDef){ container.innerHTML=''; return; }
   container.innerHTML = pageDef.fields.map(f=>_buildCard(f)).join('');
   pageDef.fields.forEach(f=>_populateField(f));
