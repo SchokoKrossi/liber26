@@ -6,7 +6,7 @@ const I18N = {
   fr: {
     /* Nav */
     nav_home:'Accueil', nav_about:'À propos', nav_courses:'Ateliers',
-    nav_shows:'Spectacles', nav_contact:'Contact', nav_login:'Connexion',
+    nav_shows:'Spectacles & billets', nav_contact:'Contact', nav_login:'Connexion',
     /* Hero */
     hero_eyebrow:"Une ligue d'improvisation franco-allemande",
     hero_word1:'Bienvenue', hero_word2:'chez LIBER !',
@@ -192,7 +192,7 @@ Tél. +49 30 13 889-0 — <a href="https://www.datenschutz-berlin.de" target="_b
   de: {
     /* Nav */
     nav_home:'Startseite', nav_about:'Über uns', nav_courses:'Workshops',
-    nav_shows:'Aufführungen', nav_contact:'Kontakt', nav_login:'Anmelden',
+    nav_shows:'Spielplan & Tickets', nav_contact:'Kontakt', nav_login:'Anmelden',
     /* Hero */
     hero_eyebrow:'Deutsch-französische Improvisationsliga in Berlin',
     hero_word1:'Willkommen', hero_word2:'bei LIBER!',
