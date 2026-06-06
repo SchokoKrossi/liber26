@@ -81,6 +81,17 @@
 }
 .show-meta .value { font-family: var(--font-display); font-size: 1.4rem; }
 .show-meta .sub   { font-size: 0.9rem; color: rgba(255,255,255,0.6); }
+/* Banner image (YesTicket event picture) */
+.next-show-image {
+  width: 200px; aspect-ratio: 16 / 9;
+  object-fit: cover; border-radius: 12px;
+  flex-shrink: 0;
+  display: block;
+}
+.next-show-image.hidden { display: none; }
+@media (max-width: 600px) {
+  .next-show-image { width: 100%; }
+}
 
 /* ═══════════════════════════════════════════════════════════
    ABOUT — layout, image box, members grid
@@ -301,8 +312,16 @@
 }
 .show-date-box .day   { font-family: var(--font-display); font-size: 1.8rem; line-height: 1; color: var(--dark); }
 .show-date-box .month { font-size: 0.75rem; font-weight: 900; text-transform: uppercase; color: var(--dark); letter-spacing: 1px; }
+.show-image   {
+  width: 180px; aspect-ratio: 16 / 9;
+  object-fit: cover; border-radius: 12px;
+  flex-shrink: 0;
+}
 .show-details { flex: 1; min-width: 180px; }
 .show-name    { font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 0.3rem; }
+@media (max-width: 600px) {
+  .show-image { width: 100%; }
+}
 .show-venue   { font-size: 0.9rem; color: rgba(255,255,255,0.6); }
 .show-time    { font-size: 0.82rem; color: rgba(255,255,255,0.45); margin-top: 0.2rem; }
 

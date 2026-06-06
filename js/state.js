@@ -34,8 +34,8 @@ let galleryPhotos = [];
 // ── DB ↔ JS field mapping ─────────────────────────────────────
 // Database uses snake_case; the existing app code uses camelCase
 // for bilingual fields (titleFR, titleDE, captionFR, captionDE).
-const _showFromDB  = r => ({ id:r.id, date:r.date, time:r.time, titleFR:r.title_fr, titleDE:r.title_de||'', venue:r.venue, tickets:r.tickets||'#' });
-const _showToDB    = j => ({ date:j.date, time:j.time, title_fr:j.titleFR, title_de:j.titleDE, venue:j.venue, tickets:j.tickets });
+const _showFromDB  = r => ({ id:r.id, date:r.date, time:r.time, titleFR:r.title_fr, titleDE:r.title_de||'', venue:r.venue, tickets:r.tickets||'#', imageUrl:r.image_url||'' });
+const _showToDB    = j => ({ date:j.date, time:j.time, title_fr:j.titleFR, title_de:j.titleDE, venue:j.venue, tickets:j.tickets, image_url:j.imageUrl||null });
 
 const _memberFromDB= r => ({ id:r.id, name:r.name, role:r.role||'', bio:r.bio||'', photo:r.photo||'', bg:r.bg||'', email:r.email||'', visible:!!r.visible });
 const _memberToDB  = j => ({ name:j.name, role:j.role, bio:j.bio, photo:j.photo, bg:j.bg, email:j.email, visible:j.visible });

@@ -35,6 +35,19 @@ function _cleanTitle(s) {
   return s.replace(/\s*\(LIBER,?\s*Ligue d['']Impro de Berlin\)\s*$/i, '').trim();
 }
 
+/** Extract the YesTicket numeric event ID from the iCal UID
+ *  (UIDs look like "19358_<hash>" — we want just the leading digits). */
+function _eventIdFromUid(uid) {
+  const m = (uid || '').match(/^(\d+)/);
+  return m ? m[1] : null;
+}
+
+/** Build the YesTicket banner image URL for an event (~1200×628 OG-style). */
+function _imageUrlFor(eventId) {
+  if (!eventId) return '';
+  return `https://cdn.yesticket.org/picture_me.php?type=event&id=${eventId}&width=1200&height=628`;
+}
+
 /** Parse iCal text into an array of show objects. */
 function parseYesTicketIcal(text) {
   const lines = _unfold(text).split(/\r?\n/);
@@ -43,7 +56,10 @@ function parseYesTicketIcal(text) {
   for (const raw of lines) {
     if (raw === 'BEGIN:VEVENT') { current = {}; continue; }
     if (raw === 'END:VEVENT')   {
-      if (current && current.date) events.push(current);
+      if (current && current.date) {
+        current.image = _imageUrlFor(_eventIdFromUid(current.uid));
+        events.push(current);
+      }
       current = null; continue;
     }
     if (!current) continue;
@@ -53,6 +69,7 @@ function parseYesTicketIcal(text) {
     const val  = raw.slice(colon + 1);
     const name = head.split(';')[0].toUpperCase();
     switch (name) {
+      case 'UID':      current.uid     = val.trim(); break;
       case 'SUMMARY':  current.title   = _cleanTitle(_unescapeIcs(val)); break;
       case 'DTSTART':  { const { date, time } = _parseDTStart(val); current.date = date; current.time = time; break; }
       case 'LOCATION': current.venue   = _unescapeIcs(val).trim(); break;
@@ -64,12 +81,13 @@ function parseYesTicketIcal(text) {
 
 function _eventToShowRow(ev) {
   return {
-    date:     ev.date,
-    time:     ev.time || '20:00',
-    title_fr: ev.title || '',
-    title_de: ev.title || '',
-    venue:    ev.venue || '',
-    tickets:  ev.tickets || '',
+    date:      ev.date,
+    time:      ev.time || '20:00',
+    title_fr:  ev.title || '',
+    title_de:  ev.title || '',
+    venue:     ev.venue || '',
+    tickets:   ev.tickets || '',
+    image_url: ev.image || null,
   };
 }
 

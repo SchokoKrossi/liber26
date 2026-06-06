@@ -30,22 +30,39 @@ function cleanTitle(s) {
   return s.replace(/\s*\(LIBER,?\s*Ligue d['']Impro de Berlin\)\s*$/i, '').trim();
 }
 
+function eventIdFromUid(uid) {
+  const m = (uid || '').match(/^(\d+)/);
+  return m ? m[1] : null;
+}
+function imageUrlFor(eventId) {
+  return eventId
+    ? `https://cdn.yesticket.org/picture_me.php?type=event&id=${eventId}&width=1200&height=628`
+    : null;
+}
+
 function parseIcal(text) {
   const lines = unfold(text).split(/\r?\n/);
   const events = [];
   let cur = null;
   for (const raw of lines) {
     if (raw === 'BEGIN:VEVENT') { cur = {}; continue; }
-    if (raw === 'END:VEVENT')   { if (cur && cur.date) events.push(cur); cur = null; continue; }
+    if (raw === 'END:VEVENT')   {
+      if (cur && cur.date) {
+        cur.image = imageUrlFor(eventIdFromUid(cur.uid));
+        events.push(cur);
+      }
+      cur = null; continue;
+    }
     if (!cur) continue;
     const colon = raw.indexOf(':');
     if (colon < 0) continue;
     const name = raw.slice(0, colon).split(';')[0].toUpperCase();
     const val  = raw.slice(colon + 1);
     switch (name) {
-      case 'SUMMARY':  cur.title = cleanTitle(unescapeIcs(val)); break;
+      case 'UID':      cur.uid     = val.trim(); break;
+      case 'SUMMARY':  cur.title   = cleanTitle(unescapeIcs(val)); break;
       case 'DTSTART':  { const { date, time } = parseDTStart(val); cur.date = date; cur.time = time; break; }
-      case 'LOCATION': cur.venue = unescapeIcs(val).trim(); break;
+      case 'LOCATION': cur.venue   = unescapeIcs(val).trim(); break;
       case 'URL':      cur.tickets = val.trim(); break;
     }
   }
@@ -57,6 +74,7 @@ function eventToRow(ev) {
     date: ev.date, time: ev.time || '20:00',
     title_fr: ev.title || '', title_de: ev.title || '',
     venue: ev.venue || '', tickets: ev.tickets || '',
+    image_url: ev.image || null,
   };
 }
 

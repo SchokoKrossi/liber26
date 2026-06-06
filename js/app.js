@@ -23,6 +23,19 @@ function renderNextShowBanner() {
   if (venueEl) venueEl.textContent = next.venue;
   if (linkEl)  linkEl.href         = next.tickets || '#';
 
+  // YesTicket banner image (if synced — column may be empty for old rows)
+  const imgEl = document.getElementById('nextShowImage');
+  if (imgEl) {
+    if (next.imageUrl) {
+      imgEl.src = next.imageUrl;
+      imgEl.alt = (currentLang === 'fr' ? next.titleFR : next.titleDE) || '';
+      imgEl.classList.remove('hidden');
+      imgEl.onerror = () => imgEl.classList.add('hidden');
+    } else {
+      imgEl.classList.add('hidden');
+    }
+  }
+
   document.getElementById('regOpenBanner')?.classList.toggle('hidden', !registrationsOpen);
 }
 
@@ -167,14 +180,21 @@ function renderShows() {
   const months = I18N[currentLang].month_names;
   list.innerHTML = future.map(s => {
     const d = new Date(s.date);
+    const title = currentLang==='fr' ? s.titleFR : s.titleDE;
+    const escAttr = v => (v||'').replace(/"/g, '&quot;');
+    const img = s.imageUrl
+      ? `<img class="show-image" src="${escAttr(s.imageUrl)}" alt="${escAttr(title)}"
+              loading="lazy" onerror="this.style.display='none'" />`
+      : '';
     return `
     <div class="show-item">
       <div class="show-date-box">
         <div class="day">${d.getDate()}</div>
         <div class="month">${months[d.getMonth()].slice(0,3).toUpperCase()}</div>
       </div>
+      ${img}
       <div class="show-details">
-        <div class="show-name">${currentLang==='fr'?s.titleFR:s.titleDE}</div>
+        <div class="show-name">${title}</div>
         <div class="show-venue">📍 ${s.venue}</div>
         <div class="show-time">🕗 ${s.time}</div>
       </div>
