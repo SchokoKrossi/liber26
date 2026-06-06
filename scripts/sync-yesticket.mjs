@@ -40,6 +40,15 @@ function imageUrlFor(eventId) {
     : null;
 }
 
+/** YesTicket convention: German first, dashes divider, then French. */
+function splitDescription(desc) {
+  if (!desc) return { de: '', fr: '' };
+  const parts = desc.split(/\n\s*-{20,}\s*\n/);
+  if (parts.length >= 2) return { de: parts[0].trim(), fr: parts.slice(1).join('\n').trim() };
+  const t = desc.trim();
+  return { de: t, fr: t };
+}
+
 function parseIcal(text) {
   const lines = unfold(text).split(/\r?\n/);
   const events = [];
@@ -49,6 +58,9 @@ function parseIcal(text) {
     if (raw === 'END:VEVENT')   {
       if (cur && cur.date) {
         cur.image = imageUrlFor(eventIdFromUid(cur.uid));
+        const { de, fr } = splitDescription(cur.description || '');
+        cur.descriptionDE = de;
+        cur.descriptionFR = fr;
         events.push(cur);
       }
       cur = null; continue;
@@ -59,11 +71,12 @@ function parseIcal(text) {
     const name = raw.slice(0, colon).split(';')[0].toUpperCase();
     const val  = raw.slice(colon + 1);
     switch (name) {
-      case 'UID':      cur.uid     = val.trim(); break;
-      case 'SUMMARY':  cur.title   = cleanTitle(unescapeIcs(val)); break;
-      case 'DTSTART':  { const { date, time } = parseDTStart(val); cur.date = date; cur.time = time; break; }
-      case 'LOCATION': cur.venue   = unescapeIcs(val).trim(); break;
-      case 'URL':      cur.tickets = val.trim(); break;
+      case 'UID':         cur.uid         = val.trim(); break;
+      case 'SUMMARY':     cur.title       = cleanTitle(unescapeIcs(val)); break;
+      case 'DTSTART':     { const { date, time } = parseDTStart(val); cur.date = date; cur.time = time; break; }
+      case 'LOCATION':    cur.venue       = unescapeIcs(val).trim(); break;
+      case 'URL':         cur.tickets     = val.trim(); break;
+      case 'DESCRIPTION': cur.description = unescapeIcs(val); break;
     }
   }
   return events;
@@ -75,6 +88,8 @@ function eventToRow(ev) {
     title_fr: ev.title || '', title_de: ev.title || '',
     venue: ev.venue || '', tickets: ev.tickets || '',
     image_url: ev.image || null,
+    description_fr: ev.descriptionFR || null,
+    description_de: ev.descriptionDE || null,
   };
 }
 

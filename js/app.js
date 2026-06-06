@@ -178,27 +178,39 @@ function renderShows() {
   const future = [...shows].sort((a,b)=>new Date(a.date)-new Date(b.date))
                             .filter(s=>new Date(s.date)>=TODAY);
   const months = I18N[currentLang].month_names;
+  const escHtml = v => (v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const escAttr = v => (v||'').replace(/"/g, '&quot;');
+
   list.innerHTML = future.map(s => {
     const d = new Date(s.date);
     const title = currentLang==='fr' ? s.titleFR : s.titleDE;
-    const escAttr = v => (v||'').replace(/"/g, '&quot;');
+    const desc  = currentLang==='fr' ? s.descriptionFR : s.descriptionDE;
     const img = s.imageUrl
       ? `<img class="show-image" src="${escAttr(s.imageUrl)}" alt="${escAttr(title)}"
               loading="lazy" onerror="this.style.display='none'" />`
       : '';
+    const descBlock = desc
+      ? `<details class="show-description">
+           <summary>${currentLang==='fr' ? 'Plus d’infos' : 'Mehr Infos'}</summary>
+           <div class="show-description-body">${escHtml(desc)}</div>
+         </details>`
+      : '';
     return `
     <div class="show-item">
-      <div class="show-date-box">
-        <div class="day">${d.getDate()}</div>
-        <div class="month">${months[d.getMonth()].slice(0,3).toUpperCase()}</div>
+      <div class="show-row">
+        <div class="show-date-box">
+          <div class="day">${d.getDate()}</div>
+          <div class="month">${months[d.getMonth()].slice(0,3).toUpperCase()}</div>
+        </div>
+        ${img}
+        <div class="show-details">
+          <div class="show-name">${title}</div>
+          <div class="show-venue">📍 ${s.venue}</div>
+          <div class="show-time">🕗 ${s.time}</div>
+        </div>
+        <a class="btn btn-primary" href="${s.tickets}" target="_blank" rel="noopener">🎟️</a>
       </div>
-      ${img}
-      <div class="show-details">
-        <div class="show-name">${title}</div>
-        <div class="show-venue">📍 ${s.venue}</div>
-        <div class="show-time">🕗 ${s.time}</div>
-      </div>
-      <a class="btn btn-primary" href="${s.tickets}" target="_blank" rel="noopener">🎟️</a>
+      ${descBlock}
     </div>`;
   }).join('') || `<p style="color:rgba(255,255,255,0.4);text-align:center;padding:2rem;">${I18N[currentLang].no_shows || 'Aucun spectacle à venir.'}</p>`;
 }

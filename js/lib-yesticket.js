@@ -48,6 +48,20 @@ function _imageUrlFor(eventId) {
   return `https://cdn.yesticket.org/picture_me.php?type=event&id=${eventId}&width=1200&height=628`;
 }
 
+/** Split a YesTicket DESCRIPTION into { de, fr } sections.
+ *  YesTicket convention: German first, then a long run of dashes, then French.
+ *  If no divider is found, the same text is returned for both. */
+function _splitDescription(desc) {
+  if (!desc) return { de: '', fr: '' };
+  const parts = desc.split(/\n\s*-{20,}\s*\n/);
+  if (parts.length >= 2) {
+    return { de: parts[0].trim(), fr: parts.slice(1).join('\n').trim() };
+  }
+  // No divider — same text for both languages
+  const t = desc.trim();
+  return { de: t, fr: t };
+}
+
 /** Parse iCal text into an array of show objects. */
 function parseYesTicketIcal(text) {
   const lines = _unfold(text).split(/\r?\n/);
@@ -58,6 +72,9 @@ function parseYesTicketIcal(text) {
     if (raw === 'END:VEVENT')   {
       if (current && current.date) {
         current.image = _imageUrlFor(_eventIdFromUid(current.uid));
+        const { de, fr } = _splitDescription(current.description || '');
+        current.descriptionDE = de;
+        current.descriptionFR = fr;
         events.push(current);
       }
       current = null; continue;
@@ -69,11 +86,12 @@ function parseYesTicketIcal(text) {
     const val  = raw.slice(colon + 1);
     const name = head.split(';')[0].toUpperCase();
     switch (name) {
-      case 'UID':      current.uid     = val.trim(); break;
-      case 'SUMMARY':  current.title   = _cleanTitle(_unescapeIcs(val)); break;
-      case 'DTSTART':  { const { date, time } = _parseDTStart(val); current.date = date; current.time = time; break; }
-      case 'LOCATION': current.venue   = _unescapeIcs(val).trim(); break;
-      case 'URL':      current.tickets = val.trim(); break;
+      case 'UID':         current.uid         = val.trim(); break;
+      case 'SUMMARY':     current.title       = _cleanTitle(_unescapeIcs(val)); break;
+      case 'DTSTART':     { const { date, time } = _parseDTStart(val); current.date = date; current.time = time; break; }
+      case 'LOCATION':    current.venue       = _unescapeIcs(val).trim(); break;
+      case 'URL':         current.tickets     = val.trim(); break;
+      case 'DESCRIPTION': current.description = _unescapeIcs(val); break;
     }
   }
   return events;
@@ -81,13 +99,15 @@ function parseYesTicketIcal(text) {
 
 function _eventToShowRow(ev) {
   return {
-    date:      ev.date,
-    time:      ev.time || '20:00',
-    title_fr:  ev.title || '',
-    title_de:  ev.title || '',
-    venue:     ev.venue || '',
-    tickets:   ev.tickets || '',
-    image_url: ev.image || null,
+    date:           ev.date,
+    time:           ev.time || '20:00',
+    title_fr:       ev.title || '',
+    title_de:       ev.title || '',
+    venue:          ev.venue || '',
+    tickets:        ev.tickets || '',
+    image_url:      ev.image || null,
+    description_fr: ev.descriptionFR || null,
+    description_de: ev.descriptionDE || null,
   };
 }
 
