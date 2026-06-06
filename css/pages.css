@@ -41,13 +41,13 @@
 .hero-title .word1 {
   color: var(--liber-white); display: block;
   text-shadow: 0 3px 0 rgba(0,0,0,0.18);
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 .hero-title .word2 {
   display: block;
   color: var(--liber-yellow);
   -webkit-text-fill-color: var(--liber-yellow);
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   text-shadow: 0 3px 0 rgba(0,0,0,0.22);
 }
 

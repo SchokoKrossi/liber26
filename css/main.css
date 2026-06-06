@@ -37,8 +37,41 @@
   --transition: 0.35s cubic-bezier(.4,0,.2,1);
 
   /* Typography */
-  --font-display: 'Bangers', 'Fredoka', 'Righteous', cursive;
-  --font-body:    'Nunito', 'Fredoka', system-ui, sans-serif;
+  --font-display:    'Fredoka', 'Bangers', system-ui, sans-serif;
+  --font-display-fw: 700;          /* weight used wherever --font-display is applied */
+  --font-body:       'Nunito', system-ui, sans-serif;
+}
+
+/* ── Apply weight 700 + a touch of letter-spacing wherever the display
+   font is used. Bangers was a condensed comic font and these elements
+   had tight kerning baked in; Fredoka 700 looks balanced with a tiny
+   amount of breathing room added here. */
+.nav-logo,
+.footer-logo,
+.section-title,
+.hero-title,
+.hero-title .word1,
+.hero-title .word2,
+.stat-num,
+.modal-header h3,
+.show-meta .value,
+.about-text h2,
+.members-section h3,
+.member-name,
+.course-title,
+.registration-section h3,
+.shows-hero h2,
+.calendar-header h3,
+.show-date-box .day,
+.show-name,
+.video-section h3,
+.gallery-section h3,
+.contact-info h2,
+.contact-form h3,
+.admin-section > h2,
+.social-hero h4 {
+  font-weight: var(--font-display-fw);
+  letter-spacing: 0.015em;          /* subtle, balanced — adjust to taste */
 }
 
 /* ── Reset ────────────────────────────────────────────────── */
@@ -93,7 +126,7 @@ nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
   font-family: var(--font-display); font-size: 2rem;
   color: var(--liber-yellow);
   -webkit-text-fill-color: var(--liber-yellow);
-  cursor: pointer; text-decoration: none; flex-shrink: 0; letter-spacing: 2px;
+  cursor: pointer; text-decoration: none; flex-shrink: 0; letter-spacing: 1px;
   text-shadow: 0 2px 0 rgba(0,0,0,0.18);
   display: inline-flex; align-items: center;
 }
@@ -307,7 +340,7 @@ footer {
   padding: 3rem 1.5rem; text-align: center;
 }
 .footer-logo {
-  font-family: var(--font-display); font-size: 2.4rem; letter-spacing: 2px;
+  font-family: var(--font-display); font-size: 2.4rem; letter-spacing: 1px;
   color: var(--liber-yellow); -webkit-text-fill-color: var(--liber-yellow);
   margin-bottom: 0.5rem; text-shadow: 0 2px 0 rgba(0,0,0,0.2);
   display: inline-flex; align-items: center; justify-content: center;
