@@ -42,9 +42,10 @@ function showPage(id, opts = {}) {
       renderAdminShows(); renderAdminMembers(); renderAdminCourses(); renderAdminMedia();
       // Default active section = Home. Render its text/image editor.
       renderAdminContent('home', 'adminTextFields_home');
-      // Sync the visibility toggles (registrations + banner) with current state
+      // Sync the visibility toggles (registrations + banner + newsletter) with current state
       if (typeof refreshRegistrationsUI === 'function') refreshRegistrationsUI();
       if (typeof refreshChallengeUI === 'function')     refreshChallengeUI();
+      if (typeof refreshNewsletterUI === 'function')    refreshNewsletterUI();
     },
   };
   if (renderMap[id]) renderMap[id]();

@@ -572,6 +572,21 @@
       <div class="admin-section" id="adminSec_contact">
         <h2>✉️ Contact</h2>
 
+        <!-- Newsletter visibility toggle -->
+        <div class="admin-card">
+          <h4>📬 Bloc d'inscription à la newsletter</h4>
+          <div class="reg-toggle-row">
+            <div class="toggle-switch on" id="adminNewsletterToggle"
+              onclick="toggleNewsletter()"></div>
+            <span id="adminNewsletterLabel"
+              style="font-weight:700;font-size:.9rem">🟢 Newsletter ouverte</span>
+          </div>
+          <p style="color:rgba(255,255,255,.45);font-size:.78rem;margin-top:.6rem;margin-bottom:0">
+            Active ou masque le formulaire d'inscription à la newsletter sur la page Contact.
+            Les abonné·es existant·es restent enregistré·es dans tous les cas.
+          </p>
+        </div>
+
         <!-- Newsletter subscribers (read-only, with CSV export) -->
         <div class="admin-card">
           <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem">

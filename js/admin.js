@@ -154,12 +154,25 @@ const ADMIN_PAGES = {
   contact: {
     label:'✉️ Contact',
     fields:[
+      { key:'contact_pill',        label:'Badge "Contact" (petite étiquette)', type:'text',
+        i18nFR:'contact_pill', i18nDE:'contact_pill',
+        targets:[{sel:'[data-i18n="contact_pill"]', prop:'textContent'}] },
       { key:'contact_title',       label:'Titre de la page',          type:'text',     i18nFR:'contact_title',      i18nDE:'contact_title',      targets:[{sel:'[data-i18n="contact_title"]', prop:'textContent'}] },
-      { key:'contact_desc',        label:'Texte introductif',         type:'textarea', i18nFR:'contact_desc',       i18nDE:'contact_desc',       targets:[{sel:'[data-i18n="contact_desc"]',  prop:'textContent'}] },
+      { key:'contact_desc',        label:'Texte introductif (sous le titre)', type:'textarea', rows:3,
+        i18nFR:'contact_desc',       i18nDE:'contact_desc',       targets:[{sel:'[data-i18n="contact_desc"]',  prop:'textContent'}] },
+      { key:'follow_us',           label:'Titre "Suivez-nous"', type:'text',
+        i18nFR:'follow_us', i18nDE:'follow_us',
+        targets:[{sel:'[data-i18n="follow_us"]', prop:'textContent'}] },
       { key:'contact_address_val', label:'Adresse (valeur)',          type:'text',     singleLang:true,             targets:[{sel:'#contactAddressVal',                               prop:'textContent'}] },
       { key:'contact_email_val',   label:'Email de contact',          type:'text',     singleLang:true,             targets:[{sel:'#contactEmailVal',                                 prop:'textContent'}] },
       { key:'newsletter_title',    label:'Newsletter — Titre',        type:'text',     i18nFR:'newsletter_title',   i18nDE:'newsletter_title',   targets:[{sel:'[data-i18n="newsletter_title"]', prop:'textContent'}] },
       { key:'newsletter_desc',     label:'Newsletter — Description',  type:'textarea', i18nFR:'newsletter_desc',    i18nDE:'newsletter_desc',    targets:[{sel:'[data-i18n="newsletter_desc"]',  prop:'textContent'}] },
+      { key:'form_title',          label:'Bloc "Écrivez-nous" — Titre', type:'text',
+        i18nFR:'form_title', i18nDE:'form_title',
+        targets:[{sel:'[data-i18n="form_title"]', prop:'textContent'}] },
+      { key:'contact_write_intro', label:'Bloc "Écrivez-nous" — Texte d\'introduction', type:'textarea', rows:3,
+        i18nFR:'contact_write_intro', i18nDE:'contact_write_intro',
+        targets:[{sel:'[data-i18n="contact_write_intro"]', prop:'textContent'}] },
     ]
   },
 };
@@ -595,6 +608,24 @@ function refreshChallengeUI() {
   document.getElementById('challengeBanner')?.classList.toggle('hidden', !challengeOpen);
   const btn = document.getElementById('challengeBtn');
   if (btn) btn.href = challengeUrl || '#';
+}
+
+/** Sync the newsletter signup UI (admin toggle + public newsletter box) to
+ *  the current `newsletterOpen` value. Safe to call any time. */
+function refreshNewsletterUI() {
+  document.getElementById('adminNewsletterToggle')?.classList.toggle('on', newsletterOpen);
+  const lbl = document.getElementById('adminNewsletterLabel');
+  if (lbl) lbl.textContent = newsletterOpen ? '🟢 Newsletter ouverte' : '🔴 Newsletter fermée';
+  // Hide the public box when disabled
+  document.querySelector('.newsletter-box')?.classList.toggle('hidden', !newsletterOpen);
+}
+
+async function toggleNewsletter() {
+  newsletterOpen = !newsletterOpen;
+  refreshNewsletterUI();
+  const ok = await saveContentKey(KEY_NEWSLETTER_OPEN, newsletterOpen ? 'true' : 'false', null);
+  if (!ok) { newsletterOpen = !newsletterOpen; refreshNewsletterUI(); return; }
+  showToast(`✅ Newsletter ${newsletterOpen ? 'visible' : 'masquée'}`, 'success');
 }
 
 async function toggleChallenge() {
