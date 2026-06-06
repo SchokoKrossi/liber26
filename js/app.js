@@ -278,7 +278,7 @@ async function submitNewsletter() {
 
   try {
     const { error } = await sb.from('newsletter_subscribers')
-      .insert({ email, lang: currentLang });
+      .insert({ email });
 
     // 23505 = unique_violation — already subscribed. Treat as success
     // to avoid revealing who's on the list.

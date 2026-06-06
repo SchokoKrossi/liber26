@@ -53,11 +53,10 @@ const I18N = {
     /* Contact */
     contact_pill:'Contact', contact_title:'Parlons impro !',
     contact_desc:"Une question, l'envie de jouer avec nous ou simplement envie de discuter ? On adore entendre de nouvelles voix !",
-    contact_address:'Adresse', contact_email:'Email', contact_phone:'Presse',
+    contact_address:'Adresse', contact_email:'Email',
     follow_us:'📱 Suivez-nous',
     form_title:'Écrivez-nous',
     contact_write_intro:'Pour toute question, suggestion ou collaboration, écrivez-nous directement :',
-    contact_press_intro:'Pour la presse :',
     /* Newsletter */
     newsletter_title:'Newsletter',
     newsletter_desc:'Recevez chaque mois nos spectacles à venir, les prochains ateliers et les actualités de LIBER directement dans votre boîte mail.',
@@ -240,11 +239,10 @@ Tél. +49 30 13 889-0 — <a href="https://www.datenschutz-berlin.de" target="_b
     /* Contact */
     contact_pill:'Kontakt', contact_title:'Lass uns reden!',
     contact_desc:'Eine Frage, Lust mitzuspielen oder einfach plaudern? Wir freuen uns immer über neue Stimmen!',
-    contact_address:'Adresse', contact_email:'E-Mail', contact_phone:'Presse',
+    contact_address:'Adresse', contact_email:'E-Mail',
     follow_us:'📱 Folge uns',
     form_title:'Schreib uns',
     contact_write_intro:'Bei Fragen, Anregungen oder Kooperationsanfragen schreiben Sie uns direkt:',
-    contact_press_intro:'Für Presseanfragen:',
     /* Newsletter */
     newsletter_title:'Newsletter',
     newsletter_desc:'Erhalte jeden Monat unsere kommenden Aufführungen, Workshops und LIBER-Neuigkeiten direkt in dein Postfach.',

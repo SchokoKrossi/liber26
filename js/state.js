@@ -78,7 +78,6 @@ const KEY_CHALLENGE_OPEN   = '__challenge_open';
 const KEY_CHALLENGE_URL    = '__challenge_url';
 const KEY_CONTACT_ADDRESS  = '__contact_address_val';
 const KEY_CONTACT_EMAIL    = '__contact_email_val';
-const KEY_CONTACT_PHONE    = '__contact_phone_val';
 const KEY_HOME_IMG         = '__home_img';
 const KEY_ABOUT_IMG        = '__about_img';
 const KEY_COURSES_IMG      = '__courses_img';
@@ -157,9 +156,8 @@ function applyContentSingletons() {
   if (typeof refreshChallengeUI === 'function') refreshChallengeUI();
 
   // Contact info
-  const addr  = findRow(KEY_CONTACT_ADDRESS); if (addr)  setText('contactAddressVal', addr.value_fr);
-  const mail  = findRow(KEY_CONTACT_EMAIL);   if (mail)  setText('contactEmailVal',   mail.value_fr);
-  const phone = findRow(KEY_CONTACT_PHONE);   if (phone) setText('contactPhoneVal',   phone.value_fr);
+  const addr = findRow(KEY_CONTACT_ADDRESS); if (addr) setText('contactAddressVal', addr.value_fr);
+  const mail = findRow(KEY_CONTACT_EMAIL);   if (mail) setText('contactEmailVal',   mail.value_fr);
 
   // Hero/page images — apply via the admin field's onApply handlers
   const applyImg = (boxId, bgId, emojiId, url) => {

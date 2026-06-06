@@ -158,7 +158,6 @@ const ADMIN_PAGES = {
       { key:'contact_desc',        label:'Texte introductif',         type:'textarea', i18nFR:'contact_desc',       i18nDE:'contact_desc',       targets:[{sel:'[data-i18n="contact_desc"]',  prop:'textContent'}] },
       { key:'contact_address_val', label:'Adresse (valeur)',          type:'text',     singleLang:true,             targets:[{sel:'#contactAddressVal',                               prop:'textContent'}] },
       { key:'contact_email_val',   label:'Email de contact',          type:'text',     singleLang:true,             targets:[{sel:'#contactEmailVal',                                 prop:'textContent'}] },
-      { key:'contact_phone_val',   label:'Téléphone',                 type:'text',     singleLang:true,             targets:[{sel:'#contactPhoneVal',                                 prop:'textContent'}] },
       { key:'newsletter_title',    label:'Newsletter — Titre',        type:'text',     i18nFR:'newsletter_title',   i18nDE:'newsletter_title',   targets:[{sel:'[data-i18n="newsletter_title"]', prop:'textContent'}] },
       { key:'newsletter_desc',     label:'Newsletter — Description',  type:'textarea', i18nFR:'newsletter_desc',    i18nDE:'newsletter_desc',    targets:[{sel:'[data-i18n="newsletter_desc"]',  prop:'textContent'}] },
     ]
@@ -948,7 +947,7 @@ async function renderAdminSubscribers() {
 
   const { data, error } = await sb
     .from('newsletter_subscribers')
-    .select('id, email, lang, subscribed_at, unsubscribed_at')
+    .select('id, email, subscribed_at, unsubscribed_at')
     .order('subscribed_at', { ascending: false });
 
   if (error) {
@@ -971,7 +970,6 @@ async function renderAdminSubscribers() {
       <thead>
         <tr style="color:rgba(255,255,255,.5);text-align:left;border-bottom:1px solid rgba(255,255,255,.1)">
           <th style="padding:.5rem .4rem">Email</th>
-          <th style="padding:.5rem .4rem;width:60px">Langue</th>
           <th style="padding:.5rem .4rem;width:140px">Inscrit le</th>
           <th style="padding:.5rem .4rem;width:80px"></th>
         </tr>
@@ -980,7 +978,6 @@ async function renderAdminSubscribers() {
         ${_adminSubscribers.map(s => `
           <tr style="border-bottom:1px solid rgba(255,255,255,.05);${s.unsubscribed_at?'opacity:.4':''}">
             <td style="padding:.5rem .4rem">${_esc(s.email)}${s.unsubscribed_at?' <span style="font-size:.7rem">(désabonné·e)</span>':''}</td>
-            <td style="padding:.5rem .4rem">${_esc((s.lang||'').toUpperCase())}</td>
             <td style="padding:.5rem .4rem;color:rgba(255,255,255,.6)">${new Date(s.subscribed_at).toLocaleDateString('fr-FR')}</td>
             <td style="padding:.5rem .4rem"><button class="admin-delete-btn" onclick="_deleteSubscriber(${s.id})">✕</button></td>
           </tr>
@@ -1001,9 +998,9 @@ async function _deleteSubscriber(id) {
 /** Download the current subscribers list as a CSV file. */
 function exportSubscribersCSV() {
   if (!_adminSubscribers.length) { showToast('❌ Aucun abonné à exporter', 'error'); return; }
-  const rows = [['email','lang','subscribed_at','unsubscribed_at']];
+  const rows = [['email','subscribed_at','unsubscribed_at']];
   for (const s of _adminSubscribers) {
-    rows.push([s.email, s.lang || '', s.subscribed_at, s.unsubscribed_at || '']);
+    rows.push([s.email, s.subscribed_at, s.unsubscribed_at || '']);
   }
   const csv = rows.map(r => r.map(v => {
     const str = String(v).replace(/"/g, '""');
