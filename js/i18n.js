@@ -17,6 +17,11 @@ const I18N = {
     reg_open_title:"Ateliers d'improvisation — Saison en cours",
     reg_open_sub:'Cours en français, allemand et gromelot · Tous niveaux',
     reg_btn:"S'inscrire maintenant",
+    /* Gift voucher banner (homepage + shows page) */
+    voucher_label:'🎁 Bons cadeaux',
+    voucher_title:'🎭 Des bons cadeaux pour notre spectacle d’impro ! 🎁',
+    voucher_text:"Tu cherches une idée cadeau qui garantit des rires, des surprises et des moments inoubliables ?\nAlors offre un bon pour l’un de nos spectacles d’improvisation !\nQue ce soit pour un anniversaire, une petite attention ou juste pour faire plaisir – avec un bon cadeau pour notre show, tu fais toujours le bon choix.",
+    voucher_btn:'👉 Disponibles dès maintenant',
     /* Generic announcement banner (homepage, below next-show) */
     challenge_label:'🎬 48hLIBERfilm',
     challenge_title:'Rejoins nous dans notre challenge de 48hLIBERfilm',
@@ -203,6 +208,11 @@ Tél. +49 30 13 889-0 — <a href="https://www.datenschutz-berlin.de" target="_b
     reg_open_title:'Improvisations-Workshops — laufende Saison',
     reg_open_sub:'Kurse auf Französisch, Deutsch und Grommelo · Alle Niveaus',
     reg_btn:'Jetzt anmelden',
+    /* Gutschein-Banner (Startseite + Aufführungs-Seite) */
+    voucher_label:'🎁 Gutscheine',
+    voucher_title:'🎭 Impro-Gutscheine! 🎁',
+    voucher_text:'Du suchst ein Geschenk, das garantiert für Lacher, Überraschungen und unvergessliche Momente sorgt?\nDann schnapp dir jetzt einen Gutschein für unsere Impro-Show! Ob als Geburtstagsgeschenk, kleine Aufmerksamkeit oder spontane Freude – mit einem Gutschein für unsere Auftritte liegst du immer richtig.',
+    voucher_btn:'👉 Jetzt erhältlich',
     /* Generisches Ankündigungs-Banner (Startseite, unter „Nächste Aufführung") */
     challenge_label:'🎬 48hLIBERfilm',
     challenge_title:'Sei dabei bei unserem 48hLIBERfilm-Wettbewerb',

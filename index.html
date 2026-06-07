@@ -123,6 +123,19 @@
       </a>
     </div>
 
+    <!-- Gift voucher banner (editable from admin → Accueil) -->
+    <div class="voucher-banner next-show-banner reveal hidden"
+         style="border-color:var(--liber-white);background:rgba(255,255,255,.07);margin-top:1rem">
+      <div class="show-meta">
+        <span class="label" style="color:var(--liber-white)" data-i18n="voucher_label">🎁 Bons cadeaux</span>
+        <span class="value" data-i18n="voucher_title">🎭 Des bons cadeaux pour notre spectacle d’impro ! 🎁</span>
+        <span class="sub" data-i18n="voucher_text">Tu cherches une idée cadeau qui garantit des rires, des surprises et des moments inoubliables ?</span>
+      </div>
+      <a class="btn btn-primary voucher-btn" href="#" target="_blank" rel="noopener">
+        <span data-i18n="voucher_btn">👉 Disponibles dès maintenant</span>
+      </a>
+    </div>
+
     <!-- Generic announcement banner (editable from admin → Accueil) -->
     <div id="challengeBanner" class="next-show-banner reveal hidden"
          style="border-color:var(--liber-yellow);background:rgba(255,217,61,.10);margin-top:1rem">
@@ -286,6 +299,19 @@
     <p class="section-subtitle reveal" data-i18n="shows_subtitle">
       Des soirées inoubliables où tout peut arriver.
     </p>
+
+    <!-- Gift voucher banner (mirrors the home-page one — toggled together) -->
+    <div class="voucher-banner next-show-banner reveal hidden"
+         style="border-color:var(--liber-white);background:rgba(255,255,255,.07);margin:1.5rem 0 2.5rem">
+      <div class="show-meta">
+        <span class="label" style="color:var(--liber-white)" data-i18n="voucher_label">🎁 Bons cadeaux</span>
+        <span class="value" data-i18n="voucher_title">🎭 Des bons cadeaux pour notre spectacle d’impro ! 🎁</span>
+        <span class="sub" data-i18n="voucher_text">Tu cherches une idée cadeau qui garantit des rires, des surprises et des moments inoubliables ?</span>
+      </div>
+      <a class="btn btn-primary voucher-btn" href="#" target="_blank" rel="noopener">
+        <span data-i18n="voucher_btn">👉 Disponibles dès maintenant</span>
+      </a>
+    </div>
 
     <!-- Upcoming shows — first -->
     <h3 class="reveal"
@@ -476,6 +502,21 @@
       <!-- ── HOME — texts, hero image, challenge banner ── -->
       <div class="admin-section active" id="adminSec_home">
         <h2>🏠 Page d'accueil</h2>
+
+        <!-- Gift voucher banner — visibility toggle -->
+        <div class="admin-card">
+          <h4>🎁 Bannière bons cadeaux</h4>
+          <div class="reg-toggle-row">
+            <div class="toggle-switch" id="adminVoucherToggle"
+              onclick="toggleVoucher()"></div>
+            <span id="adminVoucherLabel"
+              style="font-weight:700;font-size:.9rem">🔴 Bannière masquée</span>
+          </div>
+          <p style="color:rgba(255,255,255,.45);font-size:.78rem;margin-top:.6rem;margin-bottom:0">
+            Affiche la bannière « Bons cadeaux » sur la page d'accueil ET sur la page
+            Spectacles & billets. Les textes et le lien sont éditables ci-dessous.
+          </p>
+        </div>
 
         <!-- Generic announcement banner — visibility toggle -->
         <div class="admin-card">

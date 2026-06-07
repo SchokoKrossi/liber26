@@ -14,6 +14,9 @@ let challengeOpen = false;   // hidden by default — admin enables it from the 
 let challengeUrl  = 'https://docs.google.com/forms/d/e/1FAIpQLSe2hWd-2XALaJ0Wnu3PoeK2gK9-O1U_2JTWcsIVjHH0io0kww/viewform?usp=header';
 // Newsletter signup box on the Contact page
 let newsletterOpen = true;   // visible by default — admin can hide it
+// Gift voucher banner (home + shows page)
+let voucherOpen = false;     // hidden by default — admin enables it
+let voucherUrl  = 'https://www.yesticket.org/events/de/liber-ligue-dimpro-de-berlin/';
 let currentUser = null;        // { id, email, name, role } when logged in
 
 const TODAY = new Date();
@@ -91,6 +94,8 @@ const KEY_REG_OPEN         = '__registrations_open';
 const KEY_CHALLENGE_OPEN   = '__challenge_open';
 const KEY_CHALLENGE_URL    = '__challenge_url';
 const KEY_NEWSLETTER_OPEN  = '__newsletter_open';
+const KEY_VOUCHER_OPEN     = '__voucher_open';
+const KEY_VOUCHER_URL      = '__voucher_url';
 const KEY_CONTACT_ADDRESS  = '__contact_address_val';
 const KEY_CONTACT_EMAIL    = '__contact_email_val';
 const KEY_HOME_IMG         = '__home_img';
@@ -147,6 +152,8 @@ function _applyContentRow(row) {
     case KEY_CHALLENGE_OPEN:   challengeOpen     = value_fr === 'true';            return;
     case KEY_CHALLENGE_URL:    if (value_fr) challengeUrl = value_fr;              return;
     case KEY_NEWSLETTER_OPEN:  newsletterOpen    = value_fr !== 'false';           return;
+    case KEY_VOUCHER_OPEN:     voucherOpen       = value_fr === 'true';            return;
+    case KEY_VOUCHER_URL:      if (value_fr) voucherUrl = value_fr;                return;
   }
   // Image-field overrides (handled via render after load)
   if (key.startsWith('__')) return;  // any other __ keys handled below via DOM patch
@@ -172,6 +179,8 @@ function applyContentSingletons() {
   if (typeof refreshChallengeUI === 'function') refreshChallengeUI();
   // Newsletter signup box visibility on the contact page
   if (typeof refreshNewsletterUI === 'function') refreshNewsletterUI();
+  // Gift voucher banner (home + shows page)
+  if (typeof refreshVoucherUI === 'function') refreshVoucherUI();
 
   // Contact info
   const addr = findRow(KEY_CONTACT_ADDRESS); if (addr) setText('contactAddressVal', addr.value_fr);

@@ -72,6 +72,24 @@ const ADMIN_PAGES = {
       { key:'challenge_url',   label:'Bannière — URL du bouton', type:'text', singleLang:true,
         hint:"Collez l'URL ouverte par le bouton (Google Form, page externe, etc.).",
         onApply(url) { challengeUrl = url; refreshChallengeUI(); } },
+
+      // ─── Bannière bons cadeaux (page d'accueil + spectacles) ─────
+      { key:'voucher_label', label:'Bons cadeaux — Étiquette',  type:'text',
+        i18nFR:'voucher_label', i18nDE:'voucher_label',
+        targets:[{sel:'[data-i18n="voucher_label"]', prop:'textContent'}] },
+      { key:'voucher_title', label:'Bons cadeaux — Titre',      type:'text',
+        i18nFR:'voucher_title', i18nDE:'voucher_title',
+        targets:[{sel:'[data-i18n="voucher_title"]', prop:'textContent'}] },
+      { key:'voucher_text',  label:'Bons cadeaux — Texte (plusieurs paragraphes — séparez par une ligne vide)',
+        type:'textarea', rows:6,
+        i18nFR:'voucher_text', i18nDE:'voucher_text',
+        targets:[{sel:'[data-i18n="voucher_text"]', prop:'textContent'}] },
+      { key:'voucher_btn',   label:'Bons cadeaux — Texte du bouton', type:'text',
+        i18nFR:'voucher_btn', i18nDE:'voucher_btn',
+        targets:[{sel:'[data-i18n="voucher_btn"]', prop:'textContent'}] },
+      { key:'voucher_url',   label:'Bons cadeaux — URL du bouton', type:'text', singleLang:true,
+        hint:"URL ouverte par le bouton (page YesTicket des bons cadeaux, etc.).",
+        onApply(url) { voucherUrl = url; refreshVoucherUI(); } },
     ]
   },
   about: {
@@ -276,6 +294,7 @@ function _populateField(f) {
     // Special-case single-lang fields stored outside the i18n bundle
     if (f.key==='google_form_url'){ const inp=document.getElementById('fieldFR_'+f.key); if(inp) inp.value=googleFormUrl||''; return; }
     if (f.key==='challenge_url'){   const inp=document.getElementById('fieldFR_'+f.key); if(inp) inp.value=challengeUrl||'';  return; }
+    if (f.key==='voucher_url'){     const inp=document.getElementById('fieldFR_'+f.key); if(inp) inp.value=voucherUrl||'';    return; }
     const inp=document.getElementById('imgUrl_'+f.key); if(!inp) return;
     if (f.targets?.[0]) {
       const el=document.querySelector(f.targets[0].sel);
@@ -324,6 +343,12 @@ async function _saveField(key) {
     challengeUrl = frVal;
     refreshChallengeUI();
     if (await saveContentKey(KEY_CHALLENGE_URL, frVal, null)) showToast('✅ URL du challenge mise à jour!','success');
+    return;
+  }
+  if (key==='voucher_url') {
+    voucherUrl = frVal;
+    refreshVoucherUI();
+    if (await saveContentKey(KEY_VOUCHER_URL, frVal, null)) showToast('✅ URL des bons cadeaux mise à jour!','success');
     return;
   }
 
@@ -626,6 +651,24 @@ async function toggleNewsletter() {
   const ok = await saveContentKey(KEY_NEWSLETTER_OPEN, newsletterOpen ? 'true' : 'false', null);
   if (!ok) { newsletterOpen = !newsletterOpen; refreshNewsletterUI(); return; }
   showToast(`✅ Newsletter ${newsletterOpen ? 'visible' : 'masquée'}`, 'success');
+}
+
+/** Sync the gift-voucher banner UI (admin toggle + public banners on home
+ *  AND shows page + button hrefs) to the current state. Safe to call any time. */
+function refreshVoucherUI() {
+  document.getElementById('adminVoucherToggle')?.classList.toggle('on', voucherOpen);
+  const lbl = document.getElementById('adminVoucherLabel');
+  if (lbl) lbl.textContent = voucherOpen ? '🟢 Bannière visible' : '🔴 Bannière masquée';
+  document.querySelectorAll('.voucher-banner').forEach(b => b.classList.toggle('hidden', !voucherOpen));
+  document.querySelectorAll('.voucher-btn').forEach(b => { b.href = voucherUrl || '#'; });
+}
+
+async function toggleVoucher() {
+  voucherOpen = !voucherOpen;
+  refreshVoucherUI();
+  const ok = await saveContentKey(KEY_VOUCHER_OPEN, voucherOpen ? 'true' : 'false', null);
+  if (!ok) { voucherOpen = !voucherOpen; refreshVoucherUI(); return; }
+  showToast(`✅ Bannière bons cadeaux ${voucherOpen ? 'affichée' : 'masquée'}`, 'success');
 }
 
 async function toggleChallenge() {
