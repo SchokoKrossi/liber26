@@ -6,6 +6,14 @@
 /** Pages whose name in the URL hash navigates the SPA. */
 const _ROUTE_PAGES = ['home','about','courses','shows','contact','imprint','privacy','admin'];
 
+/** Last non-legal page the user was on — used by the back button on imprint/privacy. */
+let _lastContentPage = 'home';
+
+/** Navigate back to wherever the user was before hitting imprint/privacy. */
+function goBackFromLegal() {
+  showPage(_lastContentPage || 'home');
+}
+
 /** Switch the visible page, update the URL hash, and re-render dynamic content. */
 function showPage(id, opts = {}) {
   // If invoked from an inline onclick on an <a href="#…">, the browser's
@@ -19,6 +27,11 @@ function showPage(id, opts = {}) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const el = document.getElementById(id + 'Page');
   if (el) el.classList.add('active');
+  // Remember the last content page (not legal/admin) so the "back" button
+  // on the imprint / privacy pages can return there.
+  if (id !== 'imprint' && id !== 'privacy' && id !== 'admin') {
+    _lastContentPage = id;
+  }
   currentPage = id;
 
   // Highlight nav link

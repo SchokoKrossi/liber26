@@ -72,6 +72,7 @@ const I18N = {
     /* Footer */
     footer_tagline:"L'imagination, l'échange et le plaisir au pouvoir.",
     footer_imprint:'Mentions légales', footer_privacy:'Politique de confidentialité',
+    back_btn:'← Retour',
     /* Auth (admin only) */
     login_title:'Connexion administrateur',
     login_email:'Email', login_password:'Mot de passe', login_btn:'Se connecter',
@@ -263,6 +264,7 @@ Tél. +49 30 13 889-0 — <a href="https://www.datenschutz-berlin.de" target="_b
     /* Footer */
     footer_tagline:'Vorstellungskraft, Austausch und Vergnügen an der Macht.',
     footer_imprint:'Impressum', footer_privacy:'Datenschutzerklärung',
+    back_btn:'← Zurück',
     /* Auth (admin only) */
     login_title:'Administrator-Anmeldung',
     login_email:'E-Mail', login_password:'Passwort', login_btn:'Einloggen',
