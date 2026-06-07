@@ -92,30 +92,27 @@ const I18N = {
     imprint_body:`<h2>Mentions légales selon § 5 TMG</h2>
 
 <h3>Éditeur du site</h3>
-<p><strong>LIBER — Ligue d'Improvisation de Berlin e.V.</strong><br>
-ACUD Theater<br>
-Veteranenstraße 21<br>
-10119 Berlin, Allemagne</p>
+<p><strong>THEALINGUA</strong><br>
+c/o Cours et Jardins gUG<br>
+Skalitzer Str. 27<br>
+10999 Berlin, Allemagne</p>
+<p>LIBER (Ligue d'Improvisation de Berlin) est une activité de Thealingua / Cours et Jardins gUG.</p>
 
-<h3>Représenté par le Vorstand</h3>
-<p>[À compléter : noms et fonctions des membres du Vorstand — p. ex. « Marjorie Nadal (Vorsitzende), Denis Aubert (Stellvertreter·rice) »]</p>
+<h3>Gérance (Geschäftsführer)</h3>
+<p>Damien Poinsard<br>
+Marjorie Nadal</p>
 
 <h3>Contact</h3>
-<p>Email général : <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a><br>
-Presse : <a href="mailto:polecommunication.liber.impro@gmail.com">polecommunication.liber.impro@gmail.com</a></p>
+<p>Email : <a href="mailto:info@liber-impro.com">info@liber-impro.com</a></p>
 
 <h3>Inscription au registre</h3>
-<p>Vereinsregister : <strong>[VR-Nummer à compléter, p. ex. VR 12345 B]</strong><br>
-Registergericht : <strong>[Amtsgericht à compléter, p. ex. Amtsgericht Charlottenburg]</strong></p>
+<p>Tribunal d'enregistrement : Amtsgericht Charlottenburg, section B<br>
+Numéro de registre : <strong>HRB 162571 B</strong></p>
 
-<h3>Identification fiscale</h3>
-<p>[À compléter une fois la situation fiscale de l'association confirmée — p. ex. :<br>
-• « LIBER e.V. est un organisme à but non lucratif au sens du § 52 AO et n'est pas assujetti à la TVA. », ou<br>
-• « Numéro fiscal (Steuernummer) : XX/XXX/XXXXX », ou<br>
-• « Numéro de TVA (USt-IdNr.) : DE XXX XXX XXX ».]</p>
-
-<h3>Responsable du contenu selon § 18 al. 2 MStV</h3>
-<p>[Nom et adresse complète — adresse postale, pas uniquement l'adresse du Theater. La personne désignée doit pouvoir être citée à comparaître à cette adresse.]</p>
+<h3>Responsable du contenu selon § 18 al. 2 MStV (ex-§ 55 Abs. 2 RStV)</h3>
+<p>Damien Poinsard et Marjorie Nadal<br>
+THEALINGUA, c/o Cours et Jardins gUG<br>
+Skalitzer Str. 27, 10999 Berlin, Allemagne</p>
 
 <h3>Résolution des litiges en ligne</h3>
 <p>La Commission européenne met à disposition une plateforme de règlement extrajudiciaire des litiges (ODR) : <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">https://ec.europa.eu/consumers/odr</a>. Nous ne sommes ni obligés ni disposés à participer à une procédure de règlement des litiges devant un organe de conciliation des consommateurs.</p>
@@ -128,10 +125,13 @@ Registergericht : <strong>[Amtsgericht à compléter, p. ex. Amtsgericht Charlot
     privacy_body:`<h2>Politique de confidentialité (RGPD / DSGVO)</h2>
 
 <h3>1. Responsable du traitement</h3>
-<p><strong>LIBER — Ligue d'Improvisation de Berlin e.V.</strong><br>
-ACUD Theater, Veteranenstraße 21, 10119 Berlin, Allemagne<br>
-Email : <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a></p>
-<p>Aucun délégué à la protection des données (DPO) n'a été nommé : LIBER e.V. ne remplit pas les critères de l'art. 37 RGPD ni du § 38 BDSG (moins de 20 personnes traitant des données, pas de traitement à grande échelle de données sensibles).</p>
+<p><strong>THEALINGUA</strong><br>
+c/o Cours et Jardins gUG<br>
+Skalitzer Str. 27, 10999 Berlin, Allemagne<br>
+Gérance : Damien Poinsard, Marjorie Nadal<br>
+Inscrit au registre du commerce sous HRB 162571 B (Amtsgericht Charlottenburg)<br>
+Email : <a href="mailto:info@liber-impro.com">info@liber-impro.com</a></p>
+<p>Aucun délégué à la protection des données (DPO) n'a été nommé : Cours et Jardins gUG ne remplit pas les critères de l'art. 37 RGPD ni du § 38 BDSG (moins de 20 personnes traitant des données, pas de traitement à grande échelle de données sensibles).</p>
 
 <h3>2. Hébergement du site</h3>
 <p>Le site est hébergé sur <strong>GitHub Pages</strong> (GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis). GitHub stocke automatiquement, à chaque visite, un fichier journal contenant l'adresse IP, la date/heure, l'URL appelée, l'agent utilisateur et la réponse HTTP, à des fins de sécurité et de prévention des abus. Le transfert vers les États-Unis s'appuie sur les Clauses Contractuelles Types de la Commission européenne et sur la certification de GitHub au Data Privacy Framework UE-USA. Politique de GitHub : <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">github.com/site-policy</a>.</p>
@@ -179,7 +179,7 @@ Email : <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a></p>
   <li>Droit d'opposition (art. 21 RGPD)</li>
   <li>Droit de retirer votre consentement à tout moment (art. 7 §3 RGPD)</li>
 </ul>
-<p>Pour exercer ces droits, écrivez-nous à <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a>.</p>
+<p>Pour exercer ces droits, écrivez au responsable du traitement : <a href="mailto:info@liber-impro.com">info@liber-impro.com</a>.</p>
 
 <h3>9. Droit de réclamation auprès d'une autorité de contrôle</h3>
 <p>Vous avez le droit de déposer une réclamation auprès de l'autorité berlinoise compétente :<br>
@@ -278,33 +278,30 @@ Tél. +49 30 13 889-0 — <a href="https://www.datenschutz-berlin.de" target="_b
        Platzhalter in [ ] über das Admin-Dashboard ausfüllen.
        ───────────────────────────────────────────────────────── */
     imprint_title:'Impressum',
-    imprint_body:`<h2>Impressum gemäß § 5 TMG</h2>
+    imprint_body:`<h2>Angaben gemäß § 5 TMG</h2>
 
 <h3>Anbieter</h3>
-<p><strong>LIBER — Ligue d'Improvisation de Berlin e.V.</strong><br>
-ACUD Theater<br>
-Veteranenstraße 21<br>
-10119 Berlin, Deutschland</p>
+<p><strong>THEALINGUA</strong><br>
+c/o Cours et Jardins gUG<br>
+Skalitzer Str. 27<br>
+10999 Berlin, Deutschland</p>
+<p>LIBER (Ligue d'Improvisation de Berlin) ist eine Aktivität von Thealingua / Cours et Jardins gUG.</p>
 
-<h3>Vertretungsberechtigter Vorstand</h3>
-<p>[Bitte ergänzen: Namen und Funktionen der Vorstandsmitglieder — z. B. „Marjorie Nadal (1. Vorsitzende), Denis Aubert (2. Vorsitzender)"]</p>
+<h3>Geschäftsführer</h3>
+<p>Damien Poinsard<br>
+Marjorie Nadal</p>
 
 <h3>Kontakt</h3>
-<p>E-Mail: <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a><br>
-Presse: <a href="mailto:polecommunication.liber.impro@gmail.com">polecommunication.liber.impro@gmail.com</a></p>
+<p>E-Mail: <a href="mailto:info@liber-impro.com">info@liber-impro.com</a></p>
 
 <h3>Registereintrag</h3>
-<p>Vereinsregister: <strong>[VR-Nummer bitte ergänzen, z. B. VR 12345 B]</strong><br>
-Registergericht: <strong>[Amtsgericht bitte ergänzen, z. B. Amtsgericht Charlottenburg]</strong></p>
+<p>Eintragung im Registergericht: Amtsgericht Charlottenburg, Abteilung B<br>
+Registernummer: <strong>HRB 162571 B</strong></p>
 
-<h3>Steuerliche Angaben</h3>
-<p>[Bitte nach Klärung der steuerlichen Situation des Vereins ergänzen — z. B.:<br>
-• „LIBER e.V. ist als gemeinnützig im Sinne des § 52 AO anerkannt und gemäß § 19 UStG von der Umsatzsteuer befreit.", oder<br>
-• „Steuernummer: XX/XXX/XXXXX", oder<br>
-• „Umsatzsteuer-Identifikationsnummer (USt-IdNr.): DE XXX XXX XXX".]</p>
-
-<h3>Verantwortlich für den Inhalt gemäß § 18 Abs. 2 MStV</h3>
-<p>[Vollständiger Name und ladungsfähige Anschrift — eine Postadresse, an der die Person tatsächlich erreichbar ist, nicht ausschließlich die Theater-Adresse.]</p>
+<h3>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV (vormals § 55 Abs. 2 RStV)</h3>
+<p>Damien Poinsard und Marjorie Nadal<br>
+THEALINGUA, c/o Cours et Jardins gUG<br>
+Skalitzer Str. 27, 10999 Berlin, Deutschland</p>
 
 <h3>Online-Streitbeilegung</h3>
 <p>Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">https://ec.europa.eu/consumers/odr</a>. Wir sind nicht verpflichtet und nicht bereit, an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
@@ -317,10 +314,13 @@ Registergericht: <strong>[Amtsgericht bitte ergänzen, z. B. Amtsgericht Charlot
     privacy_body:`<h2>Datenschutzerklärung (DSGVO)</h2>
 
 <h3>1. Verantwortlicher</h3>
-<p><strong>LIBER — Ligue d'Improvisation de Berlin e.V.</strong><br>
-ACUD Theater, Veteranenstraße 21, 10119 Berlin, Deutschland<br>
-E-Mail: <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a></p>
-<p>Es wurde kein Datenschutzbeauftragter bestellt: LIBER e.V. erfüllt weder die Schwellen des Art. 37 DSGVO noch die des § 38 BDSG (weniger als 20 mit der Datenverarbeitung beschäftigte Personen, keine umfangreiche Verarbeitung besonderer Datenkategorien).</p>
+<p><strong>THEALINGUA</strong><br>
+c/o Cours et Jardins gUG<br>
+Skalitzer Str. 27, 10999 Berlin, Deutschland<br>
+Geschäftsführer: Damien Poinsard, Marjorie Nadal<br>
+Handelsregister: HRB 162571 B (Amtsgericht Charlottenburg)<br>
+E-Mail: <a href="mailto:info@liber-impro.com">info@liber-impro.com</a></p>
+<p>Es wurde kein Datenschutzbeauftragter bestellt: Cours et Jardins gUG erfüllt weder die Schwellen des Art. 37 DSGVO noch die des § 38 BDSG (weniger als 20 mit der Datenverarbeitung beschäftigte Personen, keine umfangreiche Verarbeitung besonderer Datenkategorien).</p>
 
 <h3>2. Hosting der Website</h3>
 <p>Die Website wird bei <strong>GitHub Pages</strong> (GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA) gehostet. GitHub speichert bei jedem Aufruf automatisch ein Server-Logfile mit IP-Adresse, Datum/Uhrzeit, aufgerufener URL, User-Agent und HTTP-Status, um Sicherheit zu gewährleisten und Missbrauch zu verhindern. Der Transfer in die USA stützt sich auf die Standardvertragsklauseln der EU-Kommission sowie auf die Zertifizierung von GitHub unter dem EU-USA Data Privacy Framework. Datenschutzhinweise von GitHub: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">github.com/site-policy</a>.</p>
@@ -368,7 +368,7 @@ E-Mail: <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a></p>
   <li>Widerspruchsrecht (Art. 21 DSGVO)</li>
   <li>Recht auf Widerruf einer Einwilligung (Art. 7 Abs. 3 DSGVO)</li>
 </ul>
-<p>Zur Ausübung dieser Rechte schreiben Sie uns an <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a>.</p>
+<p>Zur Ausübung dieser Rechte schreiben Sie an den Verantwortlichen: <a href="mailto:info@liber-impro.com">info@liber-impro.com</a>.</p>
 
 <h3>9. Beschwerderecht bei einer Aufsichtsbehörde</h3>
 <p>Sie haben das Recht, Beschwerde bei der zuständigen Berliner Aufsichtsbehörde einzulegen:<br>

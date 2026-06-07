@@ -719,6 +719,25 @@
 }
 .legal-body p  { margin-bottom: 0.8rem; }
 .legal-body strong { color: #fff; }
+.legal-body ul { margin: 0.5rem 0 1rem 1.5rem; }
+.legal-body li { margin-bottom: 0.4rem; }
+/* Links: default browser blue is unreadable on the cobalt background.
+   Use the LIBER yellow + underline so they stay obviously clickable. */
+.legal-body a {
+  color: var(--liber-yellow);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+.legal-body a:hover {
+  color: var(--liber-yellow-hl);
+  text-decoration-thickness: 2px;
+}
+.legal-body code {
+  background: rgba(255,255,255,0.07);
+  padding: 0.1rem 0.4rem; border-radius: 4px;
+  font-size: 0.88em;
+}
 
 /* ═══════════════════════════════════════════════════════════
    FOOTER — legal links row
