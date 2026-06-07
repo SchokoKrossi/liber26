@@ -23,6 +23,20 @@ function showPage(id, opts = {}) {
     const ev = (typeof event !== 'undefined') ? event : null;
     if (ev && ev.preventDefault) ev.preventDefault();
   } catch (_) {}
+
+  // ── Auth gate: only admins can land on #admin. Anyone else gets
+  //    bounced to Home and the login modal opens so they know why. ──
+  if (id === 'admin' && (typeof currentUser === 'undefined' || currentUser?.role !== 'admin')) {
+    console.log('[LIBER] /#admin denied — not logged in as admin');
+    id = 'home';
+    // Strip any #admin hash so a refresh doesn't loop right back here
+    if (location.hash === '#admin') {
+      history.replaceState(null, '', location.pathname + location.search);
+    }
+    // Pop the login modal after the page render settles
+    setTimeout(() => { try { openModal('loginModal'); } catch (_) {} }, 150);
+  }
+
   closeMobile();
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const el = document.getElementById(id + 'Page');
