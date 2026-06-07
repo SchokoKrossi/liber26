@@ -381,7 +381,7 @@ function _prevImg(key,url) {
   const box=document.getElementById('imgPrev_'+key); if(!box) return;
   let img=box.querySelector('img');
   if (url) {
-    if (!img) { img=document.createElement('img'); img.style.cssText='width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:inherit'; box.prepend(img); }
+    if (!img) { img=document.createElement('img'); img.style.cssText='width:100%;height:100%;object-fit:contain;padding:4px;position:absolute;inset:0;border-radius:inherit'; box.prepend(img); }
     img.src=url; img.onerror=()=>img.remove();
   } else if (img) img.remove();
 }
@@ -436,7 +436,7 @@ function renderAdminMedia() {
   const photoRows=galleryPhotos.map(p=>`
     <div class="admin-card" style="margin-bottom:.8rem">
       <div style="display:flex;align-items:center;gap:1rem;margin-bottom:.8rem">
-        <div style="width:60px;height:40px;border-radius:8px;${p.url?`background:url(${p.url}) center/cover`:(`background:${p.bg}`)};flex-shrink:0"></div>
+        <div style="width:60px;height:40px;border-radius:8px;${p.url?`background:url(${p.url}) center/contain no-repeat rgba(255,255,255,.05)`:(`background:${p.bg}`)};flex-shrink:0"></div>
         <div style="flex:1"><strong>${_esc(p.captionFR)}</strong>
           <span style="font-size:.75rem;color:rgba(255,255,255,.35);margin-left:.4rem">(${p.cls||'normal'})</span></div>
         <button class="admin-delete-btn" onclick="_deletePhoto(${p.id})">✕</button>
@@ -452,7 +452,7 @@ function renderAdminMedia() {
         </div>
       </div>
       <div class="admin-img-preview" id="pPrev_${p.id}" style="height:80px;margin-top:.4rem">
-        ${p.url?`<img src="${p.url}" alt="${_escAttr(p.captionFR)}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:inherit" />`:''}
+        ${p.url?`<img src="${p.url}" alt="${_escAttr(p.captionFR)}" style="width:100%;height:100%;object-fit:contain;padding:4px;position:absolute;inset:0;border-radius:inherit" />`:''}
         <div class="admin-img-overlay" style="font-size:.75rem">📷 Aperçu</div>
       </div>
       <div style="display:flex;gap:.5rem;margin-top:.5rem;align-items:center">
@@ -747,7 +747,7 @@ function renderAdminMembers() {
   el.innerHTML=members.map(m=>`
     <div class="admin-card" style="margin-bottom:1rem">
       <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem">
-        <div style="width:52px;height:52px;border-radius:50%;${m.photo?`background:url(${m.photo}) center/cover`:(`background:${m.bg}`)};display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.1rem;color:rgba(255,255,255,.9);flex-shrink:0">
+        <div style="width:56px;height:56px;border-radius:12px;${m.photo?`background:url(${m.photo}) center/contain no-repeat rgba(255,255,255,.05)`:(`background:${m.bg}`)};display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.1rem;color:rgba(255,255,255,.9);flex-shrink:0">
           ${m.photo?'':(m.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase())}</div>
         <div style="flex:1"><strong>${_esc(m.name)}</strong><div style="font-size:.78rem;color:rgba(255,255,255,.4)">${_esc(m.role)}</div></div>
         <span style="font-size:.75rem;font-weight:700;color:${m.visible?'var(--teal)':'rgba(255,255,255,.3)'}">${m.visible?'👁':'🙈'}</span>
@@ -757,12 +757,13 @@ function renderAdminMembers() {
       <div class="bilingual-row" style="grid-template-columns:1fr 1fr 1fr">
         <div class="lang-field"><label>Nom</label><input type="text" id="mName_${m.id}" value="${_escAttr(m.name)}" /></div>
         <div class="lang-field" style="grid-column:span 2"><label>Rôle</label><input type="text" id="mRole_${m.id}" value="${_escAttr(m.role)}" /></div>
-        <div class="lang-field" style="grid-column:span 3"><label>Bio</label><textarea id="mBio_${m.id}" style="min-height:60px">${_esc(m.bio)}</textarea></div>
+        <div class="lang-field" style="grid-column:span 3"><label>Bio FR</label><textarea id="mBioFR_${m.id}" rows="3" placeholder="Biographie en français…">${_esc(m.bioFR)}</textarea></div>
+        <div class="lang-field" style="grid-column:span 3"><label>Bio DE</label><textarea id="mBioDE_${m.id}" rows="3" placeholder="Biografie auf Deutsch…">${_esc(m.bioDE)}</textarea></div>
       </div>
       <!-- Photo upload -->
       <div style="margin-top:.8rem">
         <div class="admin-img-preview" id="mImgPrev_${m.id}" style="height:100px;aspect-ratio:auto;max-width:200px">
-          ${m.photo?`<img src="${m.photo}" alt="${_escAttr(m.name)}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:inherit" />`:''}
+          ${m.photo?`<img src="${m.photo}" alt="${_escAttr(m.name)}" style="width:100%;height:100%;object-fit:contain;padding:4px;position:absolute;inset:0;border-radius:inherit" />`:''}
           <div class="admin-img-overlay" style="font-size:.72rem">Photo du membre</div>
         </div>
         <div style="display:grid;grid-template-columns:1fr auto;gap:.5rem;align-items:end;margin-top:.4rem;max-width:400px">
@@ -787,7 +788,8 @@ function renderAdminMembers() {
     <div class="bilingual-row" style="grid-template-columns:1fr 1fr 1fr">
       <div class="lang-field"><label>Nom</label><input type="text" id="newMName" placeholder="Prénom Nom" /></div>
       <div class="lang-field" style="grid-column:span 2"><label>Rôle</label><input type="text" id="newMRole" placeholder="Comédien·ne" /></div>
-      <div class="lang-field" style="grid-column:span 3"><label>Bio</label><textarea id="newMBio" style="min-height:55px" placeholder="Courte biographie…"></textarea></div>
+      <div class="lang-field" style="grid-column:span 3"><label>Bio FR</label><textarea id="newMBioFR" rows="3" placeholder="Courte biographie en français…"></textarea></div>
+      <div class="lang-field" style="grid-column:span 3"><label>Bio DE</label><textarea id="newMBioDE" rows="3" placeholder="Kurze Biografie auf Deutsch…"></textarea></div>
     </div>
     <!-- Photo: URL + file upload + live preview -->
     <div style="margin-top:.8rem">
@@ -821,10 +823,14 @@ async function _newMemberPhotoFile(input) {
 
 async function _saveMember(id) {
   const m=members.find(x=>x.id===id); if(!m) return;
-  m.name =document.getElementById(`mName_${id}`)?.value.trim()||m.name;
-  m.role =document.getElementById(`mRole_${id}`)?.value.trim()||m.role;
-  m.bio  =document.getElementById(`mBio_${id}`)?.value.trim();
-  m.photo=document.getElementById(`mPhoto_${id}`)?.value.trim()||'';
+  m.name  = document.getElementById(`mName_${id}`)?.value.trim() || m.name;
+  m.role  = document.getElementById(`mRole_${id}`)?.value.trim() || m.role;
+  // Read raw values so multi-line bios keep their line breaks
+  const bioFR = document.getElementById(`mBioFR_${id}`)?.value;
+  const bioDE = document.getElementById(`mBioDE_${id}`)?.value;
+  if (bioFR !== undefined) m.bioFR = bioFR.replace(/^\s+|\s+$/g, '');
+  if (bioDE !== undefined) m.bioDE = bioDE.replace(/^\s+|\s+$/g, '');
+  m.photo = document.getElementById(`mPhoto_${id}`)?.value.trim() || '';
   const { error } = await sb.from('members').update(_memberToDB(m)).eq('id', id);
   if (error) { showToast('❌ '+error.message,'error'); return; }
   renderAdminMembers(); renderMembers();
@@ -848,10 +854,12 @@ async function _memberPhotoFile(id,input) {
 }
 async function _addMember() {
   const name=document.getElementById('newMName')?.value.trim(); if(!name){showToast('❌ Nom obligatoire','error');return;}
+  const bioFR = (document.getElementById('newMBioFR')?.value || '').replace(/^\s+|\s+$/g, '');
+  const bioDE = (document.getElementById('newMBioDE')?.value || '').replace(/^\s+|\s+$/g, '');
   const m = {
     name,
     role:  document.getElementById('newMRole')?.value.trim()||'Membre',
-    bio:   document.getElementById('newMBio')?.value.trim()||'',
+    bioFR, bioDE: bioDE || bioFR,
     photo: document.getElementById('newMPhoto')?.value.trim()||'',
     bg:    GRADIENTS[Math.floor(Math.random()*GRADIENTS.length)],
     visible: true, email: '',

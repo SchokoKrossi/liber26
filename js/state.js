@@ -52,8 +52,21 @@ const _showToDB    = j => ({
   description_fr:j.descriptionFR||null, description_de:j.descriptionDE||null,
 });
 
-const _memberFromDB= r => ({ id:r.id, name:r.name, role:r.role||'', bio:r.bio||'', photo:r.photo||'', bg:r.bg||'', email:r.email||'', visible:!!r.visible });
-const _memberToDB  = j => ({ name:j.name, role:j.role, bio:j.bio, photo:j.photo, bg:j.bg, email:j.email, visible:j.visible });
+const _memberFromDB= r => ({
+  id:r.id, name:r.name, role:r.role||'',
+  // Bilingual bio: fall back to legacy single-lang `bio` if FR/DE not set yet
+  bioFR: r.bio_fr || r.bio || '',
+  bioDE: r.bio_de || r.bio || '',
+  photo:r.photo||'', bg:r.bg||'', email:r.email||'', visible:!!r.visible,
+});
+const _memberToDB  = j => ({
+  name:j.name, role:j.role,
+  bio_fr: j.bioFR || null,
+  bio_de: j.bioDE || null,
+  // Keep legacy column in sync so an old reader still sees something
+  bio: j.bioFR || null,
+  photo:j.photo, bg:j.bg, email:j.email, visible:j.visible,
+});
 
 // Course bilingual mapping. `level` and `tags` are the legacy single-lang
 // fields; new rows use `level_fr/level_de` and `tags_fr/tags_de`.
