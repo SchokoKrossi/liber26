@@ -49,6 +49,30 @@ async function logoutUser() {
   showToast('👋 Déconnexion réussie', 'success');
 }
 
+/** Change the current admin's password.
+ *  Two-field confirmation + 8-char minimum, then auto-logout so the next
+ *  login uses the new credentials. */
+async function changeAdminPassword() {
+  const p1 = document.getElementById('newAdminPwd1')?.value || '';
+  const p2 = document.getElementById('newAdminPwd2')?.value || '';
+
+  if (!p1 || !p2)      { showToast('❌ Veuillez remplir les deux champs', 'error'); return; }
+  if (p1.length < 8)   { showToast('❌ Le mot de passe doit faire au moins 8 caractères', 'error'); return; }
+  if (p1 !== p2)       { showToast('❌ Les deux mots de passe ne correspondent pas', 'error'); return; }
+  if (!currentUser || currentUser.role !== 'admin') {
+    showToast('❌ Vous devez être connecté·e en admin', 'error'); return;
+  }
+
+  const { error } = await sb.auth.updateUser({ password: p1 });
+  if (error) { showToast('❌ ' + error.message, 'error'); return; }
+
+  showToast('✅ Mot de passe changé — reconnexion requise', 'success');
+  const f1 = document.getElementById('newAdminPwd1'); if (f1) f1.value = '';
+  const f2 = document.getElementById('newAdminPwd2'); if (f2) f2.value = '';
+  // Sign out after a moment so the toast is visible, forcing re-login with the new password
+  setTimeout(() => logoutUser(), 1500);
+}
+
 /** Show/hide nav items depending on login state.
  *  - Logged out: everything stays hidden (no public login button).
  *  - Logged in as admin: greeting + Admin button + logout button. */
@@ -57,9 +81,7 @@ function updateAuthUI() {
   document.getElementById('loginBtn') ?.classList.add('hidden');        // always hidden
   document.getElementById('adminBtn') ?.classList.toggle('hidden', !loggedIn);
   document.getElementById('logoutBtn')?.classList.toggle('hidden', !loggedIn);
-  document.getElementById('userGreeting')?.classList.toggle('hidden', !loggedIn);
-  if (loggedIn && document.getElementById('userGreeting'))
-    document.getElementById('userGreeting').textContent = `👤 ${currentUser.name || currentUser.email}`;
+  // Admin email greeting was intentionally removed — only the Admin and 🚪 buttons stay.
 }
 
 /** Restore Supabase session on page load. */

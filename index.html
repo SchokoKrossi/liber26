@@ -36,8 +36,6 @@
       <button class="lang-btn active" onclick="applyI18N('fr')">FR</button>
       <button class="lang-btn"        onclick="applyI18N('de')">DE</button>
     </div>
-    <span id="userGreeting" class="hidden"
-      style="font-size:.82rem;font-weight:700;color:rgba(255,255,255,.7)"></span>
     <!-- Login button hidden by default — admin opens the modal via
          Ctrl+Shift+L or the URL hash #login. The button is still in
          the DOM so we can show it once an admin session is restored. -->
@@ -507,6 +505,26 @@
       <div class="admin-section active" id="adminSec_home">
         <h2>🏠 Page d'accueil</h2>
 
+        <!-- Admin account — change password -->
+        <div class="admin-card">
+          <h4>🔐 Mon compte</h4>
+          <form onsubmit="event.preventDefault(); changeAdminPassword();" autocomplete="on"
+                style="display:grid;grid-template-columns:1fr 1fr auto;gap:.6rem;align-items:end;max-width:640px">
+            <div class="lang-field">
+              <label>Nouveau mot de passe</label>
+              <input type="password" id="newAdminPwd1" autocomplete="new-password" minlength="8" placeholder="Min. 8 caractères" required />
+            </div>
+            <div class="lang-field">
+              <label>Confirmation</label>
+              <input type="password" id="newAdminPwd2" autocomplete="new-password" minlength="8" placeholder="Retapez le mot de passe" required />
+            </div>
+            <button type="submit" class="admin-save-btn">🔐 Changer</button>
+          </form>
+          <p style="color:rgba(255,255,255,.45);font-size:.78rem;margin-top:.6rem;margin-bottom:0">
+            Vous serez automatiquement déconnecté·e après le changement. Reconnectez-vous avec le nouveau mot de passe.
+          </p>
+        </div>
+
         <!-- Gift voucher banner — visibility toggle -->
         <div class="admin-card">
           <h4>🎁 Bannière bons cadeaux</h4>
@@ -708,21 +726,22 @@
       <h3 data-i18n="login_title">Connexion administrateur</h3>
       <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
     </div>
-    <div id="loginForm">
+    <!-- Native <form> so the browser submits on Enter in either field -->
+    <form id="loginForm" onsubmit="event.preventDefault(); doLogin();" autocomplete="on">
       <div class="form-group">
         <label data-i18n="login_email">Email</label>
-        <input type="email" id="loginEmail" placeholder="vous@email.com" />
+        <input type="email" id="loginEmail" name="email" autocomplete="username" placeholder="vous@email.com" required />
       </div>
       <div class="form-group">
         <label data-i18n="login_password">Mot de passe</label>
-        <input type="password" id="loginPassword" placeholder="••••••••" />
+        <input type="password" id="loginPassword" name="password" autocomplete="current-password" placeholder="••••••••" required />
       </div>
-      <button class="btn btn-primary"
+      <button type="submit" class="btn btn-primary"
         style="width:100%;justify-content:center;margin-top:.5rem"
-        onclick="doLogin()" data-i18n="login_btn">Se connecter</button>
+        data-i18n="login_btn">Se connecter</button>
       <p style="text-align:center;color:rgba(255,255,255,.35);font-size:.78rem;margin-top:1rem"
         data-i18n="demo_hint">Réservé à l'équipe d'administration LIBER.</p>
-    </div>
+    </form>
   </div>
 </div>
 
