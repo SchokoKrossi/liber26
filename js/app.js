@@ -124,8 +124,9 @@ function renderCourses() {
     .map(p => `<p class="course-desc">${escHtml(p)}</p>`)
     .join('');
 
-  // Public visitors see only visible courses; admins see all.
-  const list = currentUser ? courses : courses.filter(c => c.visible !== false);
+  // Always honor the visibility flag — admins toggle from the dashboard and
+  // expect "what you see is what visitors see" on the public page.
+  const list = courses.filter(c => c.visible !== false);
   grid.innerHTML = list.map(c => `
     <div class="course-card card">
       <div class="course-header" style="border-bottom:3px solid ${c.color}">
