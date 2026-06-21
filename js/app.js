@@ -175,8 +175,13 @@ function renderCourses() {
 function renderShows() {
   const list = document.getElementById('showsList');
   if (!list) return;
-  const future = [...shows].sort((a,b)=>new Date(a.date)-new Date(b.date))
-                            .filter(s=>new Date(s.date)>=TODAY);
+  // String comparison on YYYY-MM-DD: avoids the timezone trap where
+  // `new Date('2026-06-21')` parses to midnight UTC (= 02:00 Berlin) and
+  // gets treated as "past" any time after 02:00 local on the show day.
+  const today = todayStr();
+  const future = [...shows]
+    .sort((a, b) => (a.date || '').localeCompare(b.date || ''))
+    .filter(s => (s.date || '') >= today);
   const months = I18N[currentLang].month_names;
   const escHtml = v => (v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const escAttr = v => (v||'').replace(/"/g, '&quot;');

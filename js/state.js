@@ -23,6 +23,16 @@ const TODAY = new Date();
 let calMonth = TODAY.getMonth();
 let calYear  = TODAY.getFullYear();
 
+/** Today's local date as 'YYYY-MM-DD' — used to filter past shows.
+ *  String comparison avoids the "midnight-UTC parses as previous-day local"
+ *  trap that hid today's show from the moment local time passed 02:00. */
+function todayStr() {
+  const d = new Date();
+  return d.getFullYear() + '-' +
+         String(d.getMonth() + 1).padStart(2, '0') + '-' +
+         String(d.getDate()).padStart(2, '0');
+}
+
 // Editable singletons
 let siteLogo      = { text: '🎭 LIBER', img: '' };
 let googleFormUrl = '';
@@ -219,9 +229,10 @@ function applyContentSingletons() {
 
 /** Helper: get the next upcoming show. */
 function getNextShow() {
+  const today = todayStr();
   return [...shows]
-    .sort((a,b) => new Date(a.date) - new Date(b.date))
-    .find(s => new Date(s.date) >= TODAY) || null;
+    .sort((a, b) => (a.date || '').localeCompare(b.date || ''))
+    .find(s => (s.date || '') >= today) || null;
 }
 
 // ═══════════════════════════════════════════════════════════
