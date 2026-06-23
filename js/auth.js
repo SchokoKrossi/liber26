@@ -53,8 +53,10 @@ async function logoutUser() {
  *  Two-field confirmation + 8-char minimum, then auto-logout so the next
  *  login uses the new credentials. */
 async function changeAdminPassword() {
+  console.log('[LIBER] changeAdminPassword — invoked');
   const p1 = document.getElementById('newAdminPwd1')?.value || '';
   const p2 = document.getElementById('newAdminPwd2')?.value || '';
+  console.log('[LIBER] lengths:', { p1: p1.length, p2: p2.length, currentUser: !!currentUser, role: currentUser?.role });
 
   if (!p1 || !p2)      { showToast('❌ Veuillez remplir les deux champs', 'error'); return; }
   if (p1.length < 8)   { showToast('❌ Le mot de passe doit faire au moins 8 caractères', 'error'); return; }
@@ -63,7 +65,9 @@ async function changeAdminPassword() {
     showToast('❌ Vous devez être connecté·e en admin', 'error'); return;
   }
 
-  const { error } = await sb.auth.updateUser({ password: p1 });
+  console.log('[LIBER] Calling sb.auth.updateUser…');
+  const { data, error } = await sb.auth.updateUser({ password: p1 });
+  console.log('[LIBER] updateUser result:', { ok: !error, error });
   if (error) { showToast('❌ ' + error.message, 'error'); return; }
 
   showToast('✅ Mot de passe changé — reconnexion requise', 'success');
