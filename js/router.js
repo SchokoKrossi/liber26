@@ -120,6 +120,13 @@ function applyI18N(lang) {
   // Persist so the next page load remembers the user's choice
   try { localStorage.setItem('liber_lang', lang); } catch (_) {}
 
+  // Update page-level metadata that should match the active language
+  // (helps search engines, social previews, and screen readers).
+  document.documentElement.lang = lang;
+  const meta = document.getElementById('metaDescription');
+  if (meta && I18N[lang]?.site_description) meta.content = I18N[lang].site_description;
+  if (I18N[lang]?.site_title) document.title = I18N[lang].site_title;
+
   // Update lang toggle buttons
   document.querySelectorAll('.lang-btn').forEach(b => {
     b.classList.toggle('active', b.textContent.trim() === lang.toUpperCase());
@@ -149,6 +156,32 @@ function applyI18N(lang) {
   if (currentPage === 'imprint') renderLegalPage('imprint');
   if (currentPage === 'privacy') renderLegalPage('privacy');
 }
+
+/** Make every .toggle-switch element keyboard-accessible:
+ *  role=switch, focusable, aria-checked synced with the .on class,
+ *  and SPACE/ENTER triggers a click. Safe to call multiple times — only
+ *  upgrades elements that haven't been processed yet. */
+function makeTogglesAccessible() {
+  document.querySelectorAll('.toggle-switch').forEach(el => {
+    if (el.dataset.a11yReady === '1') return;
+    el.setAttribute('role', 'switch');
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('aria-checked', el.classList.contains('on') ? 'true' : 'false');
+    el.addEventListener('keydown', e => {
+      if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); el.click(); }
+    });
+    // Sync aria-checked when class changes via JS
+    new MutationObserver(() => {
+      el.setAttribute('aria-checked', el.classList.contains('on') ? 'true' : 'false');
+    }).observe(el, { attributes: true, attributeFilter: ['class'] });
+    el.dataset.a11yReady = '1';
+  });
+}
+
+// Apply on initial load AND every time the admin re-renders (admin dashboard
+// rebuilds toggle DOM when course/member lists refresh).
+window.addEventListener('load',         makeTogglesAccessible);
+document.addEventListener('click', () => setTimeout(makeTogglesAccessible, 0));
 
 /** Trigger .reveal animations for elements in the viewport. */
 function triggerReveal() {

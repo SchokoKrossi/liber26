@@ -219,6 +219,20 @@ nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
   letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1rem;
 }
 
+/* ── Accessibility: keyboard focus indicator ──────────────── */
+/* Visible only for keyboard navigation, not mouse clicks. */
+:focus-visible {
+  outline: 3px solid var(--liber-yellow);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.btn:focus-visible,
+.btn-login:focus-visible,
+.lang-btn:focus-visible,
+.nav-links a:focus-visible {
+  outline-offset: 4px;
+}
+
 /* ── Buttons ──────────────────────────────────────────────── */
 .btn {
   display: inline-flex; align-items: center; gap: 0.5rem;

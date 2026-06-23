@@ -678,11 +678,9 @@ async function toggleVoucher() {
 }
 
 async function toggleChallenge() {
-  console.log('[LIBER] toggleChallenge — before:', { challengeOpen });
   challengeOpen = !challengeOpen;
   refreshChallengeUI();
   const ok = await saveContentKey(KEY_CHALLENGE_OPEN, challengeOpen ? 'true' : 'false', null);
-  console.log('[LIBER] toggleChallenge — after:', { challengeOpen, savedToDb: ok });
   if (!ok) {
     // Revert visual state if the DB write failed
     challengeOpen = !challengeOpen;

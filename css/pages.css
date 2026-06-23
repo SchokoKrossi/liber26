@@ -168,13 +168,19 @@
 }
 .toggle-label { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
 
-/* Shared toggle switch (used on About + Admin) */
+/* Shared toggle switch (used on About + Admin) — also focusable via keyboard */
 .toggle-switch {
   width: 44px; height: 24px;
   background: rgba(0,0,0,0.35);
   border: 1.5px solid rgba(255,255,255,0.35);
   border-radius: 12px; cursor: pointer; position: relative;
   transition: background var(--transition), border-color var(--transition); flex-shrink: 0;
+  -webkit-appearance: none; appearance: none;
+  font: inherit; padding: 0;          /* button reset for <button>-based variant */
+}
+.toggle-switch:focus-visible {
+  outline: 3px solid var(--liber-yellow);
+  outline-offset: 3px;
 }
 .toggle-switch.on {
   background: var(--liber-yellow);

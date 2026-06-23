@@ -5,6 +5,10 @@
 const I18N = {
   fr: {
     /* Nav */
+    // Page-level metadata (also picked up by SEO crawlers via DOM)
+    site_title:'LIBER — Ligue d\'Improvisation de Berlin',
+    site_description:"Spectacles et ateliers d'improvisation franco-allemands au théâtre ACUD à Berlin.",
+    /* Nav */
     nav_home:'Accueil', nav_about:'À propos', nav_courses:'Ateliers',
     nav_shows:'Spectacles & billets', nav_contact:'Contact', nav_login:'Connexion',
     /* Hero */
@@ -196,6 +200,10 @@ Tél. +49 30 13 889-0 — <a href="https://www.datenschutz-berlin.de" target="_b
   },
 
   de: {
+    /* Nav */
+    // Page-level metadata (also picked up by SEO crawlers via DOM)
+    site_title:'LIBER — Deutsch-französische Improvisationsliga in Berlin',
+    site_description:'Improvisations-Aufführungen und -Workshops auf Deutsch und Französisch im ACUD Theater in Berlin.',
     /* Nav */
     nav_home:'Startseite', nav_about:'Über uns', nav_courses:'Workshops',
     nav_shows:'Spielplan & Tickets', nav_contact:'Kontakt', nav_login:'Anmelden',

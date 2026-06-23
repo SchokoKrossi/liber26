@@ -1,0 +1,10 @@
+# robots.txt for LIBER — Ligue d'Improvisation de Berlin
+User-agent: *
+Allow: /
+
+# Block admin / login from being indexed (they're behind auth anyway,
+# but no need to waste crawl budget)
+Disallow: /#admin
+Disallow: /#login
+
+Sitemap: https://schokokrossi.github.io/liber26/sitemap.xml
