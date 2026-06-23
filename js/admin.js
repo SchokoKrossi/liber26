@@ -130,8 +130,14 @@ const ADMIN_PAGES = {
     fields:[
       { key:'courses_title',    label:'Titre de la page',       type:'text',     i18nFR:'courses_title',    i18nDE:'courses_title',    targets:[{sel:'[data-i18n="courses_title"]',   prop:'textContent'}] },
       { key:'courses_subtitle', label:'Sous-titre',             type:'textarea', i18nFR:'courses_subtitle', i18nDE:'courses_subtitle', targets:[{sel:'[data-i18n="courses_subtitle"]',prop:'textContent'}] },
-      { key:'reg_section_title',label:'Titre section inscription',type:'text',  i18nFR:'reg_section_title',i18nDE:'reg_section_title',targets:[{sel:'[data-i18n="reg_section_title"]',prop:'textContent'}] },
-      { key:'reg_section_desc', label:'Texte section inscription',type:'textarea',i18nFR:'reg_section_desc',i18nDE:'reg_section_desc',targets:[{sel:'[data-i18n="reg_section_desc"]', prop:'textContent'}] },
+      { key:'reg_section_title',label:'Inscriptions ouvertes — Titre',type:'text',  i18nFR:'reg_section_title',i18nDE:'reg_section_title',targets:[{sel:'[data-i18n="reg_section_title"]',prop:'textContent'}] },
+      { key:'reg_section_desc', label:'Inscriptions ouvertes — Texte',type:'textarea',i18nFR:'reg_section_desc',i18nDE:'reg_section_desc',targets:[{sel:'[data-i18n="reg_section_desc"]', prop:'textContent'}] },
+      { key:'reg_closed_title', label:'Inscriptions fermées — Titre', type:'text',
+        i18nFR:'reg_closed_title', i18nDE:'reg_closed_title',
+        targets:[{sel:'[data-i18n="reg_closed_title"]', prop:'textContent'}] },
+      { key:'reg_closed_desc',  label:'Inscriptions fermées — Texte', type:'textarea', rows:3,
+        i18nFR:'reg_closed_desc', i18nDE:'reg_closed_desc',
+        targets:[{sel:'[data-i18n="reg_closed_desc"]', prop:'textContent'}] },
       { key:'google_form_url',  label:'URL Google Form (inscription)', type:'text', singleLang:true,
         hint:'Collez ici l\'URL de votre Google Form (viewform?embedded=true). Laissez vide pour afficher le placeholder.',
         onApply(url) { googleFormUrl = url.trim(); renderCourses(); }
