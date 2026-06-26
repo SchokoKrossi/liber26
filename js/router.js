@@ -4,7 +4,7 @@
  */
 
 /** Pages whose name in the URL hash navigates the SPA. */
-const _ROUTE_PAGES = ['home','about','courses','shows','contact','imprint','privacy','admin'];
+const _ROUTE_PAGES = ['home','about','courses','shows','contact','imprint','privacy','admin','48hliberfilm'];
 
 /** Last non-legal page the user was on — used by the back button on imprint/privacy. */
 let _lastContentPage = 'home';
@@ -41,9 +41,9 @@ function showPage(id, opts = {}) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const el = document.getElementById(id + 'Page');
   if (el) el.classList.add('active');
-  // Remember the last content page (not legal/admin) so the "back" button
-  // on the imprint / privacy pages can return there.
-  if (id !== 'imprint' && id !== 'privacy' && id !== 'admin') {
+  // Remember the last content page (not legal/admin/campaign) so the "back"
+  // buttons on imprint / privacy / 48hliberfilm can return there.
+  if (id !== 'imprint' && id !== 'privacy' && id !== 'admin' && id !== '48hliberfilm') {
     _lastContentPage = id;
   }
   currentPage = id;

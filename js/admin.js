@@ -638,7 +638,22 @@ function refreshChallengeUI() {
   if (lbl) lbl.textContent = challengeOpen ? '🟢 Bannière visible' : '🔴 Bannière masquée';
   document.getElementById('challengeBanner')?.classList.toggle('hidden', !challengeOpen);
   const btn = document.getElementById('challengeBtn');
-  if (btn) btn.href = challengeUrl || '#';
+  if (!btn) return;
+  // Hash URLs (e.g. "#48hliberfilm") = internal SPA route → no new tab.
+  // Anything else = external link → open in a new tab with noopener.
+  const url = challengeUrl || '#';
+  if (url.startsWith('#')) {
+    btn.href = url;
+    btn.removeAttribute('target');
+    btn.removeAttribute('rel');
+    const page = url.slice(1);
+    btn.onclick = (e) => { e.preventDefault(); showPage(page); };
+  } else {
+    btn.href = url;
+    btn.target = '_blank';
+    btn.rel = 'noopener';
+    btn.onclick = null;
+  }
 }
 
 /** Sync the newsletter signup UI (admin toggle + public newsletter box) to

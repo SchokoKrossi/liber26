@@ -11,7 +11,9 @@ let currentPage = 'home';
 let registrationsOpen = true;
 // 48hLIBERfilm challenge banner (home page, below the next-show banner)
 let challengeOpen = false;   // hidden by default — admin enables it from the dashboard
-let challengeUrl  = 'https://docs.google.com/forms/d/e/1FAIpQLSe2hWd-2XALaJ0Wnu3PoeK2gK9-O1U_2JTWcsIVjHH0io0kww/viewform?usp=header';
+// Default points to the internal #48hliberfilm landing page; admin can override
+// in the dashboard with an external URL (e.g. a Google Form) if desired.
+let challengeUrl  = '#48hliberfilm';
 // Newsletter signup box on the Contact page
 let newsletterOpen = true;   // visible by default — admin can hide it
 // Gift voucher banner (home + shows page)
