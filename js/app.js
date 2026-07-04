@@ -87,7 +87,6 @@ function renderMembers() {
       </div>
       <div class="member-info">
         <div class="member-name">${m.name}</div>
-        <div class="member-role">${m.role}</div>
         <div class="member-bio">${currentLang==='fr' ? (m.bioFR || '') : (m.bioDE || '')}</div>
       </div>
       ${currentUser ? `

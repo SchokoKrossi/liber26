@@ -768,14 +768,13 @@ function renderAdminMembers() {
       <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem">
         <div style="width:56px;height:56px;border-radius:12px;${m.photo?`background:url(${m.photo}) center/contain no-repeat rgba(255,255,255,.05)`:(`background:${m.bg}`)};display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.1rem;color:rgba(255,255,255,.9);flex-shrink:0">
           ${m.photo?'':(m.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase())}</div>
-        <div style="flex:1"><strong>${_esc(m.name)}</strong><div style="font-size:.78rem;color:rgba(255,255,255,.4)">${_esc(m.role)}</div></div>
+        <div style="flex:1"><strong>${_esc(m.name)}</strong></div>
         <span style="font-size:.75rem;font-weight:700;color:${m.visible?'var(--teal)':'rgba(255,255,255,.3)'}">${m.visible?'👁':'🙈'}</span>
         <div class="toggle-switch ${m.visible?'on':''}" onclick="toggleMemberVisibility(${m.id},true)"></div>
         <button class="admin-delete-btn" onclick="_deleteMember(${m.id})">✕</button>
       </div>
       <div class="bilingual-row" style="grid-template-columns:1fr 1fr 1fr">
         <div class="lang-field"><label>Nom</label><input type="text" id="mName_${m.id}" value="${_escAttr(m.name)}" /></div>
-        <div class="lang-field" style="grid-column:span 2"><label>Rôle</label><input type="text" id="mRole_${m.id}" value="${_escAttr(m.role)}" /></div>
         <div class="lang-field" style="grid-column:span 3"><label>Bio FR</label><textarea id="mBioFR_${m.id}" rows="3" placeholder="Biographie en français…">${_esc(m.bioFR)}</textarea></div>
         <div class="lang-field" style="grid-column:span 3"><label>Bio DE</label><textarea id="mBioDE_${m.id}" rows="3" placeholder="Biografie auf Deutsch…">${_esc(m.bioDE)}</textarea></div>
       </div>
@@ -806,7 +805,6 @@ function renderAdminMembers() {
     <h4>➕ Ajouter un membre</h4>
     <div class="bilingual-row" style="grid-template-columns:1fr 1fr 1fr">
       <div class="lang-field"><label>Nom</label><input type="text" id="newMName" placeholder="Prénom Nom" /></div>
-      <div class="lang-field" style="grid-column:span 2"><label>Rôle</label><input type="text" id="newMRole" placeholder="Comédien·ne" /></div>
       <div class="lang-field" style="grid-column:span 3"><label>Bio FR</label><textarea id="newMBioFR" rows="3" placeholder="Courte biographie en français…"></textarea></div>
       <div class="lang-field" style="grid-column:span 3"><label>Bio DE</label><textarea id="newMBioDE" rows="3" placeholder="Kurze Biografie auf Deutsch…"></textarea></div>
     </div>
@@ -843,7 +841,6 @@ async function _newMemberPhotoFile(input) {
 async function _saveMember(id) {
   const m=members.find(x=>x.id===id); if(!m) return;
   m.name  = document.getElementById(`mName_${id}`)?.value.trim() || m.name;
-  m.role  = document.getElementById(`mRole_${id}`)?.value.trim() || m.role;
   // Read raw values so multi-line bios keep their line breaks
   const bioFR = document.getElementById(`mBioFR_${id}`)?.value;
   const bioDE = document.getElementById(`mBioDE_${id}`)?.value;
@@ -877,7 +874,6 @@ async function _addMember() {
   const bioDE = (document.getElementById('newMBioDE')?.value || '').replace(/^\s+|\s+$/g, '');
   const m = {
     name,
-    role:  document.getElementById('newMRole')?.value.trim()||'Membre',
     bioFR, bioDE: bioDE || bioFR,
     photo: document.getElementById('newMPhoto')?.value.trim()||'',
     bg:    GRADIENTS[Math.floor(Math.random()*GRADIENTS.length)],
