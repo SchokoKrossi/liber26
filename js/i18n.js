@@ -70,7 +70,7 @@ const I18N = {
     newsletter_title:'Newsletter',
     newsletter_desc:'Recevez chaque mois nos spectacles à venir, les prochains ateliers et les actualités de LIBER directement dans votre boîte mail.',
     newsletter_placeholder:'votre@email.com',
-    newsletter_btn:"S'abonner",
+    newsletter_btn:"S'abonner sur YesTicket ↗",
     newsletter_success:'🎉 Merci ! Vous êtes abonné·e à notre newsletter.',
     newsletter_error:'❌ Adresse e-mail invalide.',
     /* Footer */
@@ -266,7 +266,7 @@ Tél. +49 30 13 889-0 — <a href="https://www.datenschutz-berlin.de" target="_b
     newsletter_title:'Newsletter',
     newsletter_desc:'Erhalte jeden Monat unsere kommenden Aufführungen, Workshops und LIBER-Neuigkeiten direkt in dein Postfach.',
     newsletter_placeholder:'ihre@email.com',
-    newsletter_btn:'Abonnieren',
+    newsletter_btn:'Auf YesTicket abonnieren ↗',
     newsletter_success:'🎉 Danke! Sie haben unseren Newsletter abonniert.',
     newsletter_error:'❌ Ungültige E-Mail-Adresse.',
     /* Footer */
