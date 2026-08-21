@@ -301,38 +301,6 @@ function _renderGallery() {
   }).join('');
 }
 
-// ── NEWSLETTER ────────────────────────────────────────────────
-// Subscribes the email into the public.newsletter_subscribers table.
-// Admins can view + export the full list from the Contact admin section.
-async function submitNewsletter() {
-  const input = document.getElementById('newsletterEmail');
-  const email = input?.value.trim().toLowerCase();
-  const re    = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!email || !re.test(email)) {
-    showToast(I18N[currentLang].newsletter_error || '❌ Email invalide', 'error');
-    return;
-  }
-
-  try {
-    const { error } = await sb.from('newsletter_subscribers')
-      .insert({ email });
-
-    // 23505 = unique_violation — already subscribed. Treat as success
-    // to avoid revealing who's on the list.
-    if (error && error.code !== '23505') {
-      console.error('[newsletter] insert failed:', error);
-      showToast('❌ ' + (error.message || 'Erreur'), 'error');
-      return;
-    }
-  } catch (err) {
-    console.error('[newsletter] unexpected error:', err);
-    showToast('❌ Erreur réseau', 'error');
-    return;
-  }
-
-  showToast(I18N[currentLang].newsletter_success, 'success');
-  if (input) input.value = '';
-}
 
 // ── LEGAL PAGES ───────────────────────────────────────────────
 function renderLegalPage(type) {
