@@ -214,7 +214,7 @@ const _SECTION_MAP = {
   shows:   { data: renderAdminShows,    content: 'shows',   container: 'adminTextFields_shows'   },
   courses: { data: renderAdminCourses,  content: 'courses', container: 'adminTextFields_courses' },
   media:   { data: renderAdminMedia,    content: null,      container: null                      },
-  contact: { data: renderAdminSubscribers, content: 'contact', container: 'adminTextFields_contact' },
+  contact: { data: null,                   content: 'contact', container: 'adminTextFields_contact' },
 };
 
 function adminSection(id, btn) {
