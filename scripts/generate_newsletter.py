@@ -50,6 +50,8 @@ INSTAGRAM_POSTS = [
 # CONFIG
 # =============================================================================
 
+INCLUDE_INSTAGRAM = False#True   # set to False to leave the Instagram section out
+
 SUPABASE_URL      = "https://hfbqnjuxuvmmakhxgqbp.supabase.co"
 SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmYnFuanV4dXZtbWFraHhncWJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzMDI5MTcsImV4cCI6MjA5NDg3ODkxN30.It_38kzIHZ6iF_7q33lx4E55esRow2U4CByJUMEVTRY"
 
@@ -222,7 +224,7 @@ def show_card(show, lang):
           {h(date_str)}{time_row}
         </p>
         <h3 style="margin:0 0 12px;font-size:22px;font-weight:bold;color:#0a0a2e;
-                   font-family:'Fredoka',Georgia,serif">{title}</h3>
+                   font-family:Georgia,'Times New Roman',serif">{title}</h3>
         {desc_p}
         <a href="{url}" style="display:inline-block;padding:12px 26px;
            background:{BLUE};color:{YELLOW};text-decoration:none;
@@ -315,7 +317,7 @@ def lang_section(shows, courses, reg_open, lang):
   <tr>
     <td style="background:{WHITE};padding:6px 32px 28px">
       <h2 style="margin:0 0 18px;font-size:20px;font-weight:bold;color:{BLUE};
-                 font-family:'Fredoka',Georgia,serif;border-bottom:3px solid {YELLOW};
+                 font-family:Georgia,'Times New Roman',serif;border-bottom:3px solid {YELLOW};
                  padding-bottom:10px">{shows_h}</h2>
       {shows_html}
     </td>
@@ -325,7 +327,7 @@ def lang_section(shows, courses, reg_open, lang):
   <tr>
     <td style="background:{BG};padding:24px 32px">
       <h2 style="margin:0 0 6px;font-size:20px;font-weight:bold;color:{BLUE};
-                 font-family:'Fredoka',Georgia,serif;border-bottom:3px solid {YELLOW};
+                 font-family:Georgia,'Times New Roman',serif;border-bottom:3px solid {YELLOW};
                  padding-bottom:10px">{courses_h}</h2>
       <p style="margin:0 0 14px;font-size:13px;font-weight:bold;color:{reg_color}">{reg_txt}</p>
       {courses_html}
@@ -341,9 +343,28 @@ def lang_section(shows, courses, reg_open, lang):
 # =============================================================================
 
 def build_html(shows, courses, reg_open, ig_posts):
-    ig_html  = "".join(ig_cell(p) for p in ig_posts[:3])
     fr_block = lang_section(shows, courses, reg_open, "fr")
     de_block = lang_section(shows, courses, reg_open, "de")
+    if INCLUDE_INSTAGRAM and ig_posts:
+        ig_html = "".join(ig_cell(p) for p in ig_posts[:3])
+        ig_section = f"""
+  <!-- INSTAGRAM -->
+  <tr>
+    <td style="background:{WHITE};padding:28px 32px">
+      <h2 style="margin:0 0 16px;font-size:20px;font-weight:bold;color:{BLUE};
+                 font-family:Georgia,'Times New Roman',serif;border-bottom:3px solid {YELLOW};
+                 padding-bottom:10px">Instagram &#64;{INSTAGRAM_USER}</h2>
+      <table width="100%" cellpadding="0" cellspacing="0"><tr>{ig_html}</tr></table>
+      <p style="margin:16px 0 0;text-align:center">
+        <a href="https://www.instagram.com/{INSTAGRAM_USER}/"
+           style="color:{BLUE};font-size:13px;font-weight:bold;text-decoration:none">
+          Suivez-nous / Folgt uns &#8594;
+        </a>
+      </p>
+    </td>
+  </tr>"""
+    else:
+        ig_section = ""
 
     return f"""<!DOCTYPE html>
 <html lang="fr">
@@ -351,13 +372,12 @@ def build_html(shows, courses, reg_open, ig_posts):
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>LIBER Newsletter</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&family=Nunito:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
-    body {{ font-family: 'Nunito', Arial, Helvetica, sans-serif; }}
-    h1, h2, h3 {{ font-family: 'Fredoka', Georgia, serif; font-weight: 700; }}
+    body {{ font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }}
+    h1, h2, h3 {{ font-family: Georgia, 'Times New Roman', serif; font-weight: 700; }}
   </style>
 </head>
-<body style="margin:0;padding:0;background:#e8ecf8;font-family:'Nunito',Arial,Helvetica,sans-serif">
+<body style="margin:0;padding:0;background:#e8ecf8;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif">
 
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#e8ecf8">
 <tr><td align="center" style="padding:28px 12px">
@@ -368,7 +388,7 @@ def build_html(shows, courses, reg_open, ig_posts):
   <!-- HEADER -->
   <tr>
     <td style="background:{BLUE};padding:40px 32px;text-align:center">
-      <h1 style="margin:0 0 4px;font-family:'Fredoka',Georgia,serif;font-size:64px;
+      <h1 style="margin:0 0 4px;font-family:Georgia,'Times New Roman',serif;font-size:64px;
                  font-weight:700;color:{YELLOW};letter-spacing:0.06em;line-height:1">
         LIBER
       </h1>
@@ -393,21 +413,7 @@ def build_html(shows, courses, reg_open, ig_posts):
 
   {de_block}
 
-  <!-- INSTAGRAM -->
-  <tr>
-    <td style="background:{WHITE};padding:28px 32px">
-      <h2 style="margin:0 0 16px;font-size:20px;font-weight:bold;color:{BLUE};
-                 font-family:'Fredoka',Georgia,serif;border-bottom:3px solid {YELLOW};
-                 padding-bottom:10px">Instagram &#64;{INSTAGRAM_USER}</h2>
-      <table width="100%" cellpadding="0" cellspacing="0"><tr>{ig_html}</tr></table>
-      <p style="margin:16px 0 0;text-align:center">
-        <a href="https://www.instagram.com/{INSTAGRAM_USER}/"
-           style="color:{BLUE};font-size:13px;font-weight:bold;text-decoration:none">
-          Suivez-nous / Folgt uns &#8594;
-        </a>
-      </p>
-    </td>
-  </tr>
+  {ig_section}
 
   <!-- FOOTER -->
   <tr>
@@ -465,7 +471,9 @@ if __name__ == "__main__":
     print(f"      -> {len(courses)} course(s), registrations {'open' if reg_open else 'closed'}")
 
     print("[3/4] Reading Instagram posts...")
-    ig_posts = fetch_instagram_posts()
+    ig_posts = fetch_instagram_posts() if INCLUDE_INSTAGRAM else []
+    if not INCLUDE_INSTAGRAM:
+        print("      -> Instagram section disabled (INCLUDE_INSTAGRAM = False)")
 
     print("[4/4] Generating HTML...")
     today    = date.today().strftime("%Y-%m-%d")
