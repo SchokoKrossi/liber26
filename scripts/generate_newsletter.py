@@ -198,7 +198,11 @@ def show_card(show, lang):
     title    = h(show.get("title", ""))
     date_str = _fmt_date(show.get("date", ""), lang)
     time_str = show.get("time", "")
-    url      = h(show.get("url", "#"))
+    raw_url  = show.get("url", "") or ""
+    # Fall back to the general events page if the slug looks malformed (leading dash)
+    if not raw_url or re.search(r"/event/[a-z]{2}/-", raw_url):
+        raw_url = "https://www.yesticket.org/events/fr/liber-ligue-dimpro-de-berlin/"
+    url      = h(raw_url)
     img      = show.get("image_url")
     desc_raw = show.get(f"desc_{lang}") or show.get("desc_fr") or ""
     desc     = h(desc_raw[:300] + ("..." if len(desc_raw) > 300 else ""))
@@ -211,24 +215,28 @@ def show_card(show, lang):
       </td></tr>""" if img else ""
 
     time_row = f" &nbsp;&#183;&nbsp; {h(time_str)}" if time_str else ""
-    desc_p   = f'<p style="margin:0 0 18px;font-size:14px;color:#444;line-height:1.7">{desc}</p>' if desc else ""
+    desc_p   = f'<p class="text-444" style="margin:0 0 18px;font-size:14px;color:#444;line-height:1.7">{desc}</p>' if desc else ""
 
     return f"""
     <table width="100%" cellpadding="0" cellspacing="0"
            style="margin-bottom:24px;border-radius:10px;overflow:hidden;
                   box-shadow:0 2px 12px rgba(31,55,200,0.10)">
       {img_row}
-      <tr><td style="background:#fff;padding:22px 28px">
-        <p style="margin:0 0 8px;font-size:12px;font-weight:bold;color:{BLUE};
+      <tr><td class="white-bg" bgcolor="#fff" style="background:#fff;padding:22px 28px">
+        <p class="brand-text" style="margin:0 0 8px;font-size:12px;font-weight:bold;color:{BLUE};
                   text-transform:uppercase;letter-spacing:0.08em">
           {h(date_str)}{time_row}
         </p>
-        <h3 style="margin:0 0 12px;font-size:22px;font-weight:bold;color:#0a0a2e;
+        <h3 class="navy-text" style="margin:0 0 12px;font-size:22px;font-weight:bold;color:#0a0a2e;
                    font-family:Georgia,'Times New Roman',serif">{title}</h3>
         {desc_p}
-        <a href="{url}" style="display:inline-block;padding:12px 26px;
-           background:{BLUE};color:{YELLOW};text-decoration:none;
-           font-weight:bold;font-size:15px;border-radius:8px">{btn}</a>
+        <table cellpadding="0" cellspacing="0" border="0"><tr>
+          <td class="btn-bg" bgcolor="{BLUE}" style="background:{BLUE};border-radius:8px">
+            <a href="{url}" class="yellow-text" style="display:inline-block;padding:12px 26px;
+               color:{YELLOW};text-decoration:none;
+               font-weight:bold;font-size:15px;border-radius:8px">{btn}</a>
+          </td>
+        </tr></table>
       </td></tr>
     </table>"""
 
@@ -237,16 +245,16 @@ def course_card(course, lang):
     level = course.get(f"level_{lang}") or course.get("level_fr") or ""
     desc  = course.get(f"desc_{lang}") or course.get("desc_fr") or ""
     desc  = h(desc[:300] + ("..." if len(desc) > 300 else ""))
-    pill  = (f'<span style="display:inline-block;margin-bottom:6px;padding:3px 12px;'
+    pill  = (f'<span class="btn-bg yellow-text" style="display:inline-block;margin-bottom:6px;padding:3px 12px;'
              f'background:{BLUE};color:{YELLOW};border-radius:20px;font-size:11px;'
              f'font-weight:bold;letter-spacing:0.05em">{h(level)}</span><br/>') if level else ""
-    dp    = f'<p style="margin:5px 0 0;font-size:13px;color:#555;line-height:1.6">{desc}</p>' if desc else ""
+    dp    = f'<p class="text-555" style="margin:5px 0 0;font-size:13px;color:#555;line-height:1.6">{desc}</p>' if desc else ""
     return f"""
-    <table width="100%" cellpadding="0" cellspacing="0"
+    <table width="100%" cellpadding="0" cellspacing="0" bgcolor="{WHITE}"
            style="margin-bottom:10px;background:{WHITE};border-radius:8px;
                   border-left:4px solid {YELLOW}">
-      <tr><td style="padding:14px 18px">
-        {pill}<strong style="font-size:15px;color:#0a0a2e">{name}</strong>{dp}
+      <tr><td class="white-bg" style="padding:14px 18px">
+        {pill}<strong class="navy-text" style="font-size:15px;color:#0a0a2e">{name}</strong>{dp}
       </td></tr>
     </table>"""
 
@@ -279,6 +287,7 @@ def lang_section(shows, courses, reg_open, lang):
         courses_h   = "Ateliers d&#8217;improvisation"
         reg_txt     = "Les inscriptions sont ouvertes !" if reg_open else "Les inscriptions sont actuellement ferm&#233;es."
         reg_color   = "#1a7a3c" if reg_open else "#b91c1c"
+        reg_class   = "reg-open" if reg_open else "reg-closed"
         courses_btn = "Voir les ateliers et s&#8217;inscrire &rarr;"
         no_courses  = "Aucun atelier en cours."
     else:
@@ -290,6 +299,7 @@ def lang_section(shows, courses, reg_open, lang):
         courses_h   = "Improvisationsworkshops"
         reg_txt     = "Anmeldungen sind offen!" if reg_open else "Anmeldungen sind derzeit geschlossen."
         reg_color   = "#1a7a3c" if reg_open else "#b91c1c"
+        reg_class   = "reg-open" if reg_open else "reg-closed"
         courses_btn = "Workshops ansehen und anmelden &rarr;"
         no_courses  = "Derzeit keine Workshops."
 
@@ -299,24 +309,24 @@ def lang_section(shows, courses, reg_open, lang):
     return f"""
   <!-- LANG BADGE {lang.upper()} -->
   <tr>
-    <td style="background:{BLUE_D};padding:10px 32px">
-      <p style="margin:0;font-size:13px;font-weight:bold;color:{YELLOW};
+    <td class="badge-bg" bgcolor="{BLUE_D}" style="background:{BLUE_D};padding:10px 32px">
+      <p class="yellow-text" style="margin:0;font-size:13px;font-weight:bold;color:{YELLOW};
                 letter-spacing:0.06em;text-transform:uppercase">{lang_label}</p>
     </td>
   </tr>
 
   <!-- INTRO {lang.upper()} -->
   <tr>
-    <td style="background:{WHITE};padding:28px 32px 14px">
-      <p style="margin:0 0 6px;font-size:17px;font-weight:bold;color:#0a0a2e">{greeting}</p>
-      <p style="margin:0;font-size:15px;color:#444;line-height:1.7">{intro}</p>
+    <td class="white-bg" bgcolor="{WHITE}" style="background:{WHITE};padding:28px 32px 14px">
+      <p class="navy-text" style="margin:0 0 6px;font-size:17px;font-weight:bold;color:#0a0a2e">{greeting}</p>
+      <p class="text-444" style="margin:0;font-size:15px;color:#444;line-height:1.7">{intro}</p>
     </td>
   </tr>
 
   <!-- SHOWS {lang.upper()} -->
   <tr>
-    <td style="background:{WHITE};padding:6px 32px 28px">
-      <h2 style="margin:0 0 18px;font-size:20px;font-weight:bold;color:{BLUE};
+    <td class="white-bg" bgcolor="{WHITE}" style="background:{WHITE};padding:6px 32px 28px">
+      <h2 class="brand-text" style="margin:0 0 18px;font-size:20px;font-weight:bold;color:{BLUE};
                  font-family:Georgia,'Times New Roman',serif;border-bottom:3px solid {YELLOW};
                  padding-bottom:10px">{shows_h}</h2>
       {shows_html}
@@ -325,16 +335,21 @@ def lang_section(shows, courses, reg_open, lang):
 
   <!-- COURSES {lang.upper()} -->
   <tr>
-    <td style="background:{BG};padding:24px 32px">
-      <h2 style="margin:0 0 6px;font-size:20px;font-weight:bold;color:{BLUE};
+    <td class="page-section-bg" bgcolor="{BG}" style="background:{BG};padding:24px 32px">
+      <h2 class="brand-text" style="margin:0 0 6px;font-size:20px;font-weight:bold;color:{BLUE};
                  font-family:Georgia,'Times New Roman',serif;border-bottom:3px solid {YELLOW};
                  padding-bottom:10px">{courses_h}</h2>
-      <p style="margin:0 0 14px;font-size:13px;font-weight:bold;color:{reg_color}">{reg_txt}</p>
+      <p class="{reg_class}" style="margin:0 0 14px;font-size:13px;font-weight:bold;color:{reg_color}">{reg_txt}</p>
       {courses_html}
-      <a href="https://liber-impro.com/#courses"
-         style="display:inline-block;margin-top:14px;padding:11px 24px;
-                background:{BLUE};color:{YELLOW};text-decoration:none;
-                font-weight:bold;font-size:14px;border-radius:8px">{courses_btn}</a>
+      <table cellpadding="0" cellspacing="0" border="0" style="margin-top:14px"><tr>
+        <td class="btn-bg" bgcolor="{BLUE}" style="background:{BLUE};border-radius:8px">
+          <a href="https://liber-impro.com/#courses"
+             class="yellow-text"
+             style="display:inline-block;padding:11px 24px;
+                    color:{YELLOW};text-decoration:none;
+                    font-weight:bold;font-size:14px;border-radius:8px">{courses_btn}</a>
+        </td>
+      </tr></table>
     </td>
   </tr>"""
 
@@ -350,8 +365,8 @@ def build_html(shows, courses, reg_open, ig_posts):
         ig_section = f"""
   <!-- INSTAGRAM -->
   <tr>
-    <td style="background:{WHITE};padding:28px 32px">
-      <h2 style="margin:0 0 16px;font-size:20px;font-weight:bold;color:{BLUE};
+    <td class="white-bg" bgcolor="{WHITE}" style="background:{WHITE};padding:28px 32px">
+      <h2 class="brand-text" style="margin:0 0 16px;font-size:20px;font-weight:bold;color:{BLUE};
                  font-family:Georgia,'Times New Roman',serif;border-bottom:3px solid {YELLOW};
                  padding-bottom:10px">Instagram &#64;{INSTAGRAM_USER}</h2>
       <table width="100%" cellpadding="0" cellspacing="0"><tr>{ig_html}</tr></table>
@@ -367,35 +382,69 @@ def build_html(shows, courses, reg_open, ig_posts):
         ig_section = ""
 
     return f"""<!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
+  <meta name="supported-color-schemes" content="light dark"/>
   <title>LIBER Newsletter</title>
   <style>
-    body {{ font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }}
+    /* Gmail's app only trusts our colors (instead of auto-flipping lightness
+       while preserving hue) once we declare support for BOTH schemes and
+       mirror every color inside prefers-color-scheme:dark below. */
+    :root {{ color-scheme: light dark; }}
+    body {{ font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #e8ecf8 !important; color: #0a0a2e !important; }}
     h1, h2, h3 {{ font-family: Georgia, 'Times New Roman', serif; font-weight: 700; }}
+    /* Outlook.com / Yahoo mark the DOM with these attributes when their dark
+       mode is on; re-assert every brand color, not just the body background.
+       Gmail's mobile app ignores this entirely (and the meta tags above) — it
+       is handled separately via bgcolor/color HTML attributes on the elements. */
+    [data-ogsc] body, [data-ogsb] body {{ background-color: #e8ecf8 !important; color: #0a0a2e !important; }}
+    [data-ogsc] .hdr-bg, [data-ogsb] .hdr-bg {{ background-color: {BLUE} !important; }}
+    [data-ogsc] .badge-bg, [data-ogsb] .badge-bg {{ background-color: {BLUE_D} !important; }}
+    [data-ogsc] .white-bg, [data-ogsb] .white-bg {{ background-color: {WHITE} !important; }}
+    [data-ogsc] .page-section-bg, [data-ogsb] .page-section-bg {{ background-color: {BG} !important; }}
+    [data-ogsc] .btn-bg, [data-ogsb] .btn-bg {{ background-color: {BLUE} !important; }}
+    [data-ogsc] .yellow-text, [data-ogsb] .yellow-text {{ color: {YELLOW} !important; }}
+    [data-ogsc] .brand-text, [data-ogsb] .brand-text {{ color: {BLUE} !important; }}
+    [data-ogsc] .navy-text, [data-ogsb] .navy-text {{ color: #0a0a2e !important; }}
+    [data-ogsc] .text-444, [data-ogsb] .text-444 {{ color: #444444 !important; }}
+    [data-ogsc] .text-555, [data-ogsb] .text-555 {{ color: #555555 !important; }}
+    [data-ogsc] .reg-open, [data-ogsb] .reg-open {{ color: #1a7a3c !important; }}
+    [data-ogsc] .reg-closed, [data-ogsb] .reg-closed {{ color: #b91c1c !important; }}
+    @media (prefers-color-scheme: dark) {{
+      body {{ background-color: #e8ecf8 !important; color: #0a0a2e !important; }}
+      .hdr-bg {{ background-color: {BLUE} !important; }}
+      .badge-bg {{ background-color: {BLUE_D} !important; }}
+      .white-bg {{ background-color: {WHITE} !important; }}
+      .page-section-bg {{ background-color: {BG} !important; }}
+      .btn-bg {{ background-color: {BLUE} !important; }}
+      .yellow-text {{ color: {YELLOW} !important; }}
+      .brand-text {{ color: {BLUE} !important; }}
+      .navy-text {{ color: #0a0a2e !important; }}
+      .text-444 {{ color: #444444 !important; }}
+      .text-555 {{ color: #555555 !important; }}
+      .reg-open {{ color: #1a7a3c !important; }}
+      .reg-closed {{ color: #b91c1c !important; }}
+    }}
   </style>
 </head>
-<body style="margin:0;padding:0;background:#e8ecf8;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif">
+<body bgcolor="#e8ecf8" text="#0a0a2e" style="margin:0;padding:0;background:#e8ecf8 !important;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#0a0a2e">
 
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#e8ecf8">
-<tr><td align="center" style="padding:28px 12px">
+<table width="100%" cellpadding="0" cellspacing="0" bgcolor="#e8ecf8" style="background:#e8ecf8">
+<tr><td align="center" bgcolor="#e8ecf8" style="padding:28px 12px;background:#e8ecf8">
 <table width="560" cellpadding="0" cellspacing="0"
        style="max-width:560px;width:100%;border-radius:12px;overflow:hidden;
               box-shadow:0 4px 24px rgba(0,0,0,0.12)">
 
   <!-- HEADER -->
   <tr>
-    <td style="background:{BLUE};padding:40px 32px;text-align:center">
-      <h1 style="margin:0 0 4px;font-family:Georgia,'Times New Roman',serif;font-size:64px;
-                 font-weight:700;color:{YELLOW};letter-spacing:0.06em;line-height:1">
-        LIBER
-      </h1>
-      <p style="margin:0;font-size:12px;color:rgba(255,255,255,0.75);
-                letter-spacing:0.16em;text-transform:uppercase">
-        Ligue d&#8217;Improvisation de Berlin
-      </p>
+    <td class="hdr-bg" bgcolor="{BLUE}" style="background:{BLUE};padding:32px;text-align:center">
+      <img src="https://liber-impro.com/images/logo.jpg"
+           alt="LIBER — Ligue d'Improvisation de Berlin" width="200"
+           style="width:200px;max-width:200px;height:200px;display:block;margin:0 auto;border-radius:50%"/>
     </td>
   </tr>
 
@@ -403,7 +452,7 @@ def build_html(shows, courses, reg_open, ig_posts):
 
   <!-- DIVIDER -->
   <tr>
-    <td style="background:{BLUE};padding:12px 32px;text-align:center">
+    <td class="hdr-bg" bgcolor="{BLUE}" style="background:{BLUE};padding:12px 32px;text-align:center">
       <p style="margin:0;font-size:11px;color:rgba(255,255,255,0.5);
                 letter-spacing:0.1em;text-transform:uppercase">
         &#8212; Deutsche Version unten / Version allemande ci-dessous &#8212;
@@ -417,20 +466,26 @@ def build_html(shows, courses, reg_open, ig_posts):
 
   <!-- FOOTER -->
   <tr>
-    <td style="background:{BLUE_D};padding:28px 32px;text-align:center">
+    <td class="badge-bg" bgcolor="{BLUE_D}" style="background:{BLUE_D};padding:28px 32px;text-align:center">
       <p style="margin:0 0 12px">
         <a href="https://www.instagram.com/{INSTAGRAM_USER}/"
-           style="display:inline-block;margin:0 8px;padding:8px 16px;
+           style="display:inline-block;margin:0 8px;padding:8px 16px 8px 12px;
                   background:rgba(255,255,255,0.1);color:{WHITE};text-decoration:none;
-                  font-size:13px;border-radius:6px">Instagram</a>
+                  font-size:13px;border-radius:6px;vertical-align:middle">
+          <img src="https://liber-impro.com/images/instagram_logo_email.png" width="16" height="16"
+               alt="" style="width:16px;height:16px;vertical-align:middle;margin-right:6px;border-radius:50%"/>Instagram</a>
         <a href="https://www.facebook.com/liber.impro"
-           style="display:inline-block;margin:0 8px;padding:8px 16px;
+           style="display:inline-block;margin:0 8px;padding:8px 16px 8px 12px;
                   background:rgba(255,255,255,0.1);color:{WHITE};text-decoration:none;
-                  font-size:13px;border-radius:6px">Facebook</a>
+                  font-size:13px;border-radius:6px;vertical-align:middle">
+          <img src="https://liber-impro.com/images/facebook_logo_email.png" width="16" height="16"
+               alt="" style="width:16px;height:16px;vertical-align:middle;margin-right:6px;border-radius:50%"/>Facebook</a>
         <a href="https://liber-impro.com"
-           style="display:inline-block;margin:0 8px;padding:8px 16px;
+           style="display:inline-block;margin:0 8px;padding:8px 16px 8px 12px;
                   background:rgba(255,255,255,0.1);color:{WHITE};text-decoration:none;
-                  font-size:13px;border-radius:6px">liber-impro.com</a>
+                  font-size:13px;border-radius:6px;vertical-align:middle">
+          <img src="https://liber-impro.com/images/logo.jpg" width="16" height="16"
+               alt="" style="width:16px;height:16px;vertical-align:middle;margin-right:6px;border-radius:50%"/>liber-impro.com</a>
       </p>
       <p style="margin:12px 0 6px;font-size:12px;color:rgba(255,255,255,0.5)">
         Vous recevez cet email car vous vous &#234;tes abonn&#233;&#183;e &#224; la newsletter de LIBER.<br/>
