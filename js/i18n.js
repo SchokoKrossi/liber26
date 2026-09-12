@@ -152,10 +152,14 @@ Téléphone : +49 (0)30 499 670 91</p>
 <h3>3. Finalités du traitement</h3>
 <p>Nous traitons vos données personnelles afin de :</p>
 <ul>
+  <li>répondre à vos demandes ;</li>
   <li>gérer les inscriptions aux ateliers et les réservations de billets ;</li>
+  <li>organiser les ateliers et les projets culturels ;</li>
+  <li>communiquer avec les participant·es, les familles, les intervenant·es et les partenaires ;</li>
+  <li>assurer la sécurité et le bon déroulement de nos activités ;</li>
+  <li>respecter nos obligations légales, fiscales et administratives ;</li>
   <li>vous envoyer notre newsletter, si vous y avez souscrit ;</li>
-  <li>communiquer avec les participant·es et les partenaires ;</li>
-  <li>assurer le bon fonctionnement et la sécurité du site.</li>
+  <li>assurer le fonctionnement, la sécurité et l'amélioration du site.</li>
 </ul>
 
 <h3>4. Bases juridiques</h3>
@@ -362,10 +366,14 @@ Telefon: +49 (0)30 499 670 91</p>
 <h3>3. Zwecke der Verarbeitung</h3>
 <p>Wir verarbeiten personenbezogene Daten, um:</p>
 <ul>
+  <li>Anfragen zu beantworten;</li>
   <li>Anmeldungen für Workshops und Ticketreservierungen zu verwalten;</li>
+  <li>Workshops und kulturelle Projekte zu organisieren;</li>
+  <li>mit Teilnehmer:innen, Familien, freien Mitarbeiter:innen und Partner:innen zu kommunizieren;</li>
+  <li>die Sicherheit und ordnungsgemäße Durchführung unserer Aktivitäten zu gewährleisten;</li>
+  <li>gesetzliche, steuerliche und administrative Pflichten zu erfüllen;</li>
   <li>unseren Newsletter zu versenden, sofern Sie sich angemeldet haben;</li>
-  <li>mit Teilnehmer:innen und Partner:innen zu kommunizieren;</li>
-  <li>den Betrieb und die Sicherheit der Website zu gewährleisten.</li>
+  <li>den Betrieb, die Sicherheit und die Verbesserung der Website zu gewährleisten.</li>
 </ul>
 
 <h3>4. Rechtsgrundlagen</h3>
