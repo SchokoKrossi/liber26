@@ -85,7 +85,7 @@ def _clean_title(s):
 
 def _image_url(uid):
     m = re.match(r"^(\d+)", uid or "")
-    return f"https://cdn.yesticket.org/picture_me.php?type=event&id={m.group(1)}&width=560&height=292" if m else None
+    return f"https://cdn.yesticket.org/picture_me.php?type=event&id={m.group(1)}&width=1200&height=628" if m else None
 
 def _split_desc(desc):
     if not desc:
@@ -491,13 +491,9 @@ def build_html(shows, courses, reg_open, ig_posts):
         Vous recevez cet email car vous vous &#234;tes abonn&#233;&#183;e &#224; la newsletter de LIBER.<br/>
         Du erh&#228;ltst diese E-Mail, weil du den LIBER-Newsletter abonniert hast.
       </p>
-      <p style="margin:8px 0;font-size:13px">
-        <a href="*|UNSUB|*" style="color:{YELLOW};text-decoration:none;font-weight:bold">
-          Se d&#233;sabonner / Abmelden
-        </a>
-      </p>
+
       <p style="margin:10px 0 0;font-size:11px;color:rgba(255,255,255,0.3)">
-        LIBER &#183; c/o THEALINGUA gGmbH &#183; Berlin &#183;
+        LIBER &#183; c/o Cours et Jardins gUG &#183; Berlin &#183;
         <a href="https://liber-impro.com/#imprint"
            style="color:rgba(255,255,255,0.3)">Impressum</a>
       </p>

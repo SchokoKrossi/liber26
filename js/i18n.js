@@ -127,73 +127,89 @@ Skalitzer Str. 27, 10999 Berlin, Allemagne</p>
 <p><strong>Liens externes :</strong> Notre site contient des liens vers des sites tiers sur le contenu desquels nous n'avons aucune influence. La responsabilité du contenu de ces liens incombe toujours à leurs éditeurs respectifs. Les sites liés ont été vérifiés pour détecter d'éventuelles infractions au moment de leur intégration ; aucun contenu illicite n'a alors été constaté. Un contrôle permanent du contenu des pages liées n'est cependant pas raisonnablement exigible sans indices concrets d'une infraction.</p>
 <p><strong>Droit d'auteur :</strong> Les contenus et œuvres créés par les opérateurs du site sur ces pages sont soumis au droit d'auteur allemand. Toute reproduction, modification, diffusion ou utilisation hors des limites du droit d'auteur nécessite l'accord écrit préalable des auteur·rices respectif·ves.</p>`,
     privacy_title:'Politique de confidentialité',
-    privacy_body:`<h2>Politique de confidentialité (RGPD / DSGVO)</h2>
+    privacy_body:`<h2>Politique de confidentialité</h2>
+<p><em>Dernière mise à jour : 11 septembre 2026</em></p>
 
 <h3>1. Responsable du traitement</h3>
-<p><strong>THEALINGUA</strong><br>
-c/o Cours et Jardins gUG<br>
-Skalitzer Str. 27, 10999 Berlin, Allemagne<br>
-Gérance : Damien Poinsard, Marjorie Nadal<br>
-Inscrit au registre du commerce sous HRB 162571 B (Amtsgericht Charlottenburg)<br>
-Email : <a href="mailto:info@liber-impro.com">info@liber-impro.com</a></p>
-<p>Aucun délégué à la protection des données (DPO) n'a été nommé : Cours et Jardins gUG ne remplit pas les critères de l'art. 37 RGPD ni du § 38 BDSG (moins de 20 personnes traitant des données, pas de traitement à grande échelle de données sensibles).</p>
+<p><strong>Cours et jardins gUG (haftungsbeschränkt)</strong><br>
+Skalitzer Straße 27, 10999 Berlin, Allemagne<br>
+Représentée par Damien Poinsard, Geschäftsführer.<br>
+Contact : <a href="mailto:info@liber-impro.com">info@liber-impro.com</a><br>
+Téléphone : +49 (0)30 499 670 91</p>
+<p>Pour toute question relative à la protection des données ou pour exercer vos droits, contactez-nous à l'adresse ci-dessus.</p>
 
-<h3>2. Hébergement du site</h3>
-<p>Le site est hébergé sur <strong>GitHub Pages</strong> (GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis). GitHub stocke automatiquement, à chaque visite, un fichier journal contenant l'adresse IP, la date/heure, l'URL appelée, l'agent utilisateur et la réponse HTTP, à des fins de sécurité et de prévention des abus. Le transfert vers les États-Unis s'appuie sur les Clauses Contractuelles Types de la Commission européenne et sur la certification de GitHub au Data Privacy Framework UE-USA. Politique de GitHub : <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">github.com/site-policy</a>.</p>
-
-<h3>3. Données collectées sur le site et finalités</h3>
-<p>Nous ne collectons que les données que vous nous transmettez activement :</p>
+<h3>2. Données personnelles collectées</h3>
+<p>Selon votre utilisation du site et de nos services, nous pouvons collecter et traiter les données suivantes :</p>
 <ul>
-  <li><strong>Newsletter :</strong> votre adresse email et la langue choisie — utilisées pour vous envoyer nos actualités (base légale : art. 6 §1 a RGPD, consentement, retirable à tout moment en nous écrivant).</li>
-  <li><strong>Inscription aux ateliers :</strong> les données saisies dans le formulaire d'inscription Google Forms (voir section 4) — utilisées pour gérer votre participation (base légale : art. 6 §1 b RGPD, mesures pré-contractuelles).</li>
-  <li><strong>Compte administrateur :</strong> email + mot de passe haché — uniquement pour les membres du Vorstand qui gèrent le site (base légale : art. 6 §1 f RGPD, intérêt légitime à sécuriser l'accès au backend).</li>
+  <li>nom et prénom ;</li>
+  <li>adresse électronique ;</li>
+  <li>informations relatives aux inscriptions aux ateliers ;</li>
+  <li>données communiquées au moyen de nos formulaires ;</li>
+  <li>données techniques nécessaires au fonctionnement et à la sécurité du site.</li>
 </ul>
-<p>Le site ne contient <strong>aucun formulaire de contact</strong> : vous nous écrivez directement à <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a>. Le traitement de cet email est régi par la politique de votre fournisseur de messagerie et par celle de Google (Gmail).</p>
+<p>Nous ne collectons que les données nécessaires aux finalités décrites dans la présente politique.</p>
 
-<h3>4. Sous-traitants et destinataires</h3>
+<h3>3. Finalités du traitement</h3>
+<p>Nous traitons vos données personnelles afin de :</p>
 <ul>
-  <li><strong>Supabase</strong> (Supabase Inc., hébergement en UE — Francfort, Allemagne) : base de données, authentification administrateur et stockage des images. Sous-traitant au sens de l'art. 28 RGPD. Politique : <a href="https://supabase.com/privacy" target="_blank" rel="noopener">supabase.com/privacy</a>.</li>
-  <li><strong>YesTicket</strong> (yesticket.org) : nos billets de spectacles sont vendus via YesTicket. En cliquant sur « Plus d'infos » depuis la page Spectacles, vous quittez notre site et la politique de YesTicket s'applique.</li>
-  <li><strong>Google Forms / Google LLC</strong> (États-Unis) : lorsque vous cliquez sur le bouton du bandeau « Bannière » ou « Atelier » et qu'il pointe vers un Google Form, vous quittez notre site et entrez sur les services de Google. Politique : <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.</li>
-  <li><strong>Gmail / Google LLC</strong> : nos adresses email <code>liber.impro@gmail.com</code> et <code>polecommunication.liber.impro@gmail.com</code> sont hébergées chez Google. Tout courriel que vous nous envoyez transite donc par les serveurs de Google.</li>
+  <li>gérer les inscriptions aux ateliers et les réservations de billets ;</li>
+  <li>vous envoyer notre newsletter, si vous y avez souscrit ;</li>
+  <li>communiquer avec les participant·es et les partenaires ;</li>
+  <li>assurer le bon fonctionnement et la sécurité du site.</li>
 </ul>
 
-<h3>5. Polices d'écriture et CDN externes</h3>
-<p>Les polices d'écriture (Bangers, Fredoka, Nunito) sont <strong>hébergées localement</strong> sur le serveur du site. Aucune requête n'est faite vers Google Fonts et aucune adresse IP n'est transmise à Google pour le chargement des polices.</p>
-<p>La bibliothèque cliente Supabase est chargée depuis le CDN <strong>jsDelivr</strong> (StackPath). Aucune donnée personnelle n'est transmise lors de ce chargement, hormis l'adresse IP technique nécessaire à toute requête HTTP.</p>
+<h3>4. Bases juridiques</h3>
+<p>Selon le traitement concerné, vos données sont traitées sur les bases juridiques suivantes :</p>
+<ul>
+  <li>l'exécution d'un contrat ou de mesures précontractuelles ;</li>
+  <li>votre consentement (notamment pour la newsletter — retirable à tout moment) ;</li>
+  <li>notre intérêt légitime à assurer le fonctionnement et la sécurité de nos activités.</li>
+</ul>
 
-<h3>6. Cookies et stockage local</h3>
-<p>Ce site n'utilise ni cookies de suivi ni outils d'analyse (pas de Google Analytics, Matomo, Plausible, etc.). Le stockage local du navigateur est utilisé uniquement pour :</p>
+<h3>5. Hébergement du site</h3>
+<p>Le site est hébergé sur <strong>GitHub Pages</strong> (GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis). GitHub stocke automatiquement, à chaque visite, un fichier journal contenant l'adresse IP, la date/heure, l'URL appelée et l'agent utilisateur, à des fins de sécurité. Le transfert vers les États-Unis s'appuie sur les Clauses Contractuelles Types de la Commission européenne et sur la certification de GitHub au Data Privacy Framework UE–USA. Politique : <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">github.com/site-policy</a>.</p>
+
+<h3>6. Prestataires et destinataires des données</h3>
+<ul>
+  <li><strong>Supabase</strong> (Supabase Inc., hébergement en UE — Francfort) : base de données, authentification administrateur et stockage des images. Sous-traitant au sens de l'art. 28 RGPD. Politique : <a href="https://supabase.com/privacy" target="_blank" rel="noopener">supabase.com/privacy</a>.</li>
+  <li><strong>YesTicket</strong> (yesticket.org) : vente de billets pour nos spectacles. En cliquant sur « Plus d'infos » depuis la page Spectacles, vous quittez notre site et la politique de YesTicket s'applique.</li>
+  <li><strong>Mailchimp / Intuit Inc.</strong> (États-Unis) : envoi de notre newsletter. Vos données (adresse email) sont transmises à Mailchimp lorsque vous vous abonnez via YesTicket. Politique : <a href="https://mailchimp.com/legal/privacy/" target="_blank" rel="noopener">mailchimp.com/legal/privacy</a>.</li>
+  <li><strong>Google Forms / Google LLC</strong> (États-Unis) : formulaires d'inscription aux ateliers. En cliquant sur le bouton d'inscription, vous quittez notre site et entrez sur les services de Google. Politique : <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.</li>
+  <li><strong>Gmail / Google LLC</strong> : nos adresses <code>liber.impro@gmail.com</code> et <code>polecommunication.liber.impro@gmail.com</code> sont hébergées chez Google. Tout courriel que vous nous envoyez transite par les serveurs de Google.</li>
+</ul>
+
+<h3>7. Cookies et stockage local</h3>
+<p>Ce site n'utilise ni cookies de suivi ni outils d'analyse. Le stockage local du navigateur est utilisé uniquement pour :</p>
 <ul>
   <li>mémoriser la langue choisie (FR / DE) — strictement nécessaire ;</li>
   <li>maintenir la session d'un administrateur connecté — strictement nécessaire.</li>
 </ul>
 <p>Aucun consentement n'est requis pour ces usages au titre du § 25 al. 2 TTDSG.</p>
 
-<h3>7. Durée de conservation</h3>
-<p>Les abonnements à la newsletter sont conservés jusqu'à votre désinscription. Les inscriptions aux ateliers sont conservées pour la durée de la saison concernée, puis archivées ou supprimées. Les comptes administrateur sont conservés tant que la personne est habilitée par le Vorstand.</p>
+<h3>8. Durée de conservation</h3>
+<p>Les données des personnes n'ayant eu aucune relation active avec nous pendant trois ans sont supprimées ou anonymisées, sauf obligation légale contraire. Les abonnements à la newsletter sont conservés jusqu'à désinscription.</p>
 
-<h3>8. Vos droits</h3>
-<p>Vous disposez à tout moment des droits suivants sur vos données :</p>
+<h3>9. Vos droits</h3>
+<p>Conformément au RGPD, vous disposez des droits suivants :</p>
 <ul>
-  <li>Droit d'accès (art. 15 RGPD)</li>
-  <li>Droit de rectification (art. 16 RGPD)</li>
-  <li>Droit à l'effacement (art. 17 RGPD)</li>
-  <li>Droit à la limitation du traitement (art. 18 RGPD)</li>
-  <li>Droit à la portabilité (art. 20 RGPD)</li>
-  <li>Droit d'opposition (art. 21 RGPD)</li>
-  <li>Droit de retirer votre consentement à tout moment (art. 7 §3 RGPD)</li>
+  <li>droit d'accès (art. 15 RGPD) ;</li>
+  <li>droit de rectification (art. 16 RGPD) ;</li>
+  <li>droit à l'effacement (art. 17 RGPD) ;</li>
+  <li>droit à la limitation du traitement (art. 18 RGPD) ;</li>
+  <li>droit à la portabilité (art. 20 RGPD) ;</li>
+  <li>droit d'opposition (art. 21 RGPD) ;</li>
+  <li>droit de retirer votre consentement à tout moment (art. 7 §3 RGPD).</li>
 </ul>
-<p>Pour exercer ces droits, écrivez au responsable du traitement : <a href="mailto:info@liber-impro.com">info@liber-impro.com</a>.</p>
+<p>Pour exercer ces droits : <a href="mailto:info@liber-impro.com">info@liber-impro.com</a></p>
 
-<h3>9. Droit de réclamation auprès d'une autorité de contrôle</h3>
-<p>Vous avez le droit de déposer une réclamation auprès de l'autorité berlinoise compétente :<br>
+<h3>10. Droit de réclamation</h3>
+<p>Vous avez le droit de déposer une réclamation auprès de l'autorité de contrôle compétente :<br>
 <strong>Berliner Beauftragte für Datenschutz und Informationsfreiheit</strong><br>
-Friedrichstr. 219, 10969 Berlin<br>
-Tél. +49 30 13 889-0 — <a href="https://www.datenschutz-berlin.de" target="_blank" rel="noopener">datenschutz-berlin.de</a></p>
+Alt-Moabit 59–61, 10555 Berlin<br>
+E-mail : <a href="mailto:mailbox@datenschutz-berlin.de">mailbox@datenschutz-berlin.de</a> — Tél. +49 30 13889-0</p>
 
-<h3>10. Modifications</h3>
-<p>Nous nous réservons le droit d'adapter cette politique pour qu'elle reste conforme à l'évolution de la réglementation. Dernière mise à jour : ${new Date().toLocaleDateString('fr-FR', { year: 'numeric', month: 'long' })}.</p>`,
+<h3>11. Mise à jour de la présente politique</h3>
+<p>La présente politique peut être modifiée lorsque nos activités, nos outils techniques ou les obligations légales évoluent. La version publiée sur cette page est la version applicable.</p>`,
     /* Calendar */
     month_names:['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
     day_names:['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'],
@@ -321,73 +337,89 @@ Skalitzer Str. 27, 10999 Berlin, Deutschland</p>
 <p><strong>Externe Links:</strong> Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft; rechtswidrige Inhalte waren nicht erkennbar. Eine permanente inhaltliche Kontrolle ohne konkrete Anhaltspunkte einer Rechtsverletzung ist nicht zumutbar.</p>
 <p><strong>Urheberrecht:</strong> Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts bedürfen der schriftlichen Zustimmung der jeweiligen Autor·innen.</p>`,
     privacy_title:'Datenschutzerklärung',
-    privacy_body:`<h2>Datenschutzerklärung (DSGVO)</h2>
+    privacy_body:`<h2>Datenschutzerklärung</h2>
+<p><em>Stand: 11. September 2026</em></p>
 
-<h3>1. Verantwortlicher</h3>
-<p><strong>THEALINGUA</strong><br>
-c/o Cours et Jardins gUG<br>
-Skalitzer Str. 27, 10999 Berlin, Deutschland<br>
-Geschäftsführer: Damien Poinsard, Marjorie Nadal<br>
-Handelsregister: HRB 162571 B (Amtsgericht Charlottenburg)<br>
-E-Mail: <a href="mailto:info@liber-impro.com">info@liber-impro.com</a></p>
-<p>Es wurde kein Datenschutzbeauftragter bestellt: Cours et Jardins gUG erfüllt weder die Schwellen des Art. 37 DSGVO noch die des § 38 BDSG (weniger als 20 mit der Datenverarbeitung beschäftigte Personen, keine umfangreiche Verarbeitung besonderer Datenkategorien).</p>
+<h3>1. Verantwortliche Stelle</h3>
+<p><strong>Cours et jardins gUG (haftungsbeschränkt)</strong><br>
+Skalitzer Straße 27, 10999 Berlin, Deutschland<br>
+Vertreten durch Damien Poinsard, Geschäftsführer.<br>
+Kontakt: <a href="mailto:info@liber-impro.com">info@liber-impro.com</a><br>
+Telefon: +49 (0)30 499 670 91</p>
+<p>Bei Fragen zum Datenschutz oder zur Ausübung Ihrer Rechte können Sie uns unter der oben genannten Adresse kontaktieren.</p>
 
-<h3>2. Hosting der Website</h3>
-<p>Die Website wird bei <strong>GitHub Pages</strong> (GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA) gehostet. GitHub speichert bei jedem Aufruf automatisch ein Server-Logfile mit IP-Adresse, Datum/Uhrzeit, aufgerufener URL, User-Agent und HTTP-Status, um Sicherheit zu gewährleisten und Missbrauch zu verhindern. Der Transfer in die USA stützt sich auf die Standardvertragsklauseln der EU-Kommission sowie auf die Zertifizierung von GitHub unter dem EU-USA Data Privacy Framework. Datenschutzhinweise von GitHub: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">github.com/site-policy</a>.</p>
-
-<h3>3. Auf der Website erhobene Daten und Zwecke</h3>
-<p>Wir erheben nur Daten, die Sie uns aktiv übermitteln:</p>
+<h3>2. Erhobene personenbezogene Daten</h3>
+<p>Je nach Nutzung unserer Website und unserer Angebote können folgende Daten verarbeitet werden:</p>
 <ul>
-  <li><strong>Newsletter:</strong> Ihre E-Mail-Adresse und die gewählte Sprache — zum Versand unserer Neuigkeiten (Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO, Einwilligung, jederzeit widerruflich per E-Mail an uns).</li>
-  <li><strong>Workshop-Anmeldung:</strong> Die Daten, die Sie in das Google-Forms-Anmeldeformular eingeben (siehe Abschnitt 4) — zur Verwaltung Ihrer Teilnahme (Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO, vorvertragliche Maßnahmen).</li>
-  <li><strong>Administrator-Konto:</strong> E-Mail-Adresse + gehashtes Passwort — ausschließlich für Vorstandsmitglieder zur Verwaltung der Website (Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO, berechtigtes Interesse an der Sicherung des Backends).</li>
+  <li>Vor- und Nachname;</li>
+  <li>E-Mail-Adresse;</li>
+  <li>Angaben zu Anmeldungen für Workshops;</li>
+  <li>Daten aus unseren Formularen;</li>
+  <li>technische Daten für den Betrieb und die Sicherheit der Website.</li>
 </ul>
-<p>Die Website enthält <strong>kein Kontaktformular</strong>: Sie schreiben uns direkt an <a href="mailto:liber.impro@gmail.com">liber.impro@gmail.com</a>. Die Verarbeitung dieser E-Mail unterliegt den Bestimmungen Ihres E-Mail-Anbieters sowie denen von Google (Gmail).</p>
+<p>Wir erheben nur Daten, die für die genannten Zwecke erforderlich sind.</p>
 
-<h3>4. Auftragsverarbeiter und Empfänger</h3>
+<h3>3. Zwecke der Verarbeitung</h3>
+<p>Wir verarbeiten personenbezogene Daten, um:</p>
+<ul>
+  <li>Anmeldungen für Workshops und Ticketreservierungen zu verwalten;</li>
+  <li>unseren Newsletter zu versenden, sofern Sie sich angemeldet haben;</li>
+  <li>mit Teilnehmer:innen und Partner:innen zu kommunizieren;</li>
+  <li>den Betrieb und die Sicherheit der Website zu gewährleisten.</li>
+</ul>
+
+<h3>4. Rechtsgrundlagen</h3>
+<p>Je nach Verarbeitung erfolgt die Datenverarbeitung auf Grundlage von:</p>
+<ul>
+  <li>der Erfüllung eines Vertrags oder vorvertraglicher Maßnahmen;</li>
+  <li>Ihrer Einwilligung (insbesondere für den Newsletter — jederzeit widerruflich);</li>
+  <li>unserem berechtigten Interesse am sicheren Betrieb und an der Verwaltung unserer Aktivitäten.</li>
+</ul>
+
+<h3>5. Hosting der Website</h3>
+<p>Die Website wird bei <strong>GitHub Pages</strong> (GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA) gehostet. GitHub speichert bei jedem Aufruf automatisch ein Server-Logfile mit IP-Adresse, Datum/Uhrzeit, aufgerufener URL und User-Agent zum Zweck der Sicherheit. Der Transfer in die USA stützt sich auf die Standardvertragsklauseln der EU-Kommission sowie auf die Zertifizierung von GitHub unter dem EU-USA Data Privacy Framework. Datenschutz: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">github.com/site-policy</a>.</p>
+
+<h3>6. Dienstleister und Empfänger der Daten</h3>
 <ul>
   <li><strong>Supabase</strong> (Supabase Inc., Hosting in der EU — Frankfurt, Deutschland): Datenbank, Administrator-Authentifizierung und Bildspeicher. Auftragsverarbeiter im Sinne des Art. 28 DSGVO. Datenschutz: <a href="https://supabase.com/privacy" target="_blank" rel="noopener">supabase.com/privacy</a>.</li>
   <li><strong>YesTicket</strong> (yesticket.org): Unsere Aufführungs-Tickets werden über YesTicket verkauft. Wenn Sie auf der Aufführungs-Seite auf „Mehr Infos" klicken, verlassen Sie unsere Website und es gilt die Datenschutzerklärung von YesTicket.</li>
-  <li><strong>Google Forms / Google LLC</strong> (USA): Wenn Sie auf den Button im Banner oder im Workshop-Anmeldebereich klicken und dieser auf ein Google Form verweist, verlassen Sie unsere Website und nutzen die Dienste von Google. Datenschutz: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.</li>
-  <li><strong>Gmail / Google LLC</strong>: Unsere E-Mail-Adressen <code>liber.impro@gmail.com</code> und <code>polecommunication.liber.impro@gmail.com</code> werden bei Google gehostet. E-Mails, die Sie uns schicken, werden also über Google-Server geleitet.</li>
+  <li><strong>Mailchimp / Intuit Inc.</strong> (USA): Versand unseres Newsletters. Ihre E-Mail-Adresse wird bei einer Newsletter-Anmeldung über YesTicket an Mailchimp übermittelt. Datenschutz: <a href="https://mailchimp.com/legal/privacy/" target="_blank" rel="noopener">mailchimp.com/legal/privacy</a>.</li>
+  <li><strong>Google Forms / Google LLC</strong> (USA): Workshop-Anmeldeformulare. Wenn Sie auf den Anmelde-Button klicken, verlassen Sie unsere Website und nutzen die Dienste von Google. Datenschutz: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>.</li>
+  <li><strong>Gmail / Google LLC</strong>: Unsere E-Mail-Adressen <code>liber.impro@gmail.com</code> und <code>polecommunication.liber.impro@gmail.com</code> werden bei Google gehostet. E-Mails, die Sie uns senden, werden über Google-Server geleitet.</li>
 </ul>
 
-<h3>5. Schriften und externe CDNs</h3>
-<p>Die Schriftarten (Bangers, Fredoka, Nunito) werden <strong>lokal vom Server</strong> dieser Website ausgeliefert. Es wird keine Anfrage an Google Fonts gestellt und keine IP-Adresse an Google übermittelt, um die Schriftarten zu laden.</p>
-<p>Die Supabase-Client-Bibliothek wird vom CDN <strong>jsDelivr</strong> (StackPath) geladen. Hierbei werden außer der technisch erforderlichen IP-Adresse keine personenbezogenen Daten übertragen.</p>
-
-<h3>6. Cookies und lokaler Speicher</h3>
-<p>Diese Website verwendet weder Tracking-Cookies noch Analyse-Tools (kein Google Analytics, Matomo, Plausible o. ä.). Der lokale Browser-Speicher wird ausschließlich für Folgendes genutzt:</p>
+<h3>7. Cookies und lokaler Speicher</h3>
+<p>Diese Website verwendet weder Tracking-Cookies noch Analyse-Tools. Der lokale Browser-Speicher wird ausschließlich für Folgendes genutzt:</p>
 <ul>
   <li>Speichern der gewählten Sprache (FR / DE) — zwingend erforderlich;</li>
   <li>Aufrechterhaltung der Sitzung eines eingeloggten Administrators — zwingend erforderlich.</li>
 </ul>
 <p>Für diese Zwecke ist gemäß § 25 Abs. 2 TTDSG keine Einwilligung erforderlich.</p>
 
-<h3>7. Speicherdauer</h3>
-<p>Newsletter-Abonnements bleiben bis zur Abmeldung gespeichert. Workshop-Anmeldungen werden für die Dauer der jeweiligen Saison aufbewahrt und anschließend archiviert oder gelöscht. Administrator-Konten bleiben so lange bestehen, wie die Person vom Vorstand dazu berechtigt ist.</p>
+<h3>8. Speicherdauer</h3>
+<p>Daten von Personen, die drei Jahre lang keine aktive Beziehung zu uns unterhalten haben, werden gelöscht oder anonymisiert, sofern keine gesetzliche Aufbewahrungspflicht besteht. Newsletter-Abonnements werden bis zur Abmeldung gespeichert.</p>
 
-<h3>8. Ihre Rechte</h3>
-<p>Sie haben jederzeit folgende Rechte bezüglich Ihrer Daten:</p>
+<h3>9. Ihre Rechte</h3>
+<p>Sie haben nach Maßgabe der gesetzlichen Voraussetzungen folgende Rechte:</p>
 <ul>
-  <li>Auskunftsrecht (Art. 15 DSGVO)</li>
-  <li>Recht auf Berichtigung (Art. 16 DSGVO)</li>
-  <li>Recht auf Löschung (Art. 17 DSGVO)</li>
-  <li>Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
-  <li>Recht auf Datenübertragbarkeit (Art. 20 DSGVO)</li>
-  <li>Widerspruchsrecht (Art. 21 DSGVO)</li>
-  <li>Recht auf Widerruf einer Einwilligung (Art. 7 Abs. 3 DSGVO)</li>
+  <li>Auskunftsrecht (Art. 15 DSGVO);</li>
+  <li>Recht auf Berichtigung (Art. 16 DSGVO);</li>
+  <li>Recht auf Löschung (Art. 17 DSGVO);</li>
+  <li>Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO);</li>
+  <li>Recht auf Datenübertragbarkeit (Art. 20 DSGVO);</li>
+  <li>Widerspruchsrecht (Art. 21 DSGVO);</li>
+  <li>Recht auf Widerruf einer Einwilligung (Art. 7 Abs. 3 DSGVO).</li>
 </ul>
-<p>Zur Ausübung dieser Rechte schreiben Sie an den Verantwortlichen: <a href="mailto:info@liber-impro.com">info@liber-impro.com</a>.</p>
+<p>Zur Ausübung Ihrer Rechte: <a href="mailto:info@liber-impro.com">info@liber-impro.com</a></p>
 
-<h3>9. Beschwerderecht bei einer Aufsichtsbehörde</h3>
-<p>Sie haben das Recht, Beschwerde bei der zuständigen Berliner Aufsichtsbehörde einzulegen:<br>
+<h3>10. Beschwerderecht</h3>
+<p>Sie haben das Recht, Beschwerde bei der zuständigen Aufsichtsbehörde einzulegen:<br>
 <strong>Berliner Beauftragte für Datenschutz und Informationsfreiheit</strong><br>
-Friedrichstr. 219, 10969 Berlin<br>
-Tel. +49 30 13 889-0 — <a href="https://www.datenschutz-berlin.de" target="_blank" rel="noopener">datenschutz-berlin.de</a></p>
+Alt-Moabit 59–61, 10555 Berlin<br>
+E-Mail: <a href="mailto:mailbox@datenschutz-berlin.de">mailbox@datenschutz-berlin.de</a> — Tel. +49 30 13889-0</p>
 
-<h3>10. Änderungen</h3>
-<p>Wir behalten uns vor, diese Erklärung an geänderte Rechtslagen oder Änderungen unserer Dienste anzupassen. Letzte Aktualisierung: ${new Date().toLocaleDateString('de-DE', { year: 'numeric', month: 'long' })}.</p>`,
+<h3>11. Aktualisierung dieser Datenschutzerklärung</h3>
+<p>Diese Datenschutzerklärung kann geändert werden, wenn sich unsere Aktivitäten, die verwendeten technischen Dienste oder die gesetzlichen Anforderungen ändern. Es gilt jeweils die auf dieser Website veröffentlichte Fassung.</p>`,
     /* Calendar */
     month_names:['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
     day_names:['Mo','Di','Mi','Do','Fr','Sa','So'],
