@@ -52,9 +52,6 @@ INSTAGRAM_POSTS = [
 
 INCLUDE_INSTAGRAM = False#True   # set to False to leave the Instagram section out
 
-SUPABASE_URL      = "https://hfbqnjuxuvmmakhxgqbp.supabase.co"
-SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmYnFuanV4dXZtbWFraHhncWJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzMDI5MTcsImV4cCI6MjA5NDg3ODkxN30.It_38kzIHZ6iF_7q33lx4E55esRow2U4CByJUMEVTRY"
-
 YT_ICAL_URL    = "https://www.yesticket.org/ical/liber-ligue-dimpro-de-berlin.ics"
 INSTAGRAM_USER = "liber.impro"
 
@@ -146,31 +143,6 @@ def fetch_instagram_posts():
     return INSTAGRAM_POSTS
 
 # =============================================================================
-# SUPABASE FETCHERS
-# =============================================================================
-
-def _sb(path, params=None):
-    headers = {"apikey": SUPABASE_ANON_KEY, "Authorization": f"Bearer {SUPABASE_ANON_KEY}"}
-    r = requests.get(f"{SUPABASE_URL}/rest/v1/{path}", headers=headers, params=params, timeout=10)
-    r.raise_for_status()
-    return r.json()
-
-def fetch_courses():
-    try:
-        return _sb("courses", {"visible": "eq.true", "select": "*"})
-    except Exception as e:
-        print(f"  Warning: Supabase courses failed: {e}")
-        return []
-
-def fetch_registrations_open():
-    try:
-        data = _sb("site_content", {"key": "eq.__registrations_open", "select": "value_fr"})
-        return (data[0].get("value_fr", "true") != "false") if data else True
-    except Exception as e:
-        print(f"  Warning: Supabase registrations failed: {e}")
-        return True
-
-# =============================================================================
 # HTML HELPERS
 # =============================================================================
 
@@ -240,24 +212,6 @@ def show_card(show, lang):
       </td></tr>
     </table>"""
 
-def course_card(course, lang):
-    name  = h(course.get(f"title_{lang}") or course.get("title_fr") or "")
-    level = course.get(f"level_{lang}") or course.get("level_fr") or ""
-    desc  = course.get(f"desc_{lang}") or course.get("desc_fr") or ""
-    desc  = h(desc[:300] + ("..." if len(desc) > 300 else ""))
-    pill  = (f'<span class="btn-bg yellow-text" style="display:inline-block;margin-bottom:6px;padding:3px 12px;'
-             f'background:{BLUE};color:{YELLOW};border-radius:20px;font-size:11px;'
-             f'font-weight:bold;letter-spacing:0.05em">{h(level)}</span><br/>') if level else ""
-    dp    = f'<p class="text-555" style="margin:5px 0 0;font-size:13px;color:#555;line-height:1.6">{desc}</p>' if desc else ""
-    return f"""
-    <table width="100%" cellpadding="0" cellspacing="0" bgcolor="{WHITE}"
-           style="margin-bottom:10px;background:{WHITE};border-radius:8px;
-                  border-left:4px solid {YELLOW}">
-      <tr><td class="white-bg" style="padding:14px 18px">
-        {pill}<strong class="navy-text" style="font-size:15px;color:#0a0a2e">{name}</strong>{dp}
-      </td></tr>
-    </table>"""
-
 def ig_cell(post):
     img = post.get("image_url", "")
     cap = h((post.get("caption") or "")[:80])
@@ -277,34 +231,30 @@ def ig_cell(post):
 # LANGUAGE SECTION
 # =============================================================================
 
-def lang_section(shows, courses, reg_open, lang):
+def lang_section(shows, lang):
     if lang == "fr":
         lang_label  = "Version fran&#231;aise"
         greeting    = "Bonjour &#224; toutes et tous,"
-        intro       = "Voici les derni&#232;res nouvelles de LIBER &#8212; Ligue d&#8217;Improvisation de Berlin."
+        intro       = "Voici les derni&#232;res nouvelles de la LIBER &#8212; Ligue d&#8217;Improvisation de Berlin."
         shows_h     = "Prochain spectacle"
         no_shows    = "Aucun spectacle pr&#233;vu pour le moment."
         courses_h   = "Ateliers d&#8217;improvisation"
-        reg_txt     = "Les inscriptions sont ouvertes !" if reg_open else "Les inscriptions sont actuellement ferm&#233;es."
-        reg_color   = "#1a7a3c" if reg_open else "#b91c1c"
-        reg_class   = "reg-open" if reg_open else "reg-closed"
-        courses_btn = "Voir les ateliers et s&#8217;inscrire &rarr;"
-        no_courses  = "Aucun atelier en cours."
+        courses_txt = ("Tu as d&#233;j&#224; une premi&#232;re exp&#233;rience en th&#233;&#226;tre "
+                       "d&#8217;improvisation (1-2 ans) et tu souhaites approfondir&#160;? Alors tu es "
+                       "exactement au bon endroit&#160;! N&#8217;h&#233;site pas &#224; nous &#233;crire "
+                       f'&#224;&#160;: <a href="mailto:liber.impro@gmail.com" style="color:{BLUE};font-weight:bold">liber.impro@gmail.com</a>')
     else:
         lang_label  = "Deutsche Version"
         greeting    = "Hallo zusammen,"
-        intro       = "Hier sind die neuesten Nachrichten von LIBER &#8212; Ligue d&#8217;Improvisation de Berlin."
+        intro       = "Hier sind die neuesten Nachrichten von der LIBER &#8212; Ligue d&#8217;Improvisation de Berlin."
         shows_h     = "N&#228;chste Auff&#252;hrung"
         no_shows    = "Derzeit keine Auff&#252;hrungen geplant."
         courses_h   = "Improvisationsworkshops"
-        reg_txt     = "Anmeldungen sind offen!" if reg_open else "Anmeldungen sind derzeit geschlossen."
-        reg_color   = "#1a7a3c" if reg_open else "#b91c1c"
-        reg_class   = "reg-open" if reg_open else "reg-closed"
-        courses_btn = "Workshops ansehen und anmelden &rarr;"
-        no_courses  = "Derzeit keine Workshops."
+        courses_txt = ("Du hast schon erste Erfahrungen im Improtheater (1-2 Jahre) gesammelt und "
+                       "m&#246;chtest tiefer einsteigen? Dann bist du hier genau richtig! Schick uns "
+                       f'gern eine Mail an: <a href="mailto:liber.impro@gmail.com" style="color:{BLUE};font-weight:bold">liber.impro@gmail.com</a>')
 
     shows_html   = "".join(show_card(s, lang) for s in shows[:1]) or f'<p style="color:#888;font-size:14px;padding:8px 0">{no_shows}</p>'
-    courses_html = "".join(course_card(c, lang) for c in courses) or f'<p style="color:#888;font-size:14px;padding:8px 0">{no_courses}</p>'
 
     return f"""
   <!-- LANG BADGE {lang.upper()} -->
@@ -339,17 +289,7 @@ def lang_section(shows, courses, reg_open, lang):
       <h2 class="brand-text" style="margin:0 0 6px;font-size:20px;font-weight:bold;color:{BLUE};
                  font-family:Georgia,'Times New Roman',serif;border-bottom:3px solid {YELLOW};
                  padding-bottom:10px">{courses_h}</h2>
-      <p class="{reg_class}" style="margin:0 0 14px;font-size:13px;font-weight:bold;color:{reg_color}">{reg_txt}</p>
-      {courses_html}
-      <table cellpadding="0" cellspacing="0" border="0" style="margin-top:14px"><tr>
-        <td class="btn-bg" bgcolor="{BLUE}" style="background:{BLUE};border-radius:8px">
-          <a href="https://liber-impro.com/#courses"
-             class="yellow-text"
-             style="display:inline-block;padding:11px 24px;
-                    color:{YELLOW};text-decoration:none;
-                    font-weight:bold;font-size:14px;border-radius:8px">{courses_btn}</a>
-        </td>
-      </tr></table>
+      <p class="text-444" style="margin:0;font-size:15px;color:#444;line-height:1.7">{courses_txt}</p>
     </td>
   </tr>"""
 
@@ -357,9 +297,9 @@ def lang_section(shows, courses, reg_open, lang):
 # FULL BILINGUAL HTML
 # =============================================================================
 
-def build_html(shows, courses, reg_open, ig_posts):
-    fr_block = lang_section(shows, courses, reg_open, "fr")
-    de_block = lang_section(shows, courses, reg_open, "de")
+def build_html(shows, ig_posts):
+    fr_block = lang_section(shows, "fr")
+    de_block = lang_section(shows, "de")
     if INCLUDE_INSTAGRAM and ig_posts:
         ig_html = "".join(ig_cell(p) for p in ig_posts[:3])
         ig_section = f"""
@@ -411,9 +351,6 @@ def build_html(shows, courses, reg_open, ig_posts):
     [data-ogsc] .brand-text, [data-ogsb] .brand-text {{ color: {BLUE} !important; }}
     [data-ogsc] .navy-text, [data-ogsb] .navy-text {{ color: #0a0a2e !important; }}
     [data-ogsc] .text-444, [data-ogsb] .text-444 {{ color: #444444 !important; }}
-    [data-ogsc] .text-555, [data-ogsb] .text-555 {{ color: #555555 !important; }}
-    [data-ogsc] .reg-open, [data-ogsb] .reg-open {{ color: #1a7a3c !important; }}
-    [data-ogsc] .reg-closed, [data-ogsb] .reg-closed {{ color: #b91c1c !important; }}
     @media (prefers-color-scheme: dark) {{
       body {{ background-color: #e8ecf8 !important; color: #0a0a2e !important; }}
       .hdr-bg {{ background-color: {BLUE} !important; }}
@@ -425,9 +362,6 @@ def build_html(shows, courses, reg_open, ig_posts):
       .brand-text {{ color: {BLUE} !important; }}
       .navy-text {{ color: #0a0a2e !important; }}
       .text-444 {{ color: #444444 !important; }}
-      .text-555 {{ color: #555555 !important; }}
-      .reg-open {{ color: #1a7a3c !important; }}
-      .reg-closed {{ color: #b91c1c !important; }}
     }}
   </style>
 </head>
@@ -495,7 +429,9 @@ def build_html(shows, courses, reg_open, ig_posts):
       <p style="margin:10px 0 0;font-size:11px;color:rgba(255,255,255,0.3)">
         LIBER &#183; c/o Cours et Jardins gUG &#183; Berlin &#183;
         <a href="https://liber-impro.com/#imprint"
-           style="color:rgba(255,255,255,0.3)">Impressum</a>
+           style="color:rgba(255,255,255,0.3)">Impressum</a> &#183;
+        <a href="https://www.coursetjardins.org/datenschutz"
+           style="color:rgba(255,255,255,0.3)">Datenschutz</a>
       </p>
     </td>
   </tr>
@@ -512,25 +448,20 @@ def build_html(shows, courses, reg_open, ig_posts):
 # =============================================================================
 
 if __name__ == "__main__":
-    print("[1/4] Fetching shows from YesTicket...")
+    print("[1/3] Fetching shows from YesTicket...")
     shows = fetch_shows()
     print(f"      -> {len(shows)} upcoming show(s)")
 
-    print("[2/4] Fetching courses & registration status from Supabase...")
-    courses  = fetch_courses()
-    reg_open = fetch_registrations_open()
-    print(f"      -> {len(courses)} course(s), registrations {'open' if reg_open else 'closed'}")
-
-    print("[3/4] Reading Instagram posts...")
+    print("[2/3] Reading Instagram posts...")
     ig_posts = fetch_instagram_posts() if INCLUDE_INSTAGRAM else []
     if not INCLUDE_INSTAGRAM:
         print("      -> Instagram section disabled (INCLUDE_INSTAGRAM = False)")
 
-    print("[4/4] Generating HTML...")
+    print("[3/3] Generating HTML...")
     today    = date.today().strftime("%Y-%m-%d")
     filename = os.path.join(OUTPUT_DIR, f"newsletter_{today}.html")
     with open(filename, "w", encoding="utf-8-sig") as f:
-        f.write(build_html(shows, courses, reg_open, ig_posts))
+        f.write(build_html(shows, ig_posts))
 
     print(f"\nSaved: {filename}")
     print("Open in a browser to preview, then paste into Mailchimp.")
