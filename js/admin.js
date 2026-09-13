@@ -770,6 +770,20 @@ function renderAdminShows() {
         <div class="lang-field" style="grid-column:span 2"><label>Lieu</label><input type="text" id="newSVenue" placeholder="Kiezklub, Berlin" /></div>
         <div class="lang-field" style="grid-column:span 2"><label>URL billetterie (optionnel)</label><input type="url" id="newSTickets" placeholder="https://www.yesticket.org/…" /></div>
       </div>
+      <div style="margin-top:.8rem">
+        <div class="admin-img-preview" id="newSImgPrev" style="height:100px;aspect-ratio:auto;max-width:280px">
+          <div class="admin-img-overlay" style="font-size:.72rem">📷 Miniature (optionnel)</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr auto;gap:.5rem;align-items:end;margin-top:.4rem;max-width:480px">
+          <div class="lang-field"><label>URL image</label>
+            <input type="url" id="newSImgUrl" placeholder="https://…"
+              oninput="_prevImg('newSImgPrev',this.value)" /></div>
+          <label style="cursor:pointer">
+            <span class="admin-save-btn" style="display:block;font-size:.78rem;padding:.3rem .8rem;text-align:center">📁 Fichier</span>
+            <input type="file" accept="image/*" style="display:none" onchange="_newShowImgFile(this)" />
+          </label>
+        </div>
+      </div>
       <button class="admin-save-btn" onclick="_addManualShow()" style="margin-top:.8rem">➕ Ajouter</button>
     </div>`;
 }
@@ -786,7 +800,7 @@ async function _addManualShow() {
     time:          document.getElementById('newSTime')?.value || '20:00',
     venue:         document.getElementById('newSVenue')?.value.trim() || '',
     tickets:       document.getElementById('newSTickets')?.value.trim() || '#',
-    imageUrl:      '',
+    imageUrl:      document.getElementById('newSImgUrl')?.value.trim() || '',
     descriptionFR: '', descriptionDE: '',
     manual:        true,
   };
@@ -795,6 +809,16 @@ async function _addManualShow() {
   shows.push(_showFromDB(data));
   renderAdminShows(); renderShows(); renderCalendar(); renderNextShowBanner();
   showToast('✅ Événement ajouté!', 'success');
+}
+
+async function _newShowImgFile(input) {
+  const file = input.files[0]; if (!file) return;
+  try {
+    const url = await uploadMediaFile(file, 'shows');
+    const inp = document.getElementById('newSImgUrl'); if (inp) inp.value = url;
+    _prevImg('newSImgPrev', url);
+    showToast('📁 Image chargée — cliquez Ajouter', 'success');
+  } catch (err) { showToast('❌ Upload échoué: ' + err.message, 'error'); }
 }
 
 async function _deleteManualShow(id) {
