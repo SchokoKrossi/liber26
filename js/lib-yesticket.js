@@ -144,7 +144,8 @@ async function syncShowsFromYesTicket() {
   const { error: delErr, count: delCount } = await sb
     .from('shows')
     .delete({ count: 'exact' })
-    .gte('date', today);
+    .gte('date', today)
+    .eq('manual', false);
   if (delErr) throw new Error('Delete future failed: ' + delErr.message);
 
   // 3. Insert the events from the feed

@@ -55,6 +55,7 @@ const _showFromDB  = r => ({
   venue:r.venue, tickets:r.tickets||'#',
   imageUrl:r.image_url||'',
   descriptionFR:r.description_fr||'', descriptionDE:r.description_de||'',
+  manual: !!r.manual,
 });
 const _showToDB    = j => ({
   date:j.date, time:j.time,
@@ -62,6 +63,7 @@ const _showToDB    = j => ({
   venue:j.venue, tickets:j.tickets,
   image_url:j.imageUrl||null,
   description_fr:j.descriptionFR||null, description_de:j.descriptionDE||null,
+  manual: !!j.manual,
 });
 
 const _memberFromDB= r => ({

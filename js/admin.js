@@ -736,24 +736,74 @@ function saveNextShow() {
 // ═══════════════════════════════════════════════════════════
 // SHOWS CRUD
 // ═══════════════════════════════════════════════════════════
-// Yesticket-only mode: the admin can only VIEW the synced shows.
-// Editing/adding/deleting is done via yesticket.org, then synced.
+// YesTicket shows: read-only (sync from yesticket.org).
+// Manual shows: can be added and deleted here; sync never touches them.
 function renderAdminShows() {
   const el = document.getElementById('adminShowsList'); if (!el) return;
-  if (!shows.length) {
-    el.innerHTML = '<p style="color:rgba(255,255,255,.4);padding:1rem 0">Aucun spectacle. Cliquez sur 🔄 Synchroniser maintenant.</p>';
-    return;
-  }
   const sorted = [...shows].sort((a, b) => new Date(a.date) - new Date(b.date));
-  el.innerHTML = sorted.map(s => `
+  const rows = sorted.map(s => `
     <div class="admin-row">
       <div class="admin-row-info">
-        <strong>${_esc(s.titleFR)}</strong>
+        <strong>${_esc(s.titleFR)}${s.manual
+          ? ' <span style="font-size:.7rem;background:rgba(255,211,61,.15);color:var(--liber-yellow);border-radius:4px;padding:.1rem .4rem;margin-left:.4rem">Manuel</span>'
+          : ''}</strong>
         <span>${s.date} · ${s.time} · ${_esc(s.venue)}</span>
       </div>
-      ${s.tickets ? `<a class="admin-save-btn" href="${_escAttr(s.tickets)}" target="_blank" rel="noopener"
-                       style="padding:.28rem .8rem;font-size:.78rem;text-decoration:none">🎟️ Voir</a>` : ''}
-    </div>`).join('');
+      <div style="display:flex;gap:.4rem;align-items:center">
+        ${s.tickets && s.tickets !== '#'
+          ? `<a class="admin-save-btn" href="${_escAttr(s.tickets)}" target="_blank" rel="noopener"
+               style="padding:.28rem .8rem;font-size:.78rem;text-decoration:none">🎟️ Voir</a>`
+          : ''}
+        ${s.manual ? `<button class="admin-delete-btn" onclick="_deleteManualShow(${s.id})">✕</button>` : ''}
+      </div>
+    </div>`).join('') || '<p style="color:rgba(255,255,255,.4);padding:1rem 0">Aucun spectacle. Cliquez sur 🔄 Synchroniser maintenant.</p>';
+
+  el.innerHTML = rows + `
+    <div class="admin-card" style="border:2px dashed rgba(255,255,255,.15);margin-top:1.5rem">
+      <h4>➕ Ajouter un événement manuellement</h4>
+      <p style="font-size:.78rem;color:rgba(255,255,255,.4);margin-bottom:.8rem">Les événements manuels ne sont <strong>pas supprimés</strong> lors de la synchronisation YesTicket.</p>
+      <div class="bilingual-row">
+        <div class="lang-field"><label>Titre FR</label><input type="text" id="newSTFR" placeholder="Soirée impro" /></div>
+        <div class="lang-field"><label>Titel DE</label><input type="text" id="newSTDE" placeholder="Impro-Abend" /></div>
+        <div class="lang-field"><label>Date</label><input type="date" id="newSDate" /></div>
+        <div class="lang-field"><label>Heure</label><input type="time" id="newSTime" value="20:00" /></div>
+        <div class="lang-field" style="grid-column:span 2"><label>Lieu</label><input type="text" id="newSVenue" placeholder="Kiezklub, Berlin" /></div>
+        <div class="lang-field" style="grid-column:span 2"><label>URL billetterie (optionnel)</label><input type="url" id="newSTickets" placeholder="https://www.yesticket.org/…" /></div>
+      </div>
+      <button class="admin-save-btn" onclick="_addManualShow()" style="margin-top:.8rem">➕ Ajouter</button>
+    </div>`;
+}
+
+async function _addManualShow() {
+  const titleFR = document.getElementById('newSTFR')?.value.trim();
+  const date    = document.getElementById('newSDate')?.value;
+  if (!titleFR) { showToast('❌ Titre FR obligatoire', 'error'); return; }
+  if (!date)    { showToast('❌ Date obligatoire', 'error'); return; }
+  const s = {
+    titleFR,
+    titleDE:       document.getElementById('newSTDE')?.value.trim() || titleFR,
+    date,
+    time:          document.getElementById('newSTime')?.value || '20:00',
+    venue:         document.getElementById('newSVenue')?.value.trim() || '',
+    tickets:       document.getElementById('newSTickets')?.value.trim() || '#',
+    imageUrl:      '',
+    descriptionFR: '', descriptionDE: '',
+    manual:        true,
+  };
+  const { data, error } = await sb.from('shows').insert(_showToDB(s)).select().single();
+  if (error) { showToast('❌ ' + error.message, 'error'); return; }
+  shows.push(_showFromDB(data));
+  renderAdminShows(); renderShows(); renderCalendar(); renderNextShowBanner();
+  showToast('✅ Événement ajouté!', 'success');
+}
+
+async function _deleteManualShow(id) {
+  if (!confirm('Supprimer cet événement ?')) return;
+  const { error } = await sb.from('shows').delete().eq('id', id);
+  if (error) { showToast('❌ ' + error.message, 'error'); return; }
+  shows = shows.filter(x => x.id !== id);
+  renderAdminShows(); renderShows(); renderCalendar(); renderNextShowBanner();
+  showToast('🗑️ Événement supprimé', 'success');
 }
 
 // ═══════════════════════════════════════════════════════════
