@@ -823,8 +823,23 @@ async function _newShowImgFile(input) {
 
 async function _deleteManualShow(id) {
   if (!confirm('Supprimer cet événement ?')) return;
+  const show = shows.find(x => x.id === id);
+
+  // Delete the DB row first
   const { error } = await sb.from('shows').delete().eq('id', id);
   if (error) { showToast('❌ ' + error.message, 'error'); return; }
+
+  // If the show had an uploaded image, remove it from storage too.
+  // The public URL looks like: https://<project>.supabase.co/storage/v1/object/public/media/<path>
+  if (show?.imageUrl) {
+    const marker = '/object/public/media/';
+    const idx = show.imageUrl.indexOf(marker);
+    if (idx !== -1) {
+      const storagePath = show.imageUrl.slice(idx + marker.length);
+      await sb.storage.from('media').remove([storagePath]);
+    }
+  }
+
   shows = shows.filter(x => x.id !== id);
   renderAdminShows(); renderShows(); renderCalendar(); renderNextShowBanner();
   showToast('🗑️ Événement supprimé', 'success');
