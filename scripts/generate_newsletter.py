@@ -4,19 +4,21 @@ scripts/generate_newsletter.py
 Generates a bilingual (FR + DE) LIBER newsletter HTML for Mailchimp.
 
 Requirements:
-    pip install requests
+    pip install requests pillow
 
 Usage:
     1. Fill in INSTAGRAM_POSTS below with the 3 latest posts from @liber.impro
        - Open a post on Instagram, right-click the image -> "Open image in new tab"
        - Copy the URL from the address bar and paste it as image_url
        - Add a short caption and the link to the post
-    2. Run: python scripts/generate_newsletter.py
-    3. Open the generated newsletter_YYYY-MM-DD.html in a browser to preview
-    4. Paste the HTML into Mailchimp -> Campaigns -> Create -> Email -> Code your own
+    2. Optionally choose the members for the header in HEADER_MEMBERS (random otherwise)
+    3. Run: python scripts/generate_newsletter.py
+    4. Commit + push the new images/newsletter/header_YYYY-MM-DD.jpg to the website
+    5. Open the generated newsletter_YYYY-MM-DD.html in a browser to preview
+    6. Paste the HTML into Mailchimp -> Campaigns -> Create -> Email -> Code your own
 """
 
-import os, re, html as _html, requests
+import os, re, random, html as _html, requests
 from datetime import date, datetime
 
 # =============================================================================
@@ -52,10 +54,24 @@ INSTAGRAM_POSTS = [
 
 INCLUDE_INSTAGRAM = False#True   # set to False to leave the Instagram section out
 
+# Header collage: member cut-outs from images/members/ arranged around the logo.
+# Set to False to fall back to the plain logo header.
+INCLUDE_MEMBER_HEADER = True
+
+# Pick exactly 4 members (file names without .png, listed left to right),
+# e.g. ["marion", "celeste", "christoph", "gaelle"].
+# Leave empty to pick 4 at random (stable for the same day, different next time).
+HEADER_MEMBERS = ["marion", "celeste", "christoph", "gaelle"]
+
+# Never picked at random (duplicates / placeholders)
+HEADER_EXCLUDE = {"unnamed", "benjamin2", "roxane_2"}
+
 YT_ICAL_URL    = "https://www.yesticket.org/ical/liber-ligue-dimpro-de-berlin.ics"
 INSTAGRAM_USER = "liber.impro"
 
 OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_DIR   = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SITE_URL   = "https://liber-impro.com"
 
 # =============================================================================
 # BRAND COLOURS (from main.css)
@@ -141,6 +157,93 @@ def fetch_instagram_posts():
     if not filled:
         print("  Note: no Instagram images filled in — section will show placeholders")
     return INSTAGRAM_POSTS
+
+# =============================================================================
+# HEADER COLLAGE — members around the logo, rendered as one image
+# =============================================================================
+# Email clients can't position or overlap images, so the whole header is
+# composed here as a single JPEG. It is saved under images/newsletter/ and
+# must be pushed to the website before the newsletter is sent.
+
+HDR_SCALE = 2                       # render at 2x for sharp retina display
+HDR_W, HDR_H = 560 * HDR_SCALE, 260 * HDR_SCALE
+HDR_LOGO_D   = 168 * HDR_SCALE      # logo diameter
+# Member boxes per side, outer then inner: (centre x from edge, max width, max height).
+# Each photo is fitted into its box, so neighbours barely overlap.
+HDR_SLOTS    = [(58, 122, 200), (152, 124, 216)]
+HDR_COUNT    = 2 * len(HDR_SLOTS)
+
+def _pick_header_members():
+    members_dir = os.path.join(REPO_DIR, "images", "members")
+    available = sorted(f[:-4] for f in os.listdir(members_dir) if f.lower().endswith(".png"))
+    if HEADER_MEMBERS:
+        missing = [m for m in HEADER_MEMBERS if m not in available]
+        if missing:
+            raise SystemExit(f"  Error: no image for {missing} in images/members/")
+        if len(HEADER_MEMBERS) != HDR_COUNT:
+            raise SystemExit(f"  Error: HEADER_MEMBERS must list exactly {HDR_COUNT} names")
+        return HEADER_MEMBERS
+    pool = [m for m in available if m not in HEADER_EXCLUDE]
+    return random.Random(date.today().isoformat()).sample(pool, HDR_COUNT)
+
+def _sticker(path, max_w, max_h):
+    """Load a cut-out, fit it into max_w x max_h and give it a white outline + shadow."""
+    from PIL import Image, ImageFilter
+    im = Image.open(path).convert("RGBA")
+    im = im.crop(im.getchannel("A").getbbox())
+    k  = min(max_w / im.width, max_h / im.height)
+    im = im.resize((round(im.width * k), round(im.height * k)), Image.LANCZOS)
+
+    pad    = 8 * HDR_SCALE
+    canvas = Image.new("RGBA", (im.width + 2 * pad, im.height + pad), (0, 0, 0, 0))
+    alpha  = Image.new("L", canvas.size, 0)
+    alpha.paste(im.getchannel("A"), (pad, pad))
+
+    shadow = alpha.filter(ImageFilter.GaussianBlur(5 * HDR_SCALE)).point(lambda a: a * 0.45)
+    canvas.paste((10, 10, 46, 255), (0, 0), shadow)
+    outline = alpha.filter(ImageFilter.MaxFilter(2 * 2 * HDR_SCALE + 1))
+    canvas.paste((255, 255, 255, 255), (0, 0), outline)
+    canvas.alpha_composite(im, (pad, pad))
+    return canvas
+
+def build_header_image(members):
+    """Compose the header image and return its public URL."""
+    from PIL import Image, ImageDraw, ImageFilter
+    s = HDR_SCALE
+    img = Image.new("RGBA", (HDR_W, HDR_H), BLUE)
+
+    # Soft light spot behind the logo
+    glow = Image.new("L", img.size, 0)
+    r = HDR_LOGO_D * 0.85
+    ImageDraw.Draw(glow).ellipse((HDR_W / 2 - r, HDR_H / 2 - r, HDR_W / 2 + r, HDR_H / 2 + r), fill=70)
+    img.paste((255, 255, 255, 255), (0, 0), glow.filter(ImageFilter.GaussianBlur(40 * s)))
+
+    # Members: left side then right side, back (outer) to front (inner)
+    members_dir = os.path.join(REPO_DIR, "images", "members")
+    half = len(HDR_SLOTS)
+    left, right = members[:half], members[half:][::-1]
+    for side, names in (("left", left), ("right", right)):
+        for (cx, max_w, max_h), name in zip(HDR_SLOTS, names):
+            st = _sticker(os.path.join(members_dir, f"{name}.png"), max_w * s, max_h * s)
+            x  = cx * s if side == "left" else HDR_W - cx * s
+            img.alpha_composite(st, (round(x - st.width / 2), HDR_H - st.height + 4 * s))
+
+    # Logo on top: shadow, round-cropped logo
+    d = HDR_LOGO_D
+    lx, ly = (HDR_W - d) // 2, (HDR_H - d) // 2
+    shadow = Image.new("L", img.size, 0)
+    ImageDraw.Draw(shadow).ellipse((lx, ly + 4 * s, lx + d, ly + d + 4 * s), fill=120)
+    img.paste((10, 10, 46, 255), (0, 0), shadow.filter(ImageFilter.GaussianBlur(8 * s)))
+    logo = Image.open(os.path.join(REPO_DIR, "images", "logo.jpg")).convert("RGBA").resize((d, d), Image.LANCZOS)
+    mask = Image.new("L", (d * 4, d * 4), 0)
+    ImageDraw.Draw(mask).ellipse((0, 0, d * 4, d * 4), fill=255)
+    img.paste(logo, (lx, ly), mask.resize((d, d), Image.LANCZOS))
+
+    out_dir = os.path.join(REPO_DIR, "images", "newsletter")
+    os.makedirs(out_dir, exist_ok=True)
+    fname = f"header_{date.today().isoformat()}.jpg"
+    img.convert("RGB").save(os.path.join(out_dir, fname), quality=88, optimize=True, progressive=True)
+    return f"{SITE_URL}/images/newsletter/{fname}"
 
 # =============================================================================
 # HTML HELPERS
@@ -297,9 +400,21 @@ def lang_section(shows, lang):
 # FULL BILINGUAL HTML
 # =============================================================================
 
-def build_html(shows, ig_posts):
+def build_html(shows, ig_posts, header_url=None):
     fr_block = lang_section(shows, "fr")
     de_block = lang_section(shows, "de")
+    if header_url:
+        header_cell = f"""<td class="hdr-bg" bgcolor="{BLUE}" style="background:{BLUE};padding:0;line-height:0">
+      <img src="{h(header_url)}"
+           alt="LIBER — Ligue d'Improvisation de Berlin" width="560"
+           style="width:100%;max-width:560px;height:auto;display:block;border:0"/>
+    </td>"""
+    else:
+        header_cell = f"""<td class="hdr-bg" bgcolor="{BLUE}" style="background:{BLUE};padding:32px;text-align:center">
+      <img src="https://liber-impro.com/images/logo.jpg"
+           alt="LIBER — Ligue d'Improvisation de Berlin" width="200"
+           style="width:200px;max-width:200px;height:200px;display:block;margin:0 auto;border-radius:50%"/>
+    </td>"""
     if INCLUDE_INSTAGRAM and ig_posts:
         ig_html = "".join(ig_cell(p) for p in ig_posts[:3])
         ig_section = f"""
@@ -375,11 +490,7 @@ def build_html(shows, ig_posts):
 
   <!-- HEADER -->
   <tr>
-    <td class="hdr-bg" bgcolor="{BLUE}" style="background:{BLUE};padding:32px;text-align:center">
-      <img src="https://liber-impro.com/images/logo.jpg"
-           alt="LIBER — Ligue d'Improvisation de Berlin" width="200"
-           style="width:200px;max-width:200px;height:200px;display:block;margin:0 auto;border-radius:50%"/>
-    </td>
+    {header_cell}
   </tr>
 
   {fr_block}
@@ -448,20 +559,33 @@ def build_html(shows, ig_posts):
 # =============================================================================
 
 if __name__ == "__main__":
-    print("[1/3] Fetching shows from YesTicket...")
+    print("[1/4] Fetching shows from YesTicket...")
     shows = fetch_shows()
     print(f"      -> {len(shows)} upcoming show(s)")
 
-    print("[2/3] Reading Instagram posts...")
+    print("[2/4] Reading Instagram posts...")
     ig_posts = fetch_instagram_posts() if INCLUDE_INSTAGRAM else []
     if not INCLUDE_INSTAGRAM:
         print("      -> Instagram section disabled (INCLUDE_INSTAGRAM = False)")
 
-    print("[3/3] Generating HTML...")
+    print("[3/4] Building header image...")
+    header_url = None
+    if INCLUDE_MEMBER_HEADER:
+        members    = _pick_header_members()
+        header_url = build_header_image(members)
+        print(f"      -> members: {', '.join(members)}")
+    else:
+        print("      -> member header disabled (INCLUDE_MEMBER_HEADER = False)")
+
+    print("[4/4] Generating HTML...")
     today    = date.today().strftime("%Y-%m-%d")
     filename = os.path.join(OUTPUT_DIR, f"newsletter_{today}.html")
     with open(filename, "w", encoding="utf-8-sig") as f:
-        f.write(build_html(shows, ig_posts))
+        f.write(build_html(shows, ig_posts, header_url))
 
     print(f"\nSaved: {filename}")
+    if header_url:
+        print(f"Header: images/newsletter/header_{today}.jpg")
+        print("  -> commit + push it to the website BEFORE sending, the email loads it from")
+        print(f"     {header_url}")
     print("Open in a browser to preview, then paste into Mailchimp.")
