@@ -13,12 +13,13 @@ Usage:
        - Add a short caption and the link to the post
     2. Optionally choose the members for the header in HEADER_MEMBERS (random otherwise)
     3. Run: python scripts/generate_newsletter.py
-    4. Commit + push the new images/newsletter/header_YYYY-MM-DD.jpg to the website
+    4. If the script says the header is NOT ONLINE YET: commit + push the new
+       images/newsletter/header_*.jpg to the website
     5. Open the generated newsletter_YYYY-MM-DD.html in a browser to preview
     6. Paste the HTML into Mailchimp -> Campaigns -> Create -> Email -> Code your own
 """
 
-import os, re, random, html as _html, requests
+import os, io, re, random, hashlib, html as _html, requests
 from datetime import date, datetime
 
 # =============================================================================
@@ -65,6 +66,21 @@ HEADER_MEMBERS = ["marion", "celeste", "christoph", "gaelle"]
 
 # Never picked at random (duplicates / placeholders)
 HEADER_EXCLUDE = {"unnamed", "benjamin2", "roxane_2"}
+
+# News section (below the next show, replaces the old Courses section).
+# Update the texts before each send. Plain text, no HTML needed.
+INCLUDE_NEWS = True   # set to False to leave the news section out
+NEWS_TITLE_FR = "Retour sur le dernier show"
+NEWS_TITLE_DE = "Rückblick auf die letzte Show"
+NEWS_FR = ("Quel show incroyable dimanche dernier ! Une croisière intersidérale si romantique, "
+           "une colonie de vacances au fin fond du Far West et une séance de vol acrobatique dans les "
+           "nuages : l'agence de voyage de la LIBER nous a emmenés dans toutes vos destinations les "
+           "plus belles et originales ! On a déjà hâte de remettre ça avec vous dès le "
+           "18 octobre prochain pour un mini-match et un long format !")
+NEWS_DE = ("So was von einer geilen Show am letzten Sonntag! Eine romantische Weltraumkreuzfahrt, "
+           "ein Ferienlager mitten im Far West und akrobatisches Fliegen in den Wolken: das "
+           "LIBER-Reisebüro hat uns in all eure schönsten und fantastischen Wunschreiseziele "
+           "gebracht! Wir freuen uns schon auf die nächste Show (Mini-Match und Longform) am 18.10.!")
 
 YT_ICAL_URL    = "https://www.yesticket.org/ical/liber-ligue-dimpro-de-berlin.ics"
 INSTAGRAM_USER = "liber.impro"
@@ -239,11 +255,23 @@ def build_header_image(members):
     ImageDraw.Draw(mask).ellipse((0, 0, d * 4, d * 4), fill=255)
     img.paste(logo, (lx, ly), mask.resize((d, d), Image.LANCZOS))
 
+    # Named after its content: re-running with the same members reuses the file
+    # that is already online, a changed header gets a new name (no stale caches).
+    buf = io.BytesIO()
+    img.convert("RGB").save(buf, "JPEG", quality=88, optimize=True, progressive=True)
+    data  = buf.getvalue()
+    fname = f"header_{hashlib.sha1(data).hexdigest()[:10]}.jpg"
     out_dir = os.path.join(REPO_DIR, "images", "newsletter")
     os.makedirs(out_dir, exist_ok=True)
-    fname = f"header_{date.today().isoformat()}.jpg"
-    img.convert("RGB").save(os.path.join(out_dir, fname), quality=88, optimize=True, progressive=True)
+    with open(os.path.join(out_dir, fname), "wb") as f:
+        f.write(data)
     return f"{SITE_URL}/images/newsletter/{fname}"
+
+def is_online(url):
+    try:
+        return requests.head(url, timeout=10, allow_redirects=True).status_code == 200
+    except Exception:
+        return False
 
 # =============================================================================
 # HTML HELPERS
@@ -268,6 +296,10 @@ def _fmt_date(s, lang):
 
 def h(s):
     return _html.escape(str(s or ""), quote=True)
+
+def _entities(s):
+    """Escape plain text and write accents as numeric entities, like the rest of the template."""
+    return h(s).encode("ascii", "xmlcharrefreplace").decode()
 
 def show_card(show, lang):
     title    = h(show.get("title", ""))
@@ -341,22 +373,28 @@ def lang_section(shows, lang):
         intro       = "Voici les derni&#232;res nouvelles de la LIBER &#8212; Ligue d&#8217;Improvisation de Berlin."
         shows_h     = "Prochain spectacle"
         no_shows    = "Aucun spectacle pr&#233;vu pour le moment."
-        courses_h   = "Ateliers d&#8217;improvisation"
-        courses_txt = ("Tu as d&#233;j&#224; une premi&#232;re exp&#233;rience en th&#233;&#226;tre "
-                       "d&#8217;improvisation (1-2 ans) et tu souhaites approfondir&#160;? Alors tu es "
-                       "exactement au bon endroit&#160;! N&#8217;h&#233;site pas &#224; nous &#233;crire "
-                       f'&#224;&#160;: <a href="mailto:liber.impro@gmail.com" style="color:{BLUE};font-weight:bold">liber.impro@gmail.com</a>')
+        news_h      = NEWS_TITLE_FR
+        news        = NEWS_FR
     else:
         lang_label  = "Deutsche Version"
         greeting    = "Hallo zusammen,"
         intro       = "Hier sind die neuesten Nachrichten von der LIBER &#8212; Ligue d&#8217;Improvisation de Berlin."
         shows_h     = "N&#228;chste Auff&#252;hrung"
         no_shows    = "Derzeit keine Auff&#252;hrungen geplant."
-        courses_h   = "Improvisationsworkshops"
-        courses_txt = ("Du hast schon erste Erfahrungen im Improtheater (1-2 Jahre) gesammelt und "
-                       "m&#246;chtest tiefer einsteigen? Dann bist du hier genau richtig! Schick uns "
-                       f'gern eine Mail an: <a href="mailto:liber.impro@gmail.com" style="color:{BLUE};font-weight:bold">liber.impro@gmail.com</a>')
+        news_h      = NEWS_TITLE_DE
+        news        = NEWS_DE
 
+    news_section = f"""
+
+  <!-- NEWS {lang.upper()} -->
+  <tr>
+    <td class="page-section-bg" bgcolor="{BG}" style="background:{BG};padding:24px 32px">
+      <h2 class="brand-text" style="margin:0 0 6px;font-size:20px;font-weight:bold;color:{BLUE};
+                 font-family:Georgia,'Times New Roman',serif;border-bottom:3px solid {YELLOW};
+                 padding-bottom:10px">{_entities(news_h)}</h2>
+      <p class="text-444" style="margin:0;font-size:15px;color:#444;line-height:1.7">{_entities(news)}</p>
+    </td>
+  </tr>""" if INCLUDE_NEWS and news else ""
     shows_html   = "".join(show_card(s, lang) for s in shows[:1]) or f'<p style="color:#888;font-size:14px;padding:8px 0">{no_shows}</p>'
 
     return f"""
@@ -384,17 +422,7 @@ def lang_section(shows, lang):
                  padding-bottom:10px">{shows_h}</h2>
       {shows_html}
     </td>
-  </tr>
-
-  <!-- COURSES {lang.upper()} -->
-  <tr>
-    <td class="page-section-bg" bgcolor="{BG}" style="background:{BG};padding:24px 32px">
-      <h2 class="brand-text" style="margin:0 0 6px;font-size:20px;font-weight:bold;color:{BLUE};
-                 font-family:Georgia,'Times New Roman',serif;border-bottom:3px solid {YELLOW};
-                 padding-bottom:10px">{courses_h}</h2>
-      <p class="text-444" style="margin:0;font-size:15px;color:#444;line-height:1.7">{courses_txt}</p>
-    </td>
-  </tr>"""
+  </tr>{news_section}"""
 
 # =============================================================================
 # FULL BILINGUAL HTML
@@ -585,7 +613,11 @@ if __name__ == "__main__":
 
     print(f"\nSaved: {filename}")
     if header_url:
-        print(f"Header: images/newsletter/header_{today}.jpg")
-        print("  -> commit + push it to the website BEFORE sending, the email loads it from")
-        print(f"     {header_url}")
+        header_file = "images/newsletter/" + header_url.rsplit("/", 1)[1]
+        if is_online(header_url):
+            print(f"Header: {header_file} (already online)")
+        else:
+            print(f"Header: {header_file}")
+            print("  !! NOT ONLINE YET - commit + push it to the website BEFORE sending,")
+            print("     otherwise the header is missing (also in the browser preview).")
     print("Open in a browser to preview, then paste into Mailchimp.")
