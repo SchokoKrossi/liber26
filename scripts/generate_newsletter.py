@@ -81,6 +81,10 @@ NEWS_DE = ("So was von einer geilen Show am letzten Sonntag! Eine romantische We
            "ein Ferienlager mitten im Far West und akrobatisches Fliegen in den Wolken: das "
            "LIBER-Reisebüro hat uns in all eure schönsten und fantastischen Wunschreiseziele "
            "gebracht! Wir freuen uns schon auf die nächste Show (Mini-Match und Longform) am 18.10.!")
+# Photo above the news text: file name in images/newsletter/ (empty = no photo).
+# The credit is printed into the bottom-right corner (empty = no credit).
+NEWS_IMAGE        = "newsletter_oct26.jpeg"
+NEWS_IMAGE_CREDIT = "© Photo: Christian"
 
 YT_ICAL_URL    = "https://www.yesticket.org/ical/liber-ligue-dimpro-de-berlin.ics"
 INSTAGRAM_USER = "liber.impro"
@@ -255,17 +259,50 @@ def build_header_image(members):
     ImageDraw.Draw(mask).ellipse((0, 0, d * 4, d * 4), fill=255)
     img.paste(logo, (lx, ly), mask.resize((d, d), Image.LANCZOS))
 
-    # Named after its content: re-running with the same members reuses the file
-    # that is already online, a changed header gets a new name (no stale caches).
+    return _save_jpeg(img, "header")
+
+def _save_jpeg(img, prefix):
+    """Save to images/newsletter/ and return the public URL.
+    Named after its content: re-running with the same input reuses the file that
+    is already online, a changed image gets a new name (no stale caches)."""
     buf = io.BytesIO()
     img.convert("RGB").save(buf, "JPEG", quality=88, optimize=True, progressive=True)
     data  = buf.getvalue()
-    fname = f"header_{hashlib.sha1(data).hexdigest()[:10]}.jpg"
+    fname = f"{prefix}_{hashlib.sha1(data).hexdigest()[:10]}.jpg"
     out_dir = os.path.join(REPO_DIR, "images", "newsletter")
     os.makedirs(out_dir, exist_ok=True)
     with open(os.path.join(out_dir, fname), "wb") as f:
         f.write(data)
     return f"{SITE_URL}/images/newsletter/{fname}"
+
+NEWS_IMG_W = 496   # width inside the news section (560 - 2 x 32 padding)
+
+def build_news_image():
+    """Resize the news photo for email and print the credit into it. Returns its public URL."""
+    from PIL import Image, ImageDraw, ImageFont
+    s   = HDR_SCALE
+    src = os.path.join(REPO_DIR, "images", "newsletter", NEWS_IMAGE)
+    if not os.path.exists(src):
+        raise SystemExit(f"  Error: NEWS_IMAGE not found: images/newsletter/{NEWS_IMAGE}")
+    img = Image.open(src).convert("RGB")
+    w   = NEWS_IMG_W * s
+    img = img.resize((w, round(img.height * w / img.width)), Image.LANCZOS)
+
+    if NEWS_IMAGE_CREDIT:
+        try:
+            font = ImageFont.truetype("arial.ttf", 11 * s)
+        except OSError:
+            font = ImageFont.load_default(11 * s)
+        overlay = Image.new("RGBA", img.size, (0, 0, 0, 0))
+        draw    = ImageDraw.Draw(overlay)
+        l, t, r, b = draw.textbbox((0, 0), NEWS_IMAGE_CREDIT, font=font)
+        px, py, margin = 6 * s, 3 * s, 8 * s
+        x1, y1 = img.width - margin, img.height - margin
+        x0, y0 = x1 - (r - l) - 2 * px, y1 - (b - t) - 2 * py
+        draw.rounded_rectangle((x0, y0, x1, y1), radius=4 * s, fill=(0, 0, 0, 140))
+        draw.text((x0 + px - l, y0 + py - t), NEWS_IMAGE_CREDIT, font=font, fill=(255, 255, 255, 235))
+        img = Image.alpha_composite(img.convert("RGBA"), overlay)
+    return _save_jpeg(img, "news")
 
 def is_online(url):
     try:
@@ -366,7 +403,7 @@ def ig_cell(post):
 # LANGUAGE SECTION
 # =============================================================================
 
-def lang_section(shows, lang):
+def lang_section(shows, lang, news_img_url=None):
     if lang == "fr":
         lang_label  = "Version fran&#231;aise"
         greeting    = "Bonjour &#224; toutes et tous,"
@@ -384,12 +421,15 @@ def lang_section(shows, lang):
         news_h      = NEWS_TITLE_DE
         news        = NEWS_DE
 
+    news_img = f"""<img src="{h(news_img_url)}" alt="" width="{NEWS_IMG_W}"
+           style="width:100%;max-width:{NEWS_IMG_W}px;height:auto;display:block;border:0;border-radius:10px;margin:0 0 18px"/>
+      """ if news_img_url else ""
     news_section = f"""
 
   <!-- NEWS {lang.upper()} -->
   <tr>
     <td class="page-section-bg" bgcolor="{BG}" style="background:{BG};padding:24px 32px">
-      <h2 class="brand-text" style="margin:0 0 6px;font-size:20px;font-weight:bold;color:{BLUE};
+      {news_img}<h2 class="brand-text" style="margin:0 0 6px;font-size:20px;font-weight:bold;color:{BLUE};
                  font-family:Georgia,'Times New Roman',serif;border-bottom:3px solid {YELLOW};
                  padding-bottom:10px">{_entities(news_h)}</h2>
       <p class="text-444" style="margin:0;font-size:15px;color:#444;line-height:1.7">{_entities(news)}</p>
@@ -428,9 +468,9 @@ def lang_section(shows, lang):
 # FULL BILINGUAL HTML
 # =============================================================================
 
-def build_html(shows, ig_posts, header_url=None):
-    fr_block = lang_section(shows, "fr")
-    de_block = lang_section(shows, "de")
+def build_html(shows, ig_posts, header_url=None, news_img_url=None):
+    fr_block = lang_section(shows, "fr", news_img_url)
+    de_block = lang_section(shows, "de", news_img_url)
     if header_url:
         header_cell = f"""<td class="hdr-bg" bgcolor="{BLUE}" style="background:{BLUE};padding:0;line-height:0">
       <img src="{h(header_url)}"
@@ -596,28 +636,33 @@ if __name__ == "__main__":
     if not INCLUDE_INSTAGRAM:
         print("      -> Instagram section disabled (INCLUDE_INSTAGRAM = False)")
 
-    print("[3/4] Building header image...")
+    print("[3/4] Building images...")
     header_url = None
     if INCLUDE_MEMBER_HEADER:
         members    = _pick_header_members()
         header_url = build_header_image(members)
-        print(f"      -> members: {', '.join(members)}")
+        print(f"      -> header members: {', '.join(members)}")
     else:
         print("      -> member header disabled (INCLUDE_MEMBER_HEADER = False)")
+    news_img_url = build_news_image() if INCLUDE_NEWS and NEWS_IMAGE else None
+    if news_img_url:
+        print(f"      -> news photo: {NEWS_IMAGE}")
 
     print("[4/4] Generating HTML...")
     today    = date.today().strftime("%Y-%m-%d")
     filename = os.path.join(OUTPUT_DIR, f"newsletter_{today}.html")
     with open(filename, "w", encoding="utf-8-sig") as f:
-        f.write(build_html(shows, ig_posts, header_url))
+        f.write(build_html(shows, ig_posts, header_url, news_img_url))
 
     print(f"\nSaved: {filename}")
-    if header_url:
-        header_file = "images/newsletter/" + header_url.rsplit("/", 1)[1]
-        if is_online(header_url):
-            print(f"Header: {header_file} (already online)")
+    for label, url in (("Header", header_url), ("News photo", news_img_url)):
+        if not url:
+            continue
+        local = "images/newsletter/" + url.rsplit("/", 1)[1]
+        if is_online(url):
+            print(f"{label}: {local} (already online)")
         else:
-            print(f"Header: {header_file}")
+            print(f"{label}: {local}")
             print("  !! NOT ONLINE YET - commit + push it to the website BEFORE sending,")
-            print("     otherwise the header is missing (also in the browser preview).")
+            print("     otherwise the image is missing (also in the browser preview).")
     print("Open in a browser to preview, then paste into Mailchimp.")
