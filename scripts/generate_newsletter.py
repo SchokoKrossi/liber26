@@ -67,6 +67,16 @@ HEADER_MEMBERS = ["marion", "celeste", "christoph", "gaelle"]
 # Never picked at random (duplicates / placeholders)
 HEADER_EXCLUDE = {"unnamed", "benjamin2", "roxane_2"}
 
+# Intro paragraph under the greeting — update before each send. Plain text, no HTML needed.
+INTRO_FR = ("Après un show de rentrée qui nous a emmenés tout autour du monde, le mois "
+            "d'octobre s'annonce encore plus fantastique avec la LIBER : nous jouerons d'abord avec "
+            "nos amies de PENG Impro à Münster le 11 octobre puis à l'ACUD le 18 pour un "
+            "mini-match + un long format FILM NOIR qui s'annoncent excellents !")
+INTRO_DE = ("Nach einer Auftaktshow, die uns einmal um die ganze Welt geführt hat, wird der Oktober "
+            "mit der LIBER noch fantastischer: Zuerst spielen wir am 11. Oktober mit unseren Freundinnen "
+            "von PENG Impro in Münster, dann am 18. im ACUD ein Mini-Match + eine Longform FILM NOIR "
+            "– das wird großartig!")
+
 # News section (below the next show, replaces the old Courses section).
 # Update the texts before each send. Plain text, no HTML needed.
 INCLUDE_NEWS = True   # set to False to leave the news section out
@@ -83,8 +93,18 @@ NEWS_DE = ("So was von einer geilen Show am letzten Sonntag! Eine romantische We
            "gebracht! Wir freuen uns schon auf die nächste Show (Mini-Match und Longform) am 18.10.!")
 # Photo above the news text: file name in images/newsletter/ (empty = no photo).
 # The credit is printed into the bottom-right corner (empty = no credit).
-NEWS_IMAGE        = "newsletter_oct26.jpeg"
+# A generated news_*.jpg can be used directly — it already has its credit, so the
+# original photo can be deleted once that file is pushed.
+NEWS_IMAGE        = "news_62a401f2a8.jpg"
 NEWS_IMAGE_CREDIT = "© Photo: Christian"
+
+# "LIBER on tour" section (guest shows elsewhere, below the next show).
+INCLUDE_TOUR   = True   # set to False to leave the section out
+TOUR_TITLE_FR  = "La LIBER en vadrouille"
+TOUR_TITLE_DE  = "LIBER unterwegs"
+TOUR_FR        = ("Le 11 octobre, la LIBER part à Münster pour jouer avec Peng! Impro !")
+TOUR_DE        = ("Am 11. Oktober geht die LIBER nach Münster und spielt mit Peng! Impro!")
+TOUR_LINK      = "https://www.peng-impro.de/termine/"   # ticket link (empty = no button)
 
 YT_ICAL_URL    = "https://www.yesticket.org/ical/liber-ligue-dimpro-de-berlin.ics"
 INSTAGRAM_USER = "liber.impro"
@@ -118,7 +138,10 @@ def _clean_title(s):
 
 def _image_url(uid):
     m = re.match(r"^(\d+)", uid or "")
-    return f"https://cdn.yesticket.org/picture_me.php?type=event&id={m.group(1)}&width=1200&height=628" if m else None
+    # The CDN caches each URL for 30 days, so a poster replaced on YesTicket would still
+    # show the old image. The daily `v` parameter forces a fresh copy.
+    return (f"https://cdn.yesticket.org/picture_me.php?type=event&id={m.group(1)}"
+            f"&width=1200&height=628&v={date.today():%Y%m%d}") if m else None
 
 def _split_desc(desc):
     if not desc:
@@ -283,7 +306,10 @@ def build_news_image():
     s   = HDR_SCALE
     src = os.path.join(REPO_DIR, "images", "newsletter", NEWS_IMAGE)
     if not os.path.exists(src):
-        raise SystemExit(f"  Error: NEWS_IMAGE not found: images/newsletter/{NEWS_IMAGE}")
+        raise SystemExit(f"  Error: NEWS_IMAGE not found: images/newsletter/{NEWS_IMAGE}\n"
+                         "         (if the original was deleted, set NEWS_IMAGE to its generated news_*.jpg)")
+    if re.fullmatch(r"news_[0-9a-f]{10}\.jpg", NEWS_IMAGE):
+        return f"{SITE_URL}/images/newsletter/{NEWS_IMAGE}"   # already processed
     img = Image.open(src).convert("RGB")
     w   = NEWS_IMG_W * s
     img = img.resize((w, round(img.height * w / img.width)), Image.LANCZOS)
@@ -350,7 +376,7 @@ def show_card(show, lang):
     img      = show.get("image_url")
     desc_raw = show.get(f"desc_{lang}") or show.get("desc_fr") or ""
     desc     = h(desc_raw[:300] + ("..." if len(desc_raw) > 300 else ""))
-    btn      = "R&#233;server des billets &rarr;" if lang == "fr" else "Tickets kaufen &rarr;"
+    btn      = "R&#233;server des billets" if lang == "fr" else "Tickets kaufen"
 
     img_row = f"""
       <tr><td style="padding:0;line-height:0">
@@ -407,19 +433,25 @@ def lang_section(shows, lang, news_img_url=None):
     if lang == "fr":
         lang_label  = "Version fran&#231;aise"
         greeting    = "Bonjour &#224; toutes et tous,"
-        intro       = "Voici les derni&#232;res nouvelles de la LIBER &#8212; Ligue d&#8217;Improvisation de Berlin."
+        intro       = _entities(INTRO_FR)
         shows_h     = "Prochain spectacle"
         no_shows    = "Aucun spectacle pr&#233;vu pour le moment."
         news_h      = NEWS_TITLE_FR
         news        = NEWS_FR
+        tour_h      = TOUR_TITLE_FR
+        tour        = TOUR_FR
+        tour_btn    = "Billets"
     else:
         lang_label  = "Deutsche Version"
         greeting    = "Hallo zusammen,"
-        intro       = "Hier sind die neuesten Nachrichten von der LIBER &#8212; Ligue d&#8217;Improvisation de Berlin."
+        intro       = _entities(INTRO_DE)
         shows_h     = "N&#228;chste Auff&#252;hrung"
         no_shows    = "Derzeit keine Auff&#252;hrungen geplant."
         news_h      = NEWS_TITLE_DE
         news        = NEWS_DE
+        tour_h      = TOUR_TITLE_DE
+        tour        = TOUR_DE
+        tour_btn    = "Tickets"
 
     news_img = f"""<img src="{h(news_img_url)}" alt="" width="{NEWS_IMG_W}"
            style="width:100%;max-width:{NEWS_IMG_W}px;height:auto;display:block;border:0;border-radius:10px;margin:0 0 18px"/>
@@ -435,6 +467,25 @@ def lang_section(shows, lang, news_img_url=None):
       <p class="text-444" style="margin:0;font-size:15px;color:#444;line-height:1.7">{_entities(news)}</p>
     </td>
   </tr>""" if INCLUDE_NEWS and news else ""
+    tour_button = f"""
+      <table cellpadding="0" cellspacing="0" border="0" style="margin-top:18px"><tr>
+        <td class="btn-bg" bgcolor="{BLUE}" style="background:{BLUE};border-radius:8px">
+          <a href="{h(TOUR_LINK)}" class="yellow-text" style="display:inline-block;padding:12px 26px;
+             color:{YELLOW};text-decoration:none;
+             font-weight:bold;font-size:15px;border-radius:8px">{tour_btn}</a>
+        </td>
+      </tr></table>""" if TOUR_LINK else ""
+    tour_section = f"""
+
+  <!-- TOUR {lang.upper()} -->
+  <tr>
+    <td class="white-bg" bgcolor="{WHITE}" style="background:{WHITE};padding:0 32px 28px">
+      <h2 class="brand-text" style="margin:0 0 6px;font-size:20px;font-weight:bold;color:{BLUE};
+                 font-family:Georgia,'Times New Roman',serif;border-bottom:3px solid {YELLOW};
+                 padding-bottom:10px">{_entities(tour_h)}</h2>
+      <p class="text-444" style="margin:0;font-size:15px;color:#444;line-height:1.7">{_entities(tour)}</p>{tour_button}
+    </td>
+  </tr>""" if INCLUDE_TOUR and tour else ""
     shows_html   = "".join(show_card(s, lang) for s in shows[:1]) or f'<p style="color:#888;font-size:14px;padding:8px 0">{no_shows}</p>'
 
     return f"""
@@ -462,7 +513,7 @@ def lang_section(shows, lang, news_img_url=None):
                  padding-bottom:10px">{shows_h}</h2>
       {shows_html}
     </td>
-  </tr>{news_section}"""
+  </tr>{tour_section}{news_section}"""
 
 # =============================================================================
 # FULL BILINGUAL HTML
