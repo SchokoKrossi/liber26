@@ -45,10 +45,16 @@ function _eventIdFromUid(uid) {
   return m ? m[1] : null;
 }
 
+/** YYYYMMDD — cache-buster: the YesTicket CDN caches each URL for 30 days,
+ *  so a replaced poster would otherwise keep showing the old image. */
+function _today() {
+  return new Date().toISOString().slice(0, 10).replace(/-/g, '');
+}
+
 /** Build the YesTicket banner image URL for an event (~1200×628 OG-style). */
 function _imageUrlFor(eventId) {
   if (!eventId) return '';
-  return `https://cdn.yesticket.org/picture_me.php?type=event&id=${eventId}&width=1200&height=628`;
+  return `https://cdn.yesticket.org/picture_me.php?type=event&id=${eventId}&width=1200&height=628&v=${_today()}`;
 }
 
 /** Split a YesTicket DESCRIPTION into { de, fr } sections.

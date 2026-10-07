@@ -36,7 +36,7 @@ function eventIdFromUid(uid) {
 }
 function imageUrlFor(eventId) {
   return eventId
-    ? `https://cdn.yesticket.org/picture_me.php?type=event&id=${eventId}&width=1200&height=628`
+    ? `https://cdn.yesticket.org/picture_me.php?type=event&id=${eventId}&width=1200&height=628&v=${new Date().toISOString().slice(0, 10).replace(/-/g, '')}`
     : null;
 }
 
