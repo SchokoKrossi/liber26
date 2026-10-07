@@ -16,6 +16,9 @@ const YT_ICAL_URL  = 'https://www.yesticket.org/ical/liber-ligue-dimpro-de-berli
 const CORS_PROXIES = [
   url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
   url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+  url => `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(url)}`,
+  url => `https://cors.eu.org/${url}`,
 ];
 
 // ─── iCal helpers ──────────────────────────────────────────────────
